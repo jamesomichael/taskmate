@@ -44,32 +44,6 @@ const AccountDropdown = ({ user, logOut }) => {
 							<span className="">Log out</span>
 						</div>
 					</div>
-					{/* <ul className="py-1">
-						<li>
-							<a
-								href="#"
-								className="block px-4 py-2 hover:bg-gray-100"
-							>
-								Option 1
-							</a>
-						</li>
-						<li>
-							<a
-								href="#"
-								className="block px-4 py-2 hover:bg-gray-100"
-							>
-								Option 2
-							</a>
-						</li>
-						<li>
-							<a
-								href="#"
-								className="block px-4 py-2 hover:bg-gray-100"
-							>
-								Option 3
-							</a>
-						</li>
-					</ul> */}
 				</div>
 			)}
 		</>
