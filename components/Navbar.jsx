@@ -1,8 +1,17 @@
 import React from 'react';
+import { redirect } from 'next/navigation';
 
 import Search from './Search';
+import AccountDropdown from './AccountDropdown';
 
 import { createClient } from '@/utils/supabase/server';
+
+const handleLogOut = async () => {
+	'use server';
+	const supabase = await createClient();
+	await supabase.auth.signOut();
+	redirect('/login');
+};
 
 const Navbar = async () => {
 	const supabase = await createClient();
@@ -21,11 +30,7 @@ const Navbar = async () => {
 			</div>
 			<div className="flex justify-end items-center gap-4 h-full">
 				<Search />
-				<div className="h-full p-0.5">
-					<div className="flex justify-center items-center h-full aspect-square rounded-full bg-blue-600 text-white text-sm">
-						{user.email.charAt(0)}
-					</div>
-				</div>
+				<AccountDropdown logOut={handleLogOut} user={user} />
 			</div>
 		</div>
 	);
