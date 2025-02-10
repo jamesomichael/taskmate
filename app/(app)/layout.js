@@ -13,7 +13,7 @@ export default function RootLayout({ children }) {
 			<body
 				className={'antialiased min-h-screen h-screen w-full bg-white'}
 			>
-				<div className="h-12 border-b-[1px] border-gray-300">
+				<div className="select-none h-12 border-b-[1px] border-gray-300">
 					<Navbar />
 				</div>
 				{children}
