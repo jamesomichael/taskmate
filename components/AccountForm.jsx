@@ -25,7 +25,6 @@ const AccountForm = ({ type = 'login', formAction }) => {
 		e.preventDefault();
 		const formData = new FormData(e.target);
 		const response = await formAction(formData);
-		console.error(response);
 		if (response.error) {
 			console.error(response.error.message);
 			setError(response.error.message);

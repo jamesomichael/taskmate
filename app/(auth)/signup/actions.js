@@ -6,8 +6,6 @@ const createAccount = async (formData) => {
 	const email = formData.get('email');
 	const password = formData.get('password');
 	const { data, error } = await supabase.auth.signUp({ email, password });
-	console.log('data', JSON.stringify(data, null, 4));
-	console.log('error', error);
 	if (!error && data.user?.identities?.length === 0) {
 		return {
 			success: false,
