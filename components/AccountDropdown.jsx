@@ -39,7 +39,7 @@ const AccountDropdown = ({ user, logOut }) => {
 					<div className="font-copy text-sm flex flex-col gap-3">
 						<div
 							onClick={logOut}
-							className="rounded hover:cursor-pointer hover:text-blue-600 hover:bg-blue-100 h-12 flex justify-start items-center p-3"
+							className="rounded hover:cursor-pointer hover:text-blue-600 hover:bg-blue-100 h-11 flex justify-start items-center p-3"
 						>
 							<span className="">Log out</span>
 						</div>
