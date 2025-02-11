@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 
 import { createClient } from '@/utils/supabase/client';
+import { createBoard, deleteBoard } from '@/services/database.service';
 
 import CreateBoard from './CreateBoard';
 import ContextMenu from './ContextMenu';
@@ -20,34 +21,15 @@ const BoardsGrid = ({ boards: initialBoards, userId }) => {
 	const boardsCount = boards.length || 0;
 	const boardsAllowed = 5 - boardsCount;
 
-	const createBoard = async (name) => {
+	const handleBoardCreation = async (name) => {
 		const supabase = createClient();
-		const { data, error } = await supabase
-			.from('boards')
-			.insert([{ user_id: userId, name }])
-			.select()
-			.single();
-
-		if (error) {
-			console.error('Error creating board:', error);
-			return;
-		}
-
+		const data = await createBoard(name, userId, supabase);
 		setBoards((prev) => [data, ...prev]);
 	};
 
-	const deleteBoard = async (boardId) => {
+	const handleBoardDeletion = async (boardId) => {
 		const supabase = createClient();
-		const { error } = await supabase
-			.from('boards')
-			.delete()
-			.eq('id', boardId);
-
-		if (error) {
-			console.error('Error deleting board:', error);
-			return;
-		}
-
+		await deleteBoard(boardId, supabase);
 		setBoards((prev) => prev.filter((board) => board.id !== boardId));
 		setIsContextMenuOpen(false);
 	};
@@ -62,7 +44,7 @@ const BoardsGrid = ({ boards: initialBoards, userId }) => {
 	const contextMenuActions = [
 		{
 			label: 'Delete Board',
-			onClick: () => deleteBoard(selectedBoardId),
+			onClick: () => handleBoardDeletion(selectedBoardId),
 		},
 		{
 			label: 'Cancel',
@@ -101,7 +83,7 @@ const BoardsGrid = ({ boards: initialBoards, userId }) => {
 
 			{isModalOpen && (
 				<CreateBoard
-					onCreate={createBoard}
+					onCreate={handleBoardCreation}
 					isModalOpen={isModalOpen}
 					setIsModalOpen={setIsModalOpen}
 				/>
