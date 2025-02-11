@@ -53,16 +53,17 @@ const BoardsGrid = ({ boards: initialBoards, userId }) => {
 	];
 
 	return (
-		<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4">
+		<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 gap-y-4 sm:gap-4">
 			{boards.map((board) => {
 				return (
 					<Link
 						href={`/board/${board.id}`}
 						key={board.id}
 						onContextMenu={(e) => handleRightClick(e, board.id)}
-						className={`h-24 rounded bg-gradient-to-br ${board.background} flex p-2 hover:from-indigo-800 hover:to-pink-800`}
+						className={`relative h-24 rounded bg-gradient-to-br ${board.background} flex p-2 group`}
 					>
-						<span className="text-white font-bold">
+						<div className="absolute rounded inset-0 bg-black w-full bg-opacity-10 group-hover:bg-opacity-50"></div>
+						<span className="relative text-white font-bold drop-shadow-md">
 							{board.name}
 						</span>
 					</Link>
