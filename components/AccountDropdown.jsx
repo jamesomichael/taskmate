@@ -1,8 +1,24 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const AccountDropdown = ({ user, logOut }) => {
+	const dropdownRef = useRef(null);
 	const [isOpen, setIsOpen] = useState(false);
+
+	useEffect(() => {
+		const handleClickOutside = (event) => {
+			if (
+				dropdownRef.current &&
+				!dropdownRef.current.contains(event.target)
+			) {
+				setIsOpen(false);
+			}
+		};
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [setIsOpen]);
 
 	return (
 		<>
@@ -16,7 +32,10 @@ const AccountDropdown = ({ user, logOut }) => {
 			</div>
 
 			{isOpen && (
-				<div className="absolute min-w-fit w-[304px] top-12 bg-white border border-gray-200 rounded drop-shadow-2xl shadow-lg p-2">
+				<div
+					ref={dropdownRef}
+					className="absolute min-w-fit w-[304px] z-50 top-12 bg-white border border-gray-200 rounded drop-shadow-2xl shadow-lg p-2"
+				>
 					<div className="p-3 flex flex-col gap-3">
 						<span className="font-copy text-xs uppercase font-bold">
 							Account
