@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
 import Search from './Search';
@@ -21,9 +22,12 @@ const Navbar = async () => {
 	return (
 		<div className="h-full bg-white grid grid-cols-2 gap-3 items-center px-4 py-2">
 			<div className="flex gap-4 h-full justify-start items-center">
-				<span className="font-heading font-black text-gray-600 text-lg">
+				<Link
+					href="/"
+					className="font-heading font-black text-gray-600 hover:text-gray-500 text-lg"
+				>
 					task<span className="font-light text-gray-600">mate</span>
-				</span>
+				</Link>
 				<button className="h-full bg-blue-600 text-white px-2 rounded font-copy text-xs font-medium">
 					Create
 				</button>
