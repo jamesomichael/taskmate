@@ -55,7 +55,7 @@ const ContextMenu = ({ position, actions, onClose }) => {
 				left: menuPosition.x,
 			}}
 		>
-			<div className="flex flex-col p-2">
+			<div className="flex flex-col">
 				{actions.map((action, index) => (
 					<span
 						key={index}
@@ -63,7 +63,7 @@ const ContextMenu = ({ position, actions, onClose }) => {
 							action.onClick();
 							onClose();
 						}}
-						className="h-8 flex items-center px-2 rounded hover:bg-blue-100 font-copy text-sm hover:text-blue-600 cursor-pointer"
+						className="h-10 flex items-center px-3 hover:bg-blue-100 font-copy text-sm hover:text-blue-600 cursor-pointer"
 					>
 						{action.label}
 					</span>
