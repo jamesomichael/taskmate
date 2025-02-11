@@ -6,8 +6,9 @@ import { createClient } from '@/utils/supabase/client';
 
 import CreateBoard from './CreateBoard';
 
-const BoardsGrid = ({ boards, userId }) => {
+const BoardsGrid = ({ boards: initialBoards, userId }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [boards, setBoards] = useState(initialBoards);
 
 	const boardsCount = boards.length || 0;
 	const boardsAllowed = 5 - boardsCount;
@@ -24,6 +25,8 @@ const BoardsGrid = ({ boards, userId }) => {
 			console.error('Error creating board:', error);
 			return;
 		}
+
+		setBoards((prev) => [data, ...prev]);
 	};
 
 	return (
