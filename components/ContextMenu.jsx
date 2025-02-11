@@ -49,26 +49,26 @@ const ContextMenu = ({ position, actions, onClose }) => {
 	return (
 		<div
 			ref={contextMenuRef}
-			className="absolute z-10 bg-white border shadow-md rounded mt-2"
+			className="absolute z-10 bg-white border shadow-xl drop-shadow-lg rounded mt-2 w-40"
 			style={{
 				top: menuPosition.y,
 				left: menuPosition.x,
 			}}
 		>
-			<ul className="p-2">
+			<div className="flex flex-col p-2">
 				{actions.map((action, index) => (
-					<li
+					<span
 						key={index}
 						onClick={() => {
 							action.onClick();
 							onClose();
 						}}
-						className="px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer"
+						className="h-8 flex items-center px-2 rounded hover:bg-blue-100 font-copy text-sm hover:text-blue-600 cursor-pointer"
 					>
 						{action.label}
-					</li>
+					</span>
 				))}
-			</ul>
+			</div>
 		</div>
 	);
 };
