@@ -1,10 +1,10 @@
 import { createClient } from '@/utils/supabase/client';
 
-const createBoard = async (name, userId) => {
+const createBoard = async (name, background, userId) => {
 	const supabase = await createClient();
 	const { data, error } = await supabase
 		.from('boards')
-		.insert([{ user_id: userId, name }])
+		.insert([{ user_id: userId, name, background }])
 		.select()
 		.single();
 

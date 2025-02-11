@@ -21,9 +21,9 @@ const BoardsGrid = ({ boards: initialBoards, userId }) => {
 	const boardsCount = boards.length || 0;
 	const boardsAllowed = 5 - boardsCount;
 
-	const handleBoardCreation = async (name) => {
+	const handleBoardCreation = async (name, background) => {
 		const supabase = createClient();
-		const data = await createBoard(name, userId, supabase);
+		const data = await createBoard(name, background, userId, supabase);
 		setBoards((prev) => [data, ...prev]);
 	};
 
@@ -60,7 +60,7 @@ const BoardsGrid = ({ boards: initialBoards, userId }) => {
 						href={`/board/${board.id}`}
 						key={board.id}
 						onContextMenu={(e) => handleRightClick(e, board.id)}
-						className="h-24 rounded bg-gradient-to-br from-indigo-700 to-pink-700 flex p-2 hover:from-indigo-800 hover:to-pink-800"
+						className={`h-24 rounded bg-gradient-to-br ${board.background} flex p-2 hover:from-indigo-800 hover:to-pink-800`}
 					>
 						<span className="text-white font-bold">
 							{board.name}
