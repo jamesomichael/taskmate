@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { createClient } from '@/utils/supabase/server';
+import { getBoards } from '@/services/database.service';
 
 import { FaRegUser } from 'react-icons/fa6';
 import BoardsGrid from '@/components/BoardsGrid';
@@ -15,13 +16,8 @@ const fetchUserBoards = async () => {
 		return { user: null, boards: [] };
 	}
 
-	const { data: boards } = await supabase
-		.from('boards')
-		.select('*')
-		.eq('user_id', user.id)
-		.order('created_at', { ascending: false });
-
-	return { user, boards: boards || [] };
+	const boards = await getBoards(user.id, supabase);
+	return { user, boards };
 };
 
 const Homepage = async () => {
