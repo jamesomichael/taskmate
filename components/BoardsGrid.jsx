@@ -53,14 +53,14 @@ const BoardsGrid = ({ boards: initialBoards, userId }) => {
 	];
 
 	return (
-		<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+		<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
 			{boards.map((board) => {
 				return (
 					<Link
 						href={`/board/${board.id}`}
 						key={board.id}
 						onContextMenu={(e) => handleRightClick(e, board.id)}
-						className="w-40 sm:w-44 aspect-video rounded bg-gradient-to-br from-indigo-700 to-pink-700 flex p-2 hover:from-indigo-800 hover:to-pink-800"
+						className="h-24 rounded bg-gradient-to-br from-indigo-700 to-pink-700 flex p-2 hover:from-indigo-800 hover:to-pink-800"
 					>
 						<span className="text-white font-bold">
 							{board.name}
@@ -72,7 +72,7 @@ const BoardsGrid = ({ boards: initialBoards, userId }) => {
 			{boardsAllowed > 0 && (
 				<div
 					onClick={() => setIsModalOpen(true)}
-					className="w-44 aspect-video rounded outline-gray-800 flex flex-col gap-1 font-medium justify-center items-center p-2 hover:bg-neutral-200 hover:cursor-pointer"
+					className="h-24 rounded outline-gray-800 flex flex-col gap-1 font-medium justify-center items-center p-2 hover:bg-neutral-200 hover:cursor-pointer"
 				>
 					<span className="text-gray-800 text-sm">
 						Create new board
