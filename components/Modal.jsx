@@ -19,7 +19,7 @@ const Modal = ({ isOpen, onClose, children }) => {
 		>
 			<div className="relative bg-white p-6 rounded shadow-lg max-w-md w-full">
 				<button
-					className="absolute top-2 right-3 text-gray-400 hover:text-gray-700 font-black font-copy"
+					className="absolute top-2 right-3 w-8 rounded aspect-square text-gray-500 hover:bg-gray-300 font-black font-copy"
 					onClick={onClose}
 				>
 					✕
