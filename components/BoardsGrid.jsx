@@ -5,10 +5,17 @@ import Link from 'next/link';
 import { createClient } from '@/utils/supabase/client';
 
 import CreateBoard from './CreateBoard';
+import ContextMenu from './ContextMenu';
 
 const BoardsGrid = ({ boards: initialBoards, userId }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [boards, setBoards] = useState(initialBoards);
+	const [selectedBoardId, setSelectedBoardId] = useState(null);
+	const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
+	const [contextMenuPosition, setContextMenuPosition] = useState({
+		x: 0,
+		y: 0,
+	});
 
 	const boardsCount = boards.length || 0;
 	const boardsAllowed = 5 - boardsCount;
@@ -29,6 +36,40 @@ const BoardsGrid = ({ boards: initialBoards, userId }) => {
 		setBoards((prev) => [data, ...prev]);
 	};
 
+	const deleteBoard = async (boardId) => {
+		const supabase = createClient();
+		const { error } = await supabase
+			.from('boards')
+			.delete()
+			.eq('id', boardId);
+
+		if (error) {
+			console.error('Error deleting board:', error);
+			return;
+		}
+
+		setBoards((prev) => prev.filter((board) => board.id !== boardId));
+		setIsContextMenuOpen(false);
+	};
+
+	const handleRightClick = (e, boardId) => {
+		e.preventDefault();
+		setContextMenuPosition({ x: e.clientX, y: e.clientY });
+		setSelectedBoardId(boardId);
+		setIsContextMenuOpen(true);
+	};
+
+	const contextMenuActions = [
+		{
+			label: 'Delete Board',
+			onClick: () => deleteBoard(selectedBoardId),
+		},
+		{
+			label: 'Cancel',
+			onClick: () => setIsContextMenuOpen(false),
+		},
+	];
+
 	return (
 		<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
 			{boards.map((board) => {
@@ -36,6 +77,7 @@ const BoardsGrid = ({ boards: initialBoards, userId }) => {
 					<Link
 						href={`/board/${board.id}`}
 						key={board.id}
+						onContextMenu={(e) => handleRightClick(e, board.id)}
 						className="w-40 sm:w-44 aspect-video rounded bg-gradient-to-br from-indigo-700 to-pink-700 flex p-2 hover:from-indigo-800 hover:to-pink-800"
 					>
 						<span className="text-white font-bold">
@@ -62,6 +104,14 @@ const BoardsGrid = ({ boards: initialBoards, userId }) => {
 					onCreate={createBoard}
 					isModalOpen={isModalOpen}
 					setIsModalOpen={setIsModalOpen}
+				/>
+			)}
+
+			{isContextMenuOpen && (
+				<ContextMenu
+					position={contextMenuPosition}
+					actions={contextMenuActions}
+					onClose={() => setIsContextMenuOpen(false)}
 				/>
 			)}
 		</div>
