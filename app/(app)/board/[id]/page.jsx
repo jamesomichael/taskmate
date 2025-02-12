@@ -1,11 +1,27 @@
 import React from 'react';
 
 import List from '@/components/List';
-
-import { FaPlus } from 'react-icons/fa6';
+import AddList from '@/components/AddList';
 
 import { createClient } from '@/utils/supabase/server';
-import { getBoardById, getLists } from '@/services/database.service';
+import {
+	getBoardById,
+	getLists,
+	createList,
+} from '@/services/database.service';
+
+const handleListCreation = async (name, boardId) => {
+	'use server';
+	const supabase = await createClient();
+	const {
+		data: { user },
+	} = await supabase.auth.getUser();
+	console.log('name', name);
+	console.log('boardId', boardId);
+	console.log('user.id', user.id);
+	const data = await createList(name, boardId, null, user.id, supabase);
+	return data;
+};
 
 const BoardPage = async ({ params }) => {
 	const { id } = await params;
@@ -14,11 +30,10 @@ const BoardPage = async ({ params }) => {
 		data: { user },
 		error,
 	} = await supabase.auth.getUser();
-	console.error('user', user);
+
 	const board = await getBoardById(id, user.id, supabase);
-	console.error('board', board);
 	const lists = await getLists(id, user.id, supabase);
-	console.log('lists', lists);
+
 	return !board ? (
 		<div className="flex justify-center items-center h-full">
 			<span className="font-heading">Board not found.</span>
@@ -34,12 +49,13 @@ const BoardPage = async ({ params }) => {
 			</div>
 			<div className="p-3 flex gap-3 w-full overflow-x-scroll">
 				{lists.map((list) => (
-					<List list={list} />
+					<List boardId={board.id} list={list} />
 				))}
-				<div className="min-w-full sm:min-w-72 h-12 rounded-xl bg-black bg-opacity-30 hover:bg-opacity-20 hover:cursor-pointer flex items-center gap-2 px-3 text-white font-copy text-sm font-medium">
+				<AddList boardId={board.id} onCreate={handleListCreation} />
+				{/* <div className="min-w-full sm:min-w-72 h-12 rounded-xl bg-black bg-opacity-30 hover:bg-opacity-20 hover:cursor-pointer flex items-center gap-2 px-3 text-white font-copy text-sm font-medium">
 					<FaPlus />
 					<span>Add a list</span>
-				</div>
+				</div> */}
 				{/* <div className="min-w-72 grid grid-rows-[auto,1fr,auto] h-full bg-blue-400 rounded-xl">
 					<div className="h-12">List name goes here</div>
 					<div className="overflow-y-auto text-xl">

@@ -1,10 +1,21 @@
-'use client';
-import React, { useState } from 'react';
+import React from 'react';
 
-import { FaPlus } from 'react-icons/fa6';
+import AddCard from './AddCard';
 
-const List = ({ list }) => {
-	const [isAddingCard, setIsAddingCard] = useState(false);
+import { createClient } from '@/utils/supabase/server';
+import { createCard } from '@/services/database.service';
+
+const handleCardCreation = async (title, listId, boardId) => {
+	'use server';
+	const supabase = await createClient();
+	const {
+		data: { user },
+	} = await supabase.auth.getUser();
+	const data = await createCard(title, listId, boardId, user.id, supabase);
+	return data;
+};
+
+const List = ({ boardId, list }) => {
 	return (
 		<div
 			key={list.id}
@@ -18,7 +29,12 @@ const List = ({ list }) => {
 				{/* {list.name} */}
 			</div>
 			<div></div>
-			{isAddingCard ? (
+			<AddCard
+				boardId={boardId}
+				listId={list.id}
+				onCreate={handleCardCreation}
+			/>
+			{/* {isAddingCard ? (
 				<div className="h-fit flex flex-col gap-3.5">
 					<textarea
 						type="text"
@@ -42,7 +58,7 @@ const List = ({ list }) => {
 					<FaPlus />
 					<span>Add a card</span>
 				</div>
-			)}
+			)} */}
 		</div>
 	);
 };
