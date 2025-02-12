@@ -3,7 +3,7 @@ import React from 'react';
 import AddCard from './AddCard';
 
 import { createClient } from '@/utils/supabase/server';
-import { createCard } from '@/services/database.service';
+import { createCard, getCards } from '@/services/database.service';
 
 const handleCardCreation = async (title, listId, boardId) => {
 	'use server';
@@ -15,20 +15,35 @@ const handleCardCreation = async (title, listId, boardId) => {
 	return data;
 };
 
-const List = ({ boardId, list }) => {
+const List = async ({ boardId, list }) => {
+	const supabase = await createClient();
+	const {
+		data: { user },
+	} = await supabase.auth.getUser();
+	const cards = await getCards(list.id, user.id, supabase);
+
 	return (
 		<div
 			key={list.id}
-			className="drop-shadow-md p-2 min-w-full sm:min-w-72 grid grid-rows-[auto,1fr,auto] gap-1 h-fit max-h-full bg-white rounded-xl"
+			className="drop-shadow-md p-2 min-w-full sm:min-w-72 grid grid-rows-[auto,1fr,auto] gap-2 h-fit max-h-full bg-white rounded-xl"
 		>
 			<div className="flex items-center h-8">
 				<input
-					value={list.name}
-					className="px-2 h-full w-full font-copy text-sm font-semibold hover:cursor-pointer"
+					placeholder={list.name}
+					className="placeholder-black px-2 h-full w-full font-copy text-sm font-semibold hover:cursor-pointer"
 				/>
 				{/* {list.name} */}
 			</div>
-			<div></div>
+			<div className="flex flex-col gap-2 mb-1">
+				{cards.map((card) => (
+					<div
+						key={card.id}
+						className="shadow-xl p-2 bg-white h-fit rounded-md outline outline-[1px] outline-gray-300 hover:outline-2 hover:outline-blue-600 hover:cursor-pointer"
+					>
+						<span>{card.title}</span>
+					</div>
+				))}
+			</div>
 			<AddCard
 				boardId={boardId}
 				listId={list.id}
