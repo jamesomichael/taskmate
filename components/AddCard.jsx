@@ -33,7 +33,7 @@ const AddCard = ({ boardId, listId, onCreate }) => {
 	) : (
 		<div
 			onClick={() => setIsAddingCard(true)}
-			className="h-8 rounded hover:bg-gray-300 hover:cursor-pointer flex items-center gap-2 px-3 text-black font-copy text-sm font-medium"
+			className="h-8 rounded-md hover:bg-gray-300 hover:cursor-pointer flex items-center gap-2 px-3 text-black font-copy text-sm font-medium"
 		>
 			<FaPlus />
 			<span>Add a card</span>
