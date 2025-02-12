@@ -5,17 +5,6 @@ import AddCard from './AddCard';
 import { createClient } from '@/utils/supabase/client';
 import { createCard, getCards } from '@/services/database.service';
 
-// const handleCardCreation = async (title, listId, boardId) => {
-// 	'use server';
-// 	const supabase = await createClient();
-// 	const {
-// 		data: { user },
-// 	} = await supabase.auth.getUser();
-// 	const data = await createCard(title, listId, boardId, user.id, supabase);
-// 	revalidatePath('/(app)/board/[id]', 'page');
-// 	return data;
-// };
-
 const List = ({ boardId, list }) => {
 	const [cards, setCards] = useState([]);
 
@@ -74,31 +63,6 @@ const List = ({ boardId, list }) => {
 					/>
 				</div>
 			</div>
-			{/* {isAddingCard ? (
-				<div className="h-fit flex flex-col gap-3.5">
-					<textarea
-						type="text"
-						placeholder="Enter a title"
-						className="resize-none h-20 outline outline-[1px] outline-gray-300 shadow-xl rounded-lg p-2"
-					/>
-					<div className="flex gap-4">
-						<button className="bg-blue-600 px-3 py-2 text-white font-medium font-copy text-sm rounded">
-							Add card
-						</button>
-						<button onClick={() => setIsAddingCard(false)}>
-							Close
-						</button>
-					</div>
-				</div>
-			) : (
-				<div
-					onClick={() => setIsAddingCard(true)}
-					className="h-8 rounded hover:bg-gray-300 hover:cursor-pointer flex items-center gap-2 px-3 text-black font-copy text-sm font-medium"
-				>
-					<FaPlus />
-					<span>Add a card</span>
-				</div>
-			)} */}
 		</div>
 	);
 };
