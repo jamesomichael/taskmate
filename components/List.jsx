@@ -1,4 +1,5 @@
 import React from 'react';
+import { revalidatePath } from 'next/cache';
 
 import AddCard from './AddCard';
 
@@ -12,6 +13,7 @@ const handleCardCreation = async (title, listId, boardId) => {
 		data: { user },
 	} = await supabase.auth.getUser();
 	const data = await createCard(title, listId, boardId, user.id, supabase);
+	revalidatePath('/(app)/board/[id]', 'page');
 	return data;
 };
 

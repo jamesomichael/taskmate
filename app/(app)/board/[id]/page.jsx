@@ -1,4 +1,5 @@
 import React from 'react';
+import { revalidatePath } from 'next/cache';
 
 import List from '@/components/List';
 import AddList from '@/components/AddList';
@@ -16,10 +17,8 @@ const handleListCreation = async (name, boardId) => {
 	const {
 		data: { user },
 	} = await supabase.auth.getUser();
-	console.log('name', name);
-	console.log('boardId', boardId);
-	console.log('user.id', user.id);
 	const data = await createList(name, boardId, null, user.id, supabase);
+	revalidatePath('/(app)/board/[id]', 'page');
 	return data;
 };
 
