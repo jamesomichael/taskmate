@@ -62,4 +62,89 @@ const deleteBoard = async (id, supabase = createClient()) => {
 	return true;
 };
 
-export { createBoard, getBoards, getBoardById, deleteBoard };
+const getLists = async (boardId, userId, supabase = createClient()) => {
+	const { data, error } = await supabase
+		.from('lists')
+		.select('*')
+		.eq('board_id', boardId)
+		.eq('user_id', userId)
+		.order('created_at', { ascending: true });
+
+	if (error) {
+		console.error('Error fetching lists:', error.message);
+		return [];
+	}
+
+	return data;
+};
+
+const createList = async (
+	name,
+	boardId,
+	position,
+	userId,
+	supabase = createClient()
+) => {
+	const { data, error } = await supabase
+		.from('lists')
+		.insert([{ user_id: userId, name, board_id: boardId, position }])
+		.select()
+		.single();
+
+	if (error) {
+		console.error('Error creating list:', error);
+		return null;
+	}
+
+	return data;
+};
+
+const getCards = async (listId, userId, supabase = createClient()) => {
+	const { data, error } = await supabase
+		.from('cards')
+		.select('*')
+		.eq('list_id', listId)
+		.eq('user_id', userId)
+		.order('created_at', { ascending: true });
+
+	if (error) {
+		console.error('Error fetching cards:', error.message);
+		return [];
+	}
+
+	return data;
+};
+
+const createCard = async (
+	title,
+	listId,
+	boardId,
+	userId,
+	supabase = createClient()
+) => {
+	const { data, error } = await supabase
+		.from('cards')
+		.insert([
+			{ user_id: userId, title, list_id: listId, board_id: boardId },
+		])
+		.select()
+		.single();
+
+	if (error) {
+		console.error('Error creating card:', error);
+		return null;
+	}
+
+	return data;
+};
+
+export {
+	createBoard,
+	getBoards,
+	getBoardById,
+	deleteBoard,
+	getLists,
+	createList,
+	getCards,
+	createCard,
+};
