@@ -1,12 +1,23 @@
 import React, { useEffect, useState } from 'react';
+import { useDroppable } from '@dnd-kit/core';
+import {
+	SortableContext,
+	verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 
 import AddCard from './AddCard';
 
 import { createClient } from '@/utils/supabase/client';
 import { createCard, getCards } from '@/services/database.service';
+import Card from './Card';
+import SortableCard from './SortableCard';
 
 const List = ({ boardId, list }) => {
 	const [cards, setCards] = useState([]);
+
+	const { setNodeRef } = useDroppable({
+		...list,
+	});
 
 	useEffect(() => {
 		const fetchCards = async () => {
@@ -18,7 +29,7 @@ const List = ({ boardId, list }) => {
 			setCards(data);
 		};
 		fetchCards();
-	}, []);
+	}, [list.id]);
 
 	const handleCardCreation = async (title, listId, boardId) => {
 		const supabase = await createClient();
@@ -46,23 +57,27 @@ const List = ({ boardId, list }) => {
 					className="placeholder-black px-2 h-full w-full font-copy text-sm font-semibold hover:cursor-pointer"
 				/>
 			</div>
-			<div className="flex flex-col p-2 gap-2 overflow-y-scroll">
-				{cards.map((card) => (
-					<div
-						key={card.id}
-						className="shadow-xl p-2 bg-white h-fit rounded-md outline outline-[1px] outline-gray-300 hover:outline-2 hover:outline-blue-600 hover:cursor-pointer"
-					>
-						<span>{card.title}</span>
+			<SortableContext
+				id={list.id}
+				items={cards}
+				strategy={verticalListSortingStrategy}
+			>
+				<div
+					ref={setNodeRef}
+					className="flex flex-col p-2 gap-2 overflow-y-scroll"
+				>
+					{cards.map((card) => (
+						<SortableCard key={card.id} card={card} />
+					))}
+					<div className="mt-1">
+						<AddCard
+							boardId={boardId}
+							listId={list.id}
+							onCreate={handleCardCreation}
+						/>
 					</div>
-				))}
-				<div className="mt-1">
-					<AddCard
-						boardId={boardId}
-						listId={list.id}
-						onCreate={handleCardCreation}
-					/>
 				</div>
-			</div>
+			</SortableContext>
 		</div>
 	);
 };
