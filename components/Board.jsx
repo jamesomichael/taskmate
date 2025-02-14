@@ -1,10 +1,20 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import Lists from './Lists';
 
-const Board = ({ board, lists }) => {
-	return (
+import useBoardStore from '@/stores/boardStore';
+
+const Board = ({ id }) => {
+	const { isLoading, board, getBoard } = useBoardStore();
+
+	useEffect(() => {
+		getBoard(id);
+	}, [getBoard, id]);
+
+	return isLoading ? (
+		<div>Loading...</div>
+	) : board ? (
 		<div
 			className={`grid grid-rows-[auto,1fr] bg-gradient-to-br ${board.background} h-full overflow-hidden w-full`}
 		>
@@ -13,7 +23,11 @@ const Board = ({ board, lists }) => {
 					{board.name}
 				</span>
 			</div>
-			<Lists board={board} lists={lists} />
+			<Lists />
+		</div>
+	) : (
+		<div className="flex justify-center items-center h-full">
+			<span className="font-heading">Board not found.</span>
 		</div>
 	);
 };

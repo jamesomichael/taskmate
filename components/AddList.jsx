@@ -3,12 +3,15 @@ import React, { useState } from 'react';
 
 import { FaPlus } from 'react-icons/fa6';
 
-const AddList = ({ boardId, onCreate }) => {
+import useBoardStore from '@/stores/boardStore';
+
+const AddList = () => {
+	const { addList, board } = useBoardStore();
 	const [isAddingList, setIsAddingList] = useState(false);
 	const [listName, setListName] = useState('');
 
 	const handleListCreation = async () => {
-		await onCreate(listName, boardId);
+		await addList(listName, board.id);
 		setIsAddingList(false);
 	};
 

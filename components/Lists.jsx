@@ -1,32 +1,25 @@
 import React, { useState } from 'react';
 import { DndContext, DragOverlay, closestCorners } from '@dnd-kit/core';
 
-import { createClient } from '@/utils/supabase/client';
-
-import { createList } from '@/services/database.service';
-
 import List from '@/components/List';
 import AddList from '@/components/AddList';
 import Card from './Card';
 
-const Lists = ({ board, lists: initialLists }) => {
-	const [lists, setLists] = useState(initialLists);
-	const [activeId, setActiveId] = useState();
+import useBoardStore from '@/stores/boardStore';
 
-	const handleListCreation = async (name, boardId) => {
-		const supabase = await createClient();
-		const {
-			data: { user },
-		} = await supabase.auth.getUser();
-		const data = await createList(name, boardId, null, user.id, supabase);
-		setLists((prev) => [...prev, data]);
-	};
+const Lists = () => {
+	const { lists } = useBoardStore();
+	const [activeId, setActiveId] = useState();
 
 	const handleDragStart = (event) => {
 		console.log('eventstart', event);
 		const { active } = event;
 		const { id } = active;
 		setActiveId(id);
+	};
+
+	const handleDragOver = (event) => {
+		console.log('event', event);
 	};
 
 	const handleDragEnd = (event) => {
@@ -38,10 +31,11 @@ const Lists = ({ board, lists: initialLists }) => {
 			<DndContext
 				collisionDetection={closestCorners}
 				onDragStart={handleDragStart}
+				onDragOver={handleDragOver}
 				onDragEnd={handleDragEnd}
 			>
 				{lists.map((list) => (
-					<List key={list.id} boardId={board.id} list={list} />
+					<List key={list.id} list={list} />
 				))}
 				<DragOverlay>
 					{activeId && (
@@ -54,7 +48,7 @@ const Lists = ({ board, lists: initialLists }) => {
 					)}
 				</DragOverlay>
 			</DndContext>
-			<AddList boardId={board.id} onCreate={handleListCreation} />
+			<AddList />
 		</div>
 	);
 };

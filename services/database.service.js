@@ -99,11 +99,11 @@ const createList = async (
 	return data;
 };
 
-const getCards = async (listId, userId, supabase = createClient()) => {
+const getCards = async (boardId, userId, supabase = createClient()) => {
 	const { data, error } = await supabase
 		.from('cards')
 		.select('*')
-		.eq('list_id', listId)
+		.eq('board_id', boardId)
 		.eq('user_id', userId)
 		.order('created_at', { ascending: true });
 

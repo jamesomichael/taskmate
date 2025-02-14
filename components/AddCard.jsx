@@ -3,12 +3,15 @@ import React, { useState } from 'react';
 
 import { FaPlus } from 'react-icons/fa6';
 
-const AddCard = ({ boardId, listId, onCreate }) => {
+import useBoardStore from '@/stores/boardStore';
+
+const AddCard = ({ listId }) => {
+	const { addCard, board } = useBoardStore();
 	const [isAddingCard, setIsAddingCard] = useState(false);
 	const [cardTitle, setCardTitle] = useState('');
 
 	const handleCardCreation = async () => {
-		await onCreate(cardTitle, listId, boardId);
+		await addCard(cardTitle, listId, board.id);
 		setIsAddingCard(false);
 	};
 

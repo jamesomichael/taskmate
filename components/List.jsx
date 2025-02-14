@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDroppable } from '@dnd-kit/core';
 import {
 	SortableContext,
@@ -6,45 +6,14 @@ import {
 } from '@dnd-kit/sortable';
 
 import AddCard from './AddCard';
-
-import { createClient } from '@/utils/supabase/client';
-import { createCard, getCards } from '@/services/database.service';
-import Card from './Card';
 import SortableCard from './SortableCard';
 
-const List = ({ boardId, list }) => {
-	const [cards, setCards] = useState([]);
+const List = ({ list }) => {
+	const { cards } = list;
 
 	const { setNodeRef } = useDroppable({
 		...list,
 	});
-
-	useEffect(() => {
-		const fetchCards = async () => {
-			const supabase = await createClient();
-			const {
-				data: { user },
-			} = await supabase.auth.getUser();
-			const data = await getCards(list.id, user.id, supabase);
-			setCards(data);
-		};
-		fetchCards();
-	}, [list.id]);
-
-	const handleCardCreation = async (title, listId, boardId) => {
-		const supabase = await createClient();
-		const {
-			data: { user },
-		} = await supabase.auth.getUser();
-		const data = await createCard(
-			title,
-			listId,
-			boardId,
-			user.id,
-			supabase
-		);
-		setCards((prev) => [...prev, data]);
-	};
 
 	return (
 		<div
@@ -70,11 +39,7 @@ const List = ({ boardId, list }) => {
 						<SortableCard key={card.id} card={card} />
 					))}
 					<div className="mt-1">
-						<AddCard
-							boardId={boardId}
-							listId={list.id}
-							onCreate={handleCardCreation}
-						/>
+						<AddCard listId={list.id} />
 					</div>
 				</div>
 			</SortableContext>
