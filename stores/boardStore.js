@@ -14,6 +14,7 @@ const useBoardStore = create((set) => ({
 	isLoading: true,
 	board: null,
 	lists: [],
+	isDirty: false,
 
 	getBoard: async (id) => {
 		set({ isLoading: true, board: null, lists: [] });
@@ -69,6 +70,34 @@ const useBoardStore = create((set) => ({
 			produce((draft) => {
 				const list = draft.lists.find(({ id }) => id === listId);
 				list.cards.push(data);
+			})
+		);
+	},
+	moveCard: (card, fromContainer, toContainer, toIndex) => {
+		set({ isDirty: true });
+		set(
+			produce((draft) => {
+				const fromList = draft.lists.find(
+					(list) => list.id === fromContainer.id
+				);
+				const toList = draft.lists.find(
+					(list) => list.id === toContainer.id
+				);
+
+				const fromIndex = fromList.cards.findIndex(
+					(c) => c.id === card.id
+				);
+
+				if (fromIndex !== -1) {
+					const [removedCard] = fromList.cards.splice(fromIndex, 1);
+
+					if (toIndex < 0) {
+						toIndex = 0;
+					} else if (toIndex > toList.cards.length) {
+						toIndex = toList.cards.length;
+					}
+					toList.cards.splice(toIndex, 0, removedCard);
+				}
 			})
 		);
 	},

@@ -8,8 +8,8 @@ import Card from './Card';
 import useBoardStore from '@/stores/boardStore';
 
 const Lists = () => {
-	const { lists } = useBoardStore();
-	const [activeId, setActiveId] = useState();
+	const { lists, moveCard } = useBoardStore();
+	const [activeItem, setActiveItem] = useState();
 
 	const boardRef = useRef(null);
 	let isDown = false;
@@ -44,19 +44,54 @@ const Lists = () => {
 		boardRef.current.scrollLeft = scrollLeft - walk;
 	};
 
+	const getContainer = (id) => {
+		const container = lists.find(
+			(list) =>
+				list.id === id || list.cards.some((card) => card.id === id)
+		);
+		if (container) {
+			return container;
+		}
+		return null;
+	};
+
 	const handleDragStart = (event) => {
 		const { active } = event;
 		const { id } = active;
-		setActiveId(id);
-		console.log('activeId', id);
+		const container = getContainer(id);
+		const item = container.cards.find((card) => card.id === id);
+		setActiveItem(item);
 	};
 
 	const handleDragOver = (event) => {
-		console.log('event', event);
+		const { active, over } = event;
+		const startContainer = getContainer(active.id);
+		const overContainer = getContainer(over.id);
+
+		if (!startContainer || !overContainer) {
+			return;
+		}
+
+		const startIndex = startContainer.cards.findIndex(
+			(card) => card.id === active.id
+		);
+		const overIndex = overContainer.cards.findIndex(
+			(card) => card.id === over.id
+		);
+
+		if (
+			startContainer.id === overContainer.id &&
+			startIndex === overIndex
+		) {
+			// Card has not moved.
+			return;
+		}
+
+		moveCard(activeItem, startContainer, overContainer, overIndex);
 	};
 
 	const handleDragEnd = (event) => {
-		// console.log('event', event);
+		setActiveItem(null);
 	};
 
 	return (
@@ -78,14 +113,7 @@ const Lists = () => {
 					<List key={list.id} list={list} />
 				))}
 				<DragOverlay>
-					{activeId && (
-						<Card
-							card={{
-								id: 'test-card-1',
-								title: 'Test Card 1',
-							}}
-						/>
-					)}
+					{activeItem && <Card card={activeItem} />}
 				</DragOverlay>
 			</DndContext>
 			<AddList />
