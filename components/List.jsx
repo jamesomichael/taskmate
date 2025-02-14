@@ -18,7 +18,7 @@ const List = ({ list }) => {
 	return (
 		<div
 			key={list.id}
-			className="drop-shadow-md min-w-full sm:min-w-72 grid grid-rows-[auto,1fr,auto] h-fit max-h-full bg-white rounded-xl"
+			className="list drop-shadow-md min-w-full sm:min-w-72 grid grid-rows-[auto,1fr,auto] h-fit max-h-full bg-white rounded-xl"
 		>
 			<div className="flex px-2 pt-2 items-center h-10">
 				<input

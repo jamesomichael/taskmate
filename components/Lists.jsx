@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { DndContext, DragOverlay, closestCorners } from '@dnd-kit/core';
 
 import List from '@/components/List';
@@ -11,11 +11,44 @@ const Lists = () => {
 	const { lists } = useBoardStore();
 	const [activeId, setActiveId] = useState();
 
+	const boardRef = useRef(null);
+	let isDown = false;
+	let startX;
+	let scrollLeft;
+
+	const handleMouseDown = (e) => {
+		const isList = e.target.closest('.list');
+		if (isList) {
+			return;
+		}
+		isDown = true;
+		startX = e.pageX - boardRef.current.offsetLeft;
+		scrollLeft = boardRef.current.scrollLeft;
+	};
+
+	const handleMouseLeave = () => {
+		isDown = false;
+	};
+
+	const handleMouseUp = () => {
+		isDown = false;
+	};
+
+	const handleMouseMove = (e) => {
+		if (!isDown) {
+			return;
+		}
+		e.preventDefault();
+		const x = e.pageX - boardRef.current.offsetLeft;
+		const walk = (x - startX) * 1.5;
+		boardRef.current.scrollLeft = scrollLeft - walk;
+	};
+
 	const handleDragStart = (event) => {
-		console.log('eventstart', event);
 		const { active } = event;
 		const { id } = active;
 		setActiveId(id);
+		console.log('activeId', id);
 	};
 
 	const handleDragOver = (event) => {
@@ -23,11 +56,18 @@ const Lists = () => {
 	};
 
 	const handleDragEnd = (event) => {
-		console.log('event', event);
+		// console.log('event', event);
 	};
 
 	return (
-		<div className="p-3 flex gap-3 w-full overflow-x-scroll">
+		<div
+			ref={boardRef}
+			className="p-3 flex gap-3 w-full overflow-x-scroll"
+			onMouseDown={handleMouseDown}
+			onMouseLeave={handleMouseLeave}
+			onMouseUp={handleMouseUp}
+			onMouseMove={handleMouseMove}
+		>
 			<DndContext
 				collisionDetection={closestCorners}
 				onDragStart={handleDragStart}
