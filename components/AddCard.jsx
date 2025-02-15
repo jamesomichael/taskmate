@@ -5,14 +5,14 @@ import { FaPlus } from 'react-icons/fa6';
 
 import useBoardStore from '@/stores/boardStore';
 
-const AddCard = ({ listId }) => {
+const AddCard = ({ listId, index }) => {
 	const { addCard, board } = useBoardStore();
 	const [isAddingCard, setIsAddingCard] = useState(false);
 	const [cardTitle, setCardTitle] = useState('');
 
 	const handleCardCreation = async () => {
-		await addCard(cardTitle, listId, board.id);
-		setIsAddingCard(false);
+		await addCard(cardTitle, index, listId, board.id);
+		setCardTitle('');
 	};
 
 	return isAddingCard ? (
@@ -20,6 +20,7 @@ const AddCard = ({ listId }) => {
 			<textarea
 				type="text"
 				placeholder="Enter a title"
+				value={cardTitle}
 				onChange={(e) => setCardTitle(e.target.value)}
 				className="resize-none h-20 outline outline-[1px] outline-gray-300 shadow-xl rounded-lg p-2"
 			/>

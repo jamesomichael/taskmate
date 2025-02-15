@@ -117,6 +117,7 @@ const getCards = async (boardId, userId, supabase = createClient()) => {
 
 const createCard = async (
 	title,
+	index,
 	listId,
 	boardId,
 	userId,
@@ -125,7 +126,13 @@ const createCard = async (
 	const { data, error } = await supabase
 		.from('cards')
 		.insert([
-			{ user_id: userId, title, list_id: listId, board_id: boardId },
+			{
+				user_id: userId,
+				title,
+				index,
+				list_id: listId,
+				board_id: boardId,
+			},
 		])
 		.select()
 		.single();

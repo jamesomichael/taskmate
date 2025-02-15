@@ -54,13 +54,14 @@ const useBoardStore = create((set) => ({
 			})
 		);
 	},
-	addCard: async (title, listId, boardId) => {
+	addCard: async (title, index, listId, boardId) => {
 		const supabase = await createClient();
 		const {
 			data: { user },
 		} = await supabase.auth.getUser();
 		const data = await createCard(
 			title,
+			index,
 			listId,
 			boardId,
 			user.id,
