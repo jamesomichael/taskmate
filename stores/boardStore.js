@@ -90,14 +90,14 @@ const useBoardStore = create((set) => ({
 				);
 
 				if (fromIndex !== -1) {
-					const [removedCard] = fromList.cards.splice(fromIndex, 1);
+					const [movedCard] = fromList.cards.splice(fromIndex, 1);
 
 					if (toIndex < 0) {
 						toIndex = 0;
 					} else if (toIndex > toList.cards.length) {
 						toIndex = toList.cards.length;
 					}
-					toList.cards.splice(toIndex, 0, removedCard);
+					toList.cards.splice(toIndex, 0, movedCard);
 				}
 			})
 		);
