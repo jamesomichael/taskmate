@@ -8,7 +8,7 @@ import Card from './Card';
 import useBoardStore from '@/stores/boardStore';
 
 const Lists = () => {
-	const { lists, moveCard } = useBoardStore();
+	const { lists, moveCard, saveCards } = useBoardStore();
 	const [activeItem, setActiveItem] = useState();
 
 	const boardRef = useRef(null);
@@ -87,10 +87,17 @@ const Lists = () => {
 			return;
 		}
 
-		moveCard(activeItem, startContainer, overContainer, overIndex);
+		moveCard(
+			activeItem,
+			startContainer,
+			overContainer,
+			startIndex,
+			overIndex
+		);
 	};
 
 	const handleDragEnd = (event) => {
+		saveCards();
 		setActiveItem(null);
 	};
 

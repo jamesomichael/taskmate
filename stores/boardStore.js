@@ -10,11 +10,12 @@ import {
 	createCard,
 } from '@/services/database.service';
 
-const useBoardStore = create((set) => ({
+const useBoardStore = create((set, get) => ({
 	isLoading: true,
 	board: null,
 	lists: [],
 	isDirty: false,
+	dirtyCards: {},
 
 	getBoard: async (id) => {
 		set({ isLoading: true, board: null, lists: [] });
@@ -74,8 +75,7 @@ const useBoardStore = create((set) => ({
 			})
 		);
 	},
-	moveCard: (card, fromContainer, toContainer, toIndex) => {
-		set({ isDirty: true });
+	moveCard: (card, fromContainer, toContainer, fromIndex, toIndex) => {
 		set(
 			produce((draft) => {
 				const fromList = draft.lists.find(
@@ -97,10 +97,46 @@ const useBoardStore = create((set) => ({
 					} else if (toIndex > toList.cards.length) {
 						toIndex = toList.cards.length;
 					}
-					toList.cards.splice(toIndex, 0, movedCard);
+					const updatedCard = {
+						...movedCard,
+						list_id: toList.id,
+						index: toIndex,
+					};
+					toList.cards.splice(toIndex, 0, updatedCard);
+
+					console.log(
+						`moving card ${card.id} from ${fromContainer.id} (index ${fromIndex}) to ${toContainer.id} (index ${toIndex})`
+					);
+
+					draft.isDirty = true;
+					draft.dirtyCards[card.id] = updatedCard;
+
+					fromList.cards.forEach((c, idx) => {
+						if (c.index !== idx) {
+							draft.dirtyCards[c.id] = {
+								...c,
+								index: idx,
+							};
+						}
+					});
+					toList.cards.forEach((c, idx) => {
+						if (c.index !== idx) {
+							draft.dirtyCards[c.id] = {
+								...c,
+								index: idx,
+							};
+						}
+					});
 				}
 			})
 		);
+	},
+	saveCards: () => {
+		const { isDirty, dirtyCards, lists } = get();
+		console.log('isDirty', isDirty);
+		console.log('lists', lists);
+		console.log('dirtyCards', dirtyCards);
+		set({ dirtyCards: {} });
 	},
 }));
 
