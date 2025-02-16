@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 
 import Lists from './Lists';
+import Loader from './Loader';
 
 import useBoardStore from '@/stores/boardStore';
 
@@ -13,7 +14,7 @@ const Board = ({ id }) => {
 	}, [getBoard, id]);
 
 	return isLoading ? (
-		<div>Loading...</div>
+		<Loader />
 	) : board ? (
 		<div
 			className={`grid grid-rows-[auto,1fr] bg-gradient-to-br ${board.background} h-full overflow-hidden w-full`}
