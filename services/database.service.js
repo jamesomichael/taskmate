@@ -105,11 +105,27 @@ const getCards = async (boardId, userId, supabase = createClient()) => {
 		.select('*')
 		.eq('board_id', boardId)
 		.eq('user_id', userId)
-		.order('created_at', { ascending: true });
+		.order('index', { ascending: true });
 
 	if (error) {
 		console.error('Error fetching cards:', error.message);
 		return [];
+	}
+
+	return data;
+};
+
+const updateCards = async (cards, supabase = createClient()) => {
+	if (cards.length === 0) {
+		return false;
+	}
+	const { data, error } = await supabase
+		.from('cards')
+		.upsert(cards, { onConflict: ['id'] });
+
+	if (error) {
+		console.error('Error updating cards:', error.message);
+		return false;
 	}
 
 	return data;
@@ -154,4 +170,5 @@ export {
 	createList,
 	getCards,
 	createCard,
+	updateCards,
 };

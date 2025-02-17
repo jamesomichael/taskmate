@@ -8,14 +8,15 @@ import {
 	getLists,
 	createList,
 	createCard,
+	updateCards,
 } from '@/services/database.service';
 
 const useBoardStore = create((set, get) => ({
 	isLoading: true,
 	board: null,
 	lists: [],
-	isDirty: false,
 	dirtyCards: {},
+	dirtyLists: [],
 
 	getBoard: async (id) => {
 		set({ isLoading: true, board: null, lists: [] });
@@ -85,58 +86,60 @@ const useBoardStore = create((set, get) => ({
 					(list) => list.id === toContainer.id
 				);
 
-				const fromIndex = fromList.cards.findIndex(
-					(c) => c.id === card.id
-				);
+				if (!fromList || !toList || fromIndex < 0) {
+					return;
+				}
 
-				if (fromIndex !== -1) {
-					const [movedCard] = fromList.cards.splice(fromIndex, 1);
+				const [movedCard] = fromList.cards.splice(fromIndex, 1);
 
-					if (toIndex < 0) {
-						toIndex = 0;
-					} else if (toIndex > toList.cards.length) {
-						toIndex = toList.cards.length;
-					}
-					const updatedCard = {
-						...movedCard,
-						list_id: toList.id,
-						index: toIndex,
-					};
-					toList.cards.splice(toIndex, 0, updatedCard);
+				if (toIndex < 0) {
+					toIndex = 0;
+				} else if (toIndex > toList.cards.length) {
+					toIndex = toList.cards.length;
+				}
 
-					console.log(
-						`moving card ${card.id} from ${fromContainer.id} (index ${fromIndex}) to ${toContainer.id} (index ${toIndex})`
-					);
+				const updatedCard = {
+					...movedCard,
+					list_id: toList.id,
+					index: toIndex,
+				};
+				toList.cards.splice(toIndex, 0, updatedCard);
+				draft.dirtyCards[card.id] = updatedCard;
 
-					draft.isDirty = true;
-					draft.dirtyCards[card.id] = updatedCard;
-
-					fromList.cards.forEach((c, idx) => {
-						if (c.index !== idx) {
-							draft.dirtyCards[c.id] = {
-								...c,
-								index: idx,
-							};
-						}
-					});
-					toList.cards.forEach((c, idx) => {
-						if (c.index !== idx) {
-							draft.dirtyCards[c.id] = {
-								...c,
-								index: idx,
-							};
-						}
-					});
+				if (!draft.dirtyLists.includes(fromList.id)) {
+					draft.dirtyLists.push(fromList.id);
+				}
+				if (!draft.dirtyLists.includes(toList.id)) {
+					draft.dirtyLists.push(toList.id);
 				}
 			})
 		);
 	},
-	saveCards: () => {
-		const { isDirty, dirtyCards, lists } = get();
-		console.log('isDirty', isDirty);
-		console.log('lists', lists);
-		console.log('dirtyCards', dirtyCards);
-		set({ dirtyCards: {} });
+	saveCards: async () => {
+		set(
+			produce((draft) => {
+				const { dirtyLists, lists } = draft;
+				dirtyLists.forEach((dirtyListId) => {
+					const dirtyList = lists.find(
+						({ id: listId }) => listId === dirtyListId
+					);
+					dirtyList.cards.forEach((card, index) => {
+						if (card.index !== index) {
+							draft.dirtyCards[card.id] = {
+								...card,
+								index,
+							};
+							card.index = index;
+						}
+					});
+				});
+			})
+		);
+		const { dirtyCards } = get();
+		const dirtyCardsArray = Object.values(dirtyCards);
+		const supabase = await createClient();
+		await updateCards(dirtyCardsArray, supabase);
+		set({ dirtyLists: [], dirtyCards: {} });
 	},
 }));
 
