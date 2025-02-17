@@ -28,12 +28,12 @@ const Navbar = async () => {
 				>
 					task<span className="font-light text-gray-600">mate</span>
 				</Link>
-				<button className="h-full bg-blue-600 text-white px-2 rounded font-copy text-xs font-medium">
+				{/* <button className="h-full bg-blue-600 text-white px-2 rounded font-copy text-xs font-medium">
 					Create
-				</button>
+				</button> */}
 			</div>
 			<div className="flex justify-end items-center gap-4 h-full">
-				<Search />
+				{/* <Search /> */}
 				<AccountDropdown logOut={handleLogOut} user={user} />
 			</div>
 		</div>
