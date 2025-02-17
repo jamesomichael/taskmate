@@ -8,6 +8,8 @@ import { createBoard, deleteBoard } from '@/services/database.service';
 import CreateBoard from './CreateBoard';
 import ContextMenu from './ContextMenu';
 
+const BOARDS_ALLOWED = process.env.NEXT_PUBLIC_BOARDS_ALLOWED || 10;
+
 const BoardsGrid = ({ boards: initialBoards, userId }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [boards, setBoards] = useState(initialBoards);
@@ -19,7 +21,7 @@ const BoardsGrid = ({ boards: initialBoards, userId }) => {
 	});
 
 	const boardsCount = boards.length || 0;
-	const boardsAllowed = 5 - boardsCount;
+	const boardsAllowed = BOARDS_ALLOWED - boardsCount;
 
 	const handleBoardCreation = async (name, background) => {
 		const supabase = createClient();
