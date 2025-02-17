@@ -120,7 +120,9 @@ const Lists = () => {
 					<List key={list.id} list={list} />
 				))}
 				<DragOverlay>
-					{activeItem && <Card card={activeItem} />}
+					{activeItem && (
+						<Card card={activeItem} isBeingDragged={true} />
+					)}
 				</DragOverlay>
 			</DndContext>
 			<AddList />
