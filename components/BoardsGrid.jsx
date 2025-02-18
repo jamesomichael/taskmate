@@ -1,16 +1,16 @@
 'use client';
 import React, { useState } from 'react';
-import Link from 'next/link';
 
 import { createClient } from '@/utils/supabase/client';
 import { createBoard, deleteBoard } from '@/services/database.service';
 
 import CreateBoard from './CreateBoard';
 import ContextMenu from './ContextMenu';
+import BoardsGridItem from './BoardsGridItem';
 
 const BOARDS_ALLOWED = process.env.NEXT_PUBLIC_BOARDS_ALLOWED || 10;
 
-const BoardsGrid = ({ boards: initialBoards, userId }) => {
+const BoardsGrid = ({ boards: initialBoards, userId, allowCreate = true }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [boards, setBoards] = useState(initialBoards);
 	const [selectedBoardId, setSelectedBoardId] = useState(null);
@@ -57,22 +57,10 @@ const BoardsGrid = ({ boards: initialBoards, userId }) => {
 	return (
 		<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 gap-y-4 sm:gap-4">
 			{boards.map((board) => {
-				return (
-					<Link
-						href={`/board/${board.id}`}
-						key={board.id}
-						onContextMenu={(e) => handleRightClick(e, board.id)}
-						className={`relative h-24 rounded bg-gradient-to-br ${board.background} flex p-2 group`}
-					>
-						<div className="absolute rounded inset-0 bg-black w-full bg-opacity-10 group-hover:bg-opacity-50"></div>
-						<span className="relative text-white font-bold drop-shadow-md">
-							{board.name}
-						</span>
-					</Link>
-				);
+				return <BoardsGridItem key={board.id} board={board} />;
 			})}
 
-			{boardsAllowed > 0 && (
+			{boardsAllowed > 0 && allowCreate && (
 				<div
 					onClick={() => setIsModalOpen(true)}
 					className="h-24 rounded outline-gray-800 flex flex-col gap-1 font-medium justify-center items-center p-2 hover:bg-neutral-200 hover:cursor-pointer"
