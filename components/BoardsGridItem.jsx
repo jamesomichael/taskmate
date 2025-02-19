@@ -8,8 +8,7 @@ import { FaStar, FaRegStar } from 'react-icons/fa6';
 import useBoardStore from '@/stores/boardStore';
 
 const BoardsGridItem = ({ board }) => {
-	const { deleteBoard } = useBoardStore();
-	const [isStarred, setIsStarred] = useState(board.is_starred || false);
+	const { updateBoard, deleteBoard } = useBoardStore();
 	const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
 	const [contextMenuPosition, setContextMenuPosition] = useState({
 		x: 0,
@@ -29,7 +28,7 @@ const BoardsGridItem = ({ board }) => {
 
 	const toggleStarredStatus = async (e) => {
 		e.preventDefault();
-		setIsStarred((prev) => !prev);
+		updateBoard(board.id, { is_starred: !board.is_starred });
 	};
 
 	const handleRightClick = (e) => {
@@ -58,7 +57,7 @@ const BoardsGridItem = ({ board }) => {
 					onClick={toggleStarredStatus}
 					className="flex justify-end z-10 text-white"
 				>
-					{isStarred ? (
+					{board.is_starred ? (
 						<FaStar
 							size={14}
 							className="text-yellow-400 transition-opacity duration-200 hover:scale-125"

@@ -8,11 +8,16 @@ import useBoardStore from '@/stores/boardStore';
 import { FaRegStar, FaStar } from 'react-icons/fa6';
 
 const Board = ({ id }) => {
-	const { isLoading, board, getBoard } = useBoardStore();
+	const { isLoading, board, getBoard, updateBoard } = useBoardStore();
 
 	useEffect(() => {
 		getBoard(id);
 	}, [getBoard, id]);
+
+	const toggleStarredStatus = async (e) => {
+		e.preventDefault();
+		updateBoard(board.id, { is_starred: !board.is_starred });
+	};
 
 	return isLoading ? (
 		<Loader />
@@ -24,7 +29,10 @@ const Board = ({ id }) => {
 				<span className="font-copy font-semibold text-white text-lg">
 					{board.name}
 				</span>
-				<div className="h-full aspect-square rounded flex justify-center items-center text-yellow-400 hover:bg-white hover:bg-opacity-25 hover:cursor-pointer text-sm">
+				<div
+					onClick={toggleStarredStatus}
+					className="h-full aspect-square rounded flex justify-center items-center text-yellow-400 hover:bg-white hover:bg-opacity-25 hover:cursor-pointer text-sm"
+				>
 					{board.is_starred ? (
 						<FaStar />
 					) : (

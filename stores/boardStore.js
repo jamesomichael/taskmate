@@ -11,6 +11,7 @@ import {
 	createCard,
 	updateCards,
 	createBoard,
+	updateBoard,
 	deleteBoard,
 } from '@/services/database.service';
 
@@ -46,6 +47,33 @@ const useBoardStore = create((set, get) => ({
 		set(
 			produce((draft) => {
 				draft.boards = [data, ...draft.boards];
+			})
+		);
+	},
+	updateBoard: async (id, updates) => {
+		const supabase = createClient();
+		await updateBoard(id, updates, supabase);
+
+		// TODO: HANDLE POSSIBLE ERRORS INSIDE DATABASE SERVICE.
+		// ** SHOULD NOT UPDATE STATE IF ERROR OCCURS.
+
+		set(
+			produce((draft) => {
+				const boardIndex = draft.boards.findIndex(
+					(board) => board.id === id
+				);
+				const board = draft.boards[boardIndex];
+				draft.boards[boardIndex] = {
+					...board,
+					...updates,
+				};
+
+				if (draft.board?.id === id) {
+					draft.board = {
+						...draft.board,
+						...updates,
+					};
+				}
 			})
 		);
 	},
