@@ -6,7 +6,7 @@ import { FaPlus } from 'react-icons/fa6';
 import useBoardStore from '@/stores/boardStore';
 
 const AddList = () => {
-	const { addList, board } = useBoardStore();
+	const { addList, lists, board } = useBoardStore();
 	const [isAddingList, setIsAddingList] = useState(false);
 	const [listName, setListName] = useState('');
 
@@ -43,7 +43,9 @@ const AddList = () => {
 					className="h-12 rounded-xl bg-black bg-opacity-30 hover:bg-opacity-20 hover:cursor-pointer flex items-center gap-2 px-3 text-white font-copy text-sm font-medium"
 				>
 					<FaPlus />
-					<span>Add a list</span>
+					<span>
+						{lists.length > 0 ? 'Add another list' : 'Add a list'}
+					</span>
 				</div>
 			)}
 		</div>
