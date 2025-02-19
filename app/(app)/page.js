@@ -1,29 +1,24 @@
-import React from 'react';
-
-import { createClient } from '@/utils/supabase/server';
-import { getBoards } from '@/services/database.service';
+'use client';
+import React, { useEffect } from 'react';
 
 import { FaRegUser, FaRegStar } from 'react-icons/fa6';
 import BoardsGrid from '@/components/BoardsGrid';
 
-const fetchUserBoards = async () => {
-	const supabase = await createClient();
-	const {
-		data: { user },
-	} = await supabase.auth.getUser();
+import useBoardStore from '@/stores/boardStore';
+import Loader from '@/components/Loader';
 
-	if (!user) {
-		return { user: null, boards: [] };
-	}
+const Homepage = () => {
+	const { getBoards, boards, isLoading } = useBoardStore();
 
-	const boards = await getBoards(user.id, supabase);
-	return { user, boards };
-};
+	useEffect(() => {
+		getBoards();
+	}, [getBoards]);
 
-const Homepage = async () => {
-	const { user, boards } = await fetchUserBoards();
 	const starredBoards = boards.filter((board) => board.is_starred);
-	return (
+
+	return isLoading ? (
+		<Loader />
+	) : (
 		<div className="font-copy">
 			<div className="max-w-screen-lg p-8 w-full m-auto flex flex-col gap-10">
 				{starredBoards.length > 0 && (
@@ -34,7 +29,6 @@ const Homepage = async () => {
 						</div>
 						<BoardsGrid
 							boards={starredBoards}
-							userId={user.id}
 							allowCreate={false}
 						/>
 					</div>
@@ -44,7 +38,7 @@ const Homepage = async () => {
 						<FaRegUser size={18} />
 						<span className="font-bold">Your boards</span>
 					</div>
-					<BoardsGrid boards={boards} userId={user.id} />
+					<BoardsGrid boards={boards} />
 				</div>
 			</div>
 		</div>

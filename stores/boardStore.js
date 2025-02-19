@@ -4,20 +4,60 @@ import { produce } from 'immer';
 import { createClient } from '@/utils/supabase/client';
 import {
 	getBoardById,
+	getBoards,
 	getCards,
 	getLists,
 	createList,
 	createCard,
 	updateCards,
+	createBoard,
+	deleteBoard,
 } from '@/services/database.service';
 
 const useBoardStore = create((set, get) => ({
 	isLoading: true,
+	boards: [],
 	board: null,
 	lists: [],
 	dirtyCards: {},
 	dirtyLists: [],
 
+	getBoards: async () => {
+		set({ isLoading: true });
+		const supabase = await createClient();
+		const {
+			data: { user },
+		} = await supabase.auth.getUser();
+
+		if (!user) {
+			console.error('No user found.');
+		}
+
+		const boards = await getBoards(user.id, supabase);
+		set({ boards, isLoading: false });
+	},
+	createBoard: async (name, background) => {
+		const supabase = createClient();
+		const {
+			data: { user },
+		} = await supabase.auth.getUser();
+		const userId = user.id;
+		const data = await createBoard(name, background, userId, supabase);
+		set(
+			produce((draft) => {
+				draft.boards = [data, ...draft.boards];
+			})
+		);
+	},
+	deleteBoard: async (id) => {
+		const supabase = createClient();
+		await deleteBoard(id, supabase);
+		set(
+			produce((draft) => {
+				draft.boards = draft.boards.filter((board) => board.id !== id);
+			})
+		);
+	},
 	getBoard: async (id) => {
 		set({ isLoading: true, board: null, lists: [] });
 		const supabase = await createClient();
