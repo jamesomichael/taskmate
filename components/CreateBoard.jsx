@@ -11,6 +11,12 @@ const boardBackgrounds = [
 	'from-purple-900 to-orange-800',
 	'from-indigo-500 to-pink-500',
 	'from-orange-600 to-yellow-500',
+	'from-fuchsia-500 to-rose-300',
+	'from-emerald-700 to-cyan-500',
+	'from-yellow-600 to-indigo-600 via-pink-600',
+	'from-lime-500 to-green-800',
+	'from-gray-200 to-gray-400',
+	'from-amber-950 to-yellow-800',
 ];
 
 const CreateBoard = ({ isModalOpen, setIsModalOpen, onCreate }) => {
