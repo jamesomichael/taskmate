@@ -24,12 +24,14 @@ const BoardSidebar = ({ activeBoardId }) => {
 	return (
 		<div className={`bg-purple-950 min-w-72 w-72`}>
 			<div className="flex flex-col text-white">
-				<span className="font-copy font-bold p-2">Your boards</span>
+				<span className="mt-2 font-copy font-bold px-4 py-2">
+					Your boards
+				</span>
 				{sortedBoards.map((board) => (
 					<Link
 						key={board.id}
 						href={`/board/${board.id}`}
-						className={`group p-2 flex items-center justify-between h-10 hover:bg-white hover:bg-opacity-20 ${
+						className={`group px-4 py-1.5 flex items-center justify-between h-9 hover:bg-white hover:bg-opacity-20 ${
 							board.id === activeBoardId &&
 							'bg-white bg-opacity-45'
 						}`}
