@@ -16,7 +16,8 @@ import {
 } from '@/services/database.service';
 
 const useBoardStore = create((set, get) => ({
-	isLoading: true,
+	isLoadingBoards: true,
+	isLoadingBoard: true,
 	boards: [],
 	board: null,
 	lists: [],
@@ -24,7 +25,7 @@ const useBoardStore = create((set, get) => ({
 	dirtyLists: [],
 
 	getBoards: async () => {
-		set({ isLoading: true });
+		set({ isLoadingBoards: true });
 		const supabase = await createClient();
 		const {
 			data: { user },
@@ -35,7 +36,7 @@ const useBoardStore = create((set, get) => ({
 		}
 
 		const boards = await getBoards(user.id, supabase);
-		set({ boards, isLoading: false });
+		set({ boards, isLoadingBoards: false });
 	},
 	createBoard: async (name, background) => {
 		const supabase = createClient();
@@ -87,7 +88,7 @@ const useBoardStore = create((set, get) => ({
 		);
 	},
 	getBoard: async (id) => {
-		set({ isLoading: true, board: null, lists: [] });
+		set({ isLoadingBoard: true, board: null, lists: [] });
 		const supabase = await createClient();
 		const {
 			data: { user },
@@ -97,14 +98,14 @@ const useBoardStore = create((set, get) => ({
 		const board = await getBoardById(id, user.id, supabase);
 
 		if (!board) {
-			set({ isLoading: false });
+			set({ isLoadingBoard: false });
 			return;
 		}
 
 		const lists = await getLists(id, user.id, supabase);
 		const cards = await getCards(id, user.id, supabase);
 		set({
-			isLoading: false,
+			isLoadingBoard: false,
 			board,
 			lists: lists.map((list) => ({
 				...list,

@@ -22,7 +22,9 @@ const BoardSidebar = ({ activeBoardId }) => {
 	);
 
 	return (
-		<div className={`bg-purple-950 min-w-72 w-72`}>
+		<div
+			className={`bg-black bg-opacity-70 min-w-72 w-72 border-r-[1px] border-neutral-500`}
+		>
 			<div className="flex flex-col text-white">
 				<span className="mt-2 font-copy font-bold px-4 py-2">
 					Your boards

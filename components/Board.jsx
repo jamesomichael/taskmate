@@ -8,7 +8,7 @@ import useBoardStore from '@/stores/boardStore';
 import { FaRegStar, FaStar } from 'react-icons/fa6';
 
 const Board = ({ id }) => {
-	const { isLoading, board, getBoard, updateBoard } = useBoardStore();
+	const { isLoadingBoard, board, getBoard, updateBoard } = useBoardStore();
 
 	useEffect(() => {
 		getBoard(id);
@@ -19,11 +19,11 @@ const Board = ({ id }) => {
 		updateBoard(board.id, { is_starred: !board.is_starred });
 	};
 
-	return isLoading ? (
+	return isLoadingBoard ? (
 		<Loader />
 	) : board ? (
 		<div
-			className={`grid grid-rows-[auto,1fr] bg-gradient-to-br ${board.background} h-full overflow-hidden w-full`}
+			className={`grid grid-rows-[auto,1fr] h-full overflow-hidden w-full`}
 		>
 			<div className="h-14 bg-black bg-opacity-45 flex gap-4 items-center px-4 py-3">
 				<span className="font-copy font-semibold text-white text-lg">
@@ -43,7 +43,7 @@ const Board = ({ id }) => {
 			<Lists />
 		</div>
 	) : (
-		<div className="flex justify-center items-center h-full">
+		<div className="flex justify-center items-center h-full w-full">
 			<span className="font-heading">Board not found.</span>
 		</div>
 	);

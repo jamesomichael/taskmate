@@ -8,7 +8,7 @@ import useBoardStore from '@/stores/boardStore';
 import Loader from '@/components/Loader';
 
 const Homepage = () => {
-	const { getBoards, boards, isLoading } = useBoardStore();
+	const { getBoards, boards, isLoadingBoards } = useBoardStore();
 
 	useEffect(() => {
 		getBoards();
@@ -16,7 +16,7 @@ const Homepage = () => {
 
 	const starredBoards = boards.filter((board) => board.is_starred);
 
-	return isLoading ? (
+	return isLoadingBoards ? (
 		<Loader />
 	) : (
 		<div className="font-copy">
