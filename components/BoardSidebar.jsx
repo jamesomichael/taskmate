@@ -30,7 +30,7 @@ const BoardSidebar = ({ activeBoardId }) => {
 
 	return (
 		<div
-			className={`bg-black bg-opacity-70 min-w-72 w-72 border-r-[1px] border-neutral-500`}
+			className={`bg-black bg-opacity-70 hidden sm:block sm:min-w-72 sm:w-72 border-r-[1px] border-neutral-500`}
 		>
 			<div className="flex flex-col text-white">
 				<div className="mt-2 px-4 py-2 flex justify-between items-center">
@@ -43,16 +43,19 @@ const BoardSidebar = ({ activeBoardId }) => {
 					<Link
 						key={board.id}
 						href={`/board/${board.id}`}
-						className={`group px-4 py-1.5 flex items-center justify-between h-9 hover:bg-white hover:bg-opacity-20 ${
+						className={`group px-4 py-1.5 grid grid-cols-[1fr,auto] items-center h-9 hover:bg-white hover:bg-opacity-20 ${
 							board.id === activeBoardId &&
 							'bg-white bg-opacity-45'
 						}`}
 					>
-						<div className="flex items-center h-full gap-2">
+						<div className="flex items-center h-full gap-2 w-full truncate">
 							<div
-								className={`h-full w-8 rounded bg-gradient-to-br ${board.background}`}
+								className={`h-full min-w-8 w-8 rounded bg-gradient-to-br ${board.background}`}
 							></div>
-							<span className="font-copy text-sm font-medium">
+							<span
+								title={board.name}
+								className="font-copy text-sm font-medium truncate"
+							>
 								{board.name}
 							</span>
 						</div>

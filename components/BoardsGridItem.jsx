@@ -50,7 +50,10 @@ const BoardsGridItem = ({ board }) => {
 				className={`relative h-24 rounded bg-gradient-to-br ${board.background} flex flex-col justify-between p-2 group`}
 			>
 				<div className="absolute rounded inset-0 bg-black w-full bg-opacity-10 group-hover:bg-opacity-50"></div>
-				<span className="relative text-white font-bold drop-shadow-md">
+				<span
+					title={board.name}
+					className="relative text-white font-bold drop-shadow-md truncate"
+				>
 					{board.name}
 				</span>
 				<button
