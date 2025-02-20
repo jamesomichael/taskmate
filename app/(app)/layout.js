@@ -2,12 +2,18 @@ import '../globals.css';
 
 import Navbar from '@/components/Navbar';
 
+import { createClient } from '@/utils/supabase/server';
+
 export const metadata = {
 	title: 'taskmate',
 	description: 'A task management app.',
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+	const supabase = await createClient();
+	const { data } = await supabase.auth.getUser();
+	const user = data.user;
+
 	return (
 		<html lang="en">
 			<body
@@ -15,8 +21,8 @@ export default function RootLayout({ children }) {
 					'select-none antialiased min-h-screen h-screen w-full grid grid-rows-[auto,1fr] bg-white'
 				}
 			>
-				<div className="h-12 border-b-[1px] border-gray-300">
-					<Navbar />
+				<div className="h-12">
+					<Navbar user={user} />
 				</div>
 				<div className="overflow-auto">{children}</div>
 			</body>
