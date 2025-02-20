@@ -3,14 +3,16 @@ import React, { useState, useEffect, useRef } from 'react';
 
 const AccountDropdown = ({ user, logOut }) => {
 	const dropdownRef = useRef(null);
+	const buttonRef = useRef(null);
 	const [isOpen, setIsOpen] = useState(false);
 
 	useEffect(() => {
 		const handleClickOutside = (event) => {
-			if (
-				dropdownRef.current &&
-				!dropdownRef.current.contains(event.target)
-			) {
+			if (buttonRef.current?.contains(event.target)) {
+				return;
+			}
+
+			if (!dropdownRef?.current?.contains(event.target)) {
 				setIsOpen(false);
 			}
 		};
@@ -20,11 +22,16 @@ const AccountDropdown = ({ user, logOut }) => {
 		};
 	}, [setIsOpen]);
 
+	const toggleDropdown = () => {
+		setIsOpen((prev) => !prev);
+	};
+
 	return (
 		<>
 			<div className="h-full p-0.5">
 				<div
-					onClick={() => setIsOpen(!isOpen)}
+					ref={buttonRef}
+					onClick={toggleDropdown}
 					className="hover:bg-opacity-80 hover:cursor-pointer font-copy flex justify-center items-center h-full aspect-square rounded-full bg-blue-700 text-white text-sm"
 				>
 					{user.email.charAt(0)}
@@ -34,9 +41,9 @@ const AccountDropdown = ({ user, logOut }) => {
 			{isOpen && (
 				<div
 					ref={dropdownRef}
-					className="absolute min-w-fit w-[304px] z-50 top-12 bg-white border border-gray-200 rounded drop-shadow-2xl shadow-lg p-2"
+					className="absolute min-w-fit w-[304px] z-50 top-12 bg-white border border-gray-200 rounded drop-shadow-2xl shadow-lg"
 				>
-					<div className="p-3 flex flex-col gap-3">
+					<div className="p-4 flex flex-col gap-3">
 						<span className="font-copy text-xs uppercase font-bold">
 							Account
 						</span>
@@ -54,11 +61,11 @@ const AccountDropdown = ({ user, logOut }) => {
 						</div>
 					</div>
 
-					<div className="border-b-[1px] border-gray-200 my-2"></div>
+					<div className="border-b-[1px] border-gray-200 my-1"></div>
 					<div className="font-copy text-sm flex flex-col gap-3">
 						<div
 							onClick={logOut}
-							className="rounded hover:cursor-pointer hover:text-blue-600 hover:bg-blue-100 h-11 flex justify-start items-center p-3"
+							className="hover:cursor-pointer hover:text-blue-600 hover:bg-blue-100 h-11 flex justify-start items-center p-4"
 						>
 							<span className="">Log out</span>
 						</div>
