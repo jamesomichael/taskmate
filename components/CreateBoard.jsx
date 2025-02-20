@@ -41,12 +41,14 @@ const CreateBoard = ({ isModalOpen, setIsModalOpen, onCreate }) => {
 
 	return (
 		<Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-			<div className="select-none flex flex-col gap-4 items-center">
+			<div className="flex flex-col gap-4 items-center">
 				{isLoading ? (
 					<>Loading...</>
 				) : (
 					<>
-						<span className="font-bold">Create board</span>
+						<span className="font-copy font-bold text-black">
+							Create board
+						</span>
 						<div
 							className={`p-2 bg-gradient-to-br ${selectedBackground} w-fit h-fit m-auto rounded`}
 						>
@@ -54,7 +56,7 @@ const CreateBoard = ({ isModalOpen, setIsModalOpen, onCreate }) => {
 						</div>
 						<div className="w-full flex flex-col gap-6 mt-4">
 							<div className="flex flex-col gap-1.5">
-								<span className="text-xs text-neutral-800 font-bold">
+								<span className="font-copy text-xs text-neutral-800 font-bold">
 									Background
 								</span>
 								<div className="grid grid-cols-2 sm:grid-cols-3 gap-2 w-full">
@@ -79,7 +81,7 @@ const CreateBoard = ({ isModalOpen, setIsModalOpen, onCreate }) => {
 								</div>
 							</div>
 							<div className="flex flex-col gap-1.5">
-								<span className="text-xs text-neutral-800 font-bold">
+								<span className="font-copy text-xs text-neutral-800 font-bold">
 									Board name
 								</span>
 								<input
@@ -87,11 +89,11 @@ const CreateBoard = ({ isModalOpen, setIsModalOpen, onCreate }) => {
 									type="text"
 									placeholder={boardName}
 									onChange={handleNameChange}
-									className="w-full h-10 p-2 font-copy text-sm border rounded outline outline-[1px] placeholder-gray-500 outline-gray-500 focus:outline-blue-500 focus:outline-2"
+									className="text-black w-full h-10 p-2 font-copy text-sm border rounded outline outline-[1px] placeholder-gray-500 outline-gray-500 focus:outline-blue-500 focus:outline-2"
 								/>
 							</div>
 							<button
-								className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 text-sm h-10 font-medium"
+								className="font-copy w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 text-sm h-10 font-medium"
 								onClick={handleCreation}
 							>
 								Create
