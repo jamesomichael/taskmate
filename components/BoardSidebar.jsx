@@ -30,7 +30,7 @@ const BoardSidebar = ({ activeBoardId }) => {
 
 	return (
 		<div
-			className={`bg-black bg-opacity-70 hidden sm:block sm:min-w-72 sm:w-72 border-r-[1px] border-neutral-500`}
+			className={`bg-black bg-opacity-60 hidden sm:block sm:min-w-72 sm:w-72 border-r-[1px] border-neutral-500`}
 		>
 			<div className="flex flex-col text-white">
 				<div className="mt-2 px-4 py-2 flex justify-between items-center">

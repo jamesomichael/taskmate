@@ -30,7 +30,7 @@ const Navbar = ({ user }) => {
 			}`}
 		>
 			{board?.background && isBoardPage && (
-				<div className="absolute inset-0 bg-black w-full bg-opacity-85 group-hover:bg-opacity-50"></div>
+				<div className="absolute inset-0 bg-black w-full bg-opacity-80 group-hover:bg-opacity-50"></div>
 			)}
 
 			<div className="relative flex gap-4 h-full justify-start items-center">
