@@ -23,7 +23,11 @@ const useBoardStore = create((set, get) => ({
 	lists: [],
 	dirtyCards: {},
 	dirtyLists: [],
+	activeCard: null,
 
+	setActiveCard: (card) => {
+		set({ activeCard: card });
+	},
 	getBoards: async () => {
 		set({ isLoadingBoards: true });
 		const supabase = await createClient();
