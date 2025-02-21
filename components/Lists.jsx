@@ -1,5 +1,12 @@
 import React, { useState, useRef } from 'react';
-import { DndContext, DragOverlay, closestCorners } from '@dnd-kit/core';
+import {
+	DndContext,
+	DragOverlay,
+	closestCorners,
+	useSensor,
+	useSensors,
+	PointerSensor,
+} from '@dnd-kit/core';
 
 import List from '@/components/List';
 import AddList from '@/components/AddList';
@@ -101,6 +108,11 @@ const Lists = () => {
 		setActiveItem(null);
 	};
 
+	const pointerSensor = useSensor(PointerSensor, {
+		activationConstraint: { distance: 20 },
+	});
+	const sensors = useSensors(pointerSensor);
+
 	return (
 		<div
 			ref={boardRef}
@@ -111,6 +123,7 @@ const Lists = () => {
 			onMouseMove={handleMouseMove}
 		>
 			<DndContext
+				sensors={sensors}
 				collisionDetection={closestCorners}
 				onDragStart={handleDragStart}
 				onDragOver={handleDragOver}
