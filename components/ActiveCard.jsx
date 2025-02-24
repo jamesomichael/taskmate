@@ -59,6 +59,11 @@ const ActiveCard = () => {
 		setIsLoadingDescription(false);
 	};
 
+	const handleDescriptionCancel = () => {
+		setIsEditingDescription(false);
+		setDescription(activeCard.description || '');
+	};
+
 	const handleCardDeletion = async () => {
 		await deleteCard(activeCard.id, activeCard.list_id);
 		setActiveCard(null);
@@ -98,9 +103,16 @@ const ActiveCard = () => {
 						) : isEditingDescription ? (
 							<>
 								<textarea
+									autoFocus
 									placeholder="Add a description..."
 									value={description}
 									onChange={handleDescriptionChange}
+									onFocus={(e) =>
+										e.target.setSelectionRange(
+											e.target.value.length,
+											e.target.value.length
+										)
+									}
 									name="description"
 									id="description"
 									className="resize-none h-60 rounded p-2 font-copy text-sm outline outline-[1px] outline-gray-400 focus:outline-2 focus:outline-blue-600"
@@ -113,9 +125,7 @@ const ActiveCard = () => {
 										Save
 									</button>
 									<button
-										onClick={() =>
-											setIsEditingDescription(false)
-										}
+										onClick={handleDescriptionCancel}
 										className="py-2 px-4 rounded hover:bg-gray-300"
 									>
 										Cancel
@@ -126,7 +136,7 @@ const ActiveCard = () => {
 							<textarea
 								onClick={() => setIsEditingDescription(true)}
 								placeholder={activeCard.description}
-								className="resize-none font-copy text-sm font-medium placeholder-black h-fit max-h-60 focus:outline-none rounded cursor-pointer p-4"
+								className="resize-none font-copy text-sm font-medium placeholder-black h-60 focus:outline-none rounded cursor-pointer p-4"
 							/>
 						) : (
 							<textarea
