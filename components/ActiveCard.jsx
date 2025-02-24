@@ -115,7 +115,7 @@ const ActiveCard = () => {
 									}
 									name="description"
 									id="description"
-									className="resize-none h-60 rounded p-2 font-copy text-sm outline outline-[1px] outline-gray-400 focus:outline-2 focus:outline-blue-600"
+									className="resize-none h-60 rounded p-4 font-copy text-sm outline outline-[1px] outline-gray-400 focus:outline-2 focus:outline-blue-600"
 								/>
 								<div className="flex gap-2 font-copy text-sm font-medium">
 									<button
@@ -136,7 +136,7 @@ const ActiveCard = () => {
 							<textarea
 								onClick={() => setIsEditingDescription(true)}
 								placeholder={activeCard.description}
-								className="resize-none font-copy text-sm font-medium placeholder-black h-60 focus:outline-none rounded cursor-pointer p-4"
+								className="resize-none font-copy text-sm font-medium placeholder-black h-60 focus:outline-none rounded cursor-pointer"
 							/>
 						) : (
 							<textarea
