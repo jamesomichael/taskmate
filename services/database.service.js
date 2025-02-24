@@ -129,6 +129,17 @@ const getCards = async (boardId, userId, supabase = createClient()) => {
 	return data;
 };
 
+const updateCard = async (id, updates, supabase = createClient()) => {
+	const { error } = await supabase.from('cards').update(updates).eq('id', id);
+
+	if (error) {
+		console.error('Error updating card:', error.message);
+		return null;
+	}
+
+	return true;
+};
+
 const updateCards = async (cards, supabase = createClient()) => {
 	if (cards.length === 0) {
 		return false;
@@ -184,6 +195,7 @@ export {
 	getLists,
 	createList,
 	getCards,
+	updateCard,
 	createCard,
 	updateCards,
 };

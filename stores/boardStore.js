@@ -9,6 +9,7 @@ import {
 	getLists,
 	createList,
 	createCard,
+	updateCard,
 	updateCards,
 	createBoard,
 	updateBoard,
@@ -148,6 +149,45 @@ const useBoardStore = create((set, get) => ({
 				list.cards.push(data);
 			})
 		);
+	},
+	updateCard: async (id, updates, listId, isActiveCard = false) => {
+		try {
+			const supabase = createClient();
+			await updateCard(id, updates, supabase);
+
+			set(
+				produce((draft) => {
+					const list = draft.lists.find((list) => list.id === listId);
+
+					if (!list) {
+						return;
+					}
+
+					const cardIndex = list.cards.findIndex(
+						(card) => card.id === id
+					);
+
+					if (cardIndex === -1) {
+						return;
+					}
+
+					const card = list.cards[cardIndex];
+					list.cards[cardIndex] = {
+						...card,
+						...updates,
+					};
+
+					if (isActiveCard && draft.activeCard?.id === id) {
+						draft.activeCard = {
+							...draft.activeCard,
+							...updates,
+						};
+					}
+				})
+			);
+		} catch (error) {
+			console.error('Error updating card:', error.message);
+		}
 	},
 	moveCard: (card, fromContainer, toContainer, fromIndex, toIndex) => {
 		set(
