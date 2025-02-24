@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 import { FaPlus } from 'react-icons/fa6';
 
@@ -9,20 +9,29 @@ const AddCard = ({ listId, index }) => {
 	const { addCard, board } = useBoardStore();
 	const [isAddingCard, setIsAddingCard] = useState(false);
 	const [cardTitle, setCardTitle] = useState('');
+	const inputRef = useRef(null);
 
 	const handleCardCreation = async () => {
 		await addCard(cardTitle, index, listId, board.id);
+		setCardTitle('');
+		inputRef?.current?.focus();
+	};
+
+	const handleCancel = () => {
+		setIsAddingCard(false);
 		setCardTitle('');
 	};
 
 	return isAddingCard ? (
 		<div className="h-fit flex flex-col gap-3.5">
 			<textarea
+				ref={inputRef}
+				autoFocus
 				type="text"
 				placeholder="Enter a title"
 				value={cardTitle}
 				onChange={(e) => setCardTitle(e.target.value)}
-				className="resize-none h-20 outline outline-[1px] outline-gray-300 shadow-xl rounded-lg p-2"
+				className="resize-none h-20 outline outline-[1px] outline-gray-300 focus:outline-2 focus:outline-blue-600 shadow-xl rounded-lg p-2"
 			/>
 			<div className="flex gap-4">
 				<button
@@ -31,7 +40,7 @@ const AddCard = ({ listId, index }) => {
 				>
 					Add card
 				</button>
-				<button onClick={() => setIsAddingCard(false)}>Close</button>
+				<button onClick={handleCancel}>Close</button>
 			</div>
 		</div>
 	) : (

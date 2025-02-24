@@ -20,6 +20,7 @@ const AddList = () => {
 			{isAddingList ? (
 				<div className="h-fit flex flex-col gap-2 bg-white p-2 rounded-xl">
 					<input
+						autoFocus
 						type="text"
 						placeholder="Enter list name..."
 						onChange={(e) => setListName(e.target.value)}
