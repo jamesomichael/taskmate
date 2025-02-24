@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 import Modal from '@/components/Modal';
 
@@ -14,7 +14,9 @@ const ActiveCard = () => {
 	const [description, setDescription] = useState(
 		activeCard?.description || ''
 	);
+	const [title, setTitle] = useState(activeCard?.title || '');
 	const [isLoadingDescription, setIsLoadingDescription] = useState(false);
+	const titleRef = useRef(null);
 
 	const list = activeCard
 		? lists.find((list) => list.id === activeCard.list_id)
@@ -22,6 +24,27 @@ const ActiveCard = () => {
 
 	const handleDescriptionChange = (e) => {
 		setDescription(e.target.value);
+	};
+
+	const handleTitleChange = (e) => {
+		setTitle(e.target.value);
+	};
+
+	const saveTitle = async () => {
+		if (title !== activeCard.title && title.trim() !== '') {
+			await updateCard(
+				activeCard.id,
+				{ title },
+				activeCard.list_id,
+				true
+			);
+		}
+	};
+
+	const handleKeyDown = (e) => {
+		if (e.key === 'Enter') {
+			titleRef.current?.blur();
+		}
 	};
 
 	const updateDescription = async () => {
@@ -49,9 +72,15 @@ const ActiveCard = () => {
 		>
 			<div className="flex flex-col gap-6">
 				<div className="flex flex-col gap-0.5">
-					<span className="font-copy font-bold text-lg">
-						{activeCard.title}
-					</span>
+					<input
+						ref={titleRef}
+						type="text"
+						value={title}
+						onChange={handleTitleChange}
+						onBlur={saveTitle}
+						onKeyDown={handleKeyDown}
+						className="truncate w-[95%] -ml-2 px-2 py-1 font-copy font-bold text-lg"
+					/>
 					<span className="font-copy text-sm flex items-center gap-0.5">
 						in list&nbsp;
 						<span className="bg-gray-300 text-gray-700 font-bold px-2 text-xs rounded">
@@ -59,7 +88,7 @@ const ActiveCard = () => {
 						</span>
 					</span>
 				</div>
-				<div className="grid grid-cols-[1fr,auto] gap-4">
+				<div className="grid grid-rows-[1fr,auto] sm:grid-rows-none sm:grid-cols-[1fr,auto] gap-4">
 					<div className="flex flex-col gap-2">
 						<span className="font-copy font-semibold">
 							Description
