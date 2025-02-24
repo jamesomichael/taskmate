@@ -2,7 +2,14 @@ import React, { useState, useRef } from 'react';
 
 import Modal from '@/components/Modal';
 
-import { FaArrowRight, FaRegCopy, FaRegTrashCan } from 'react-icons/fa6';
+import {
+	FaArrowRight,
+	FaRegCopy,
+	FaRegTrashCan,
+	FaRegCircle,
+	FaCircleCheck,
+} from 'react-icons/fa6';
+import { BsJustifyLeft } from 'react-icons/bs';
 
 import useBoardStore from '@/stores/boardStore';
 import Loader from './Loader';
@@ -16,6 +23,9 @@ const ActiveCard = () => {
 	);
 	const [title, setTitle] = useState(activeCard?.title || '');
 	const [isLoadingDescription, setIsLoadingDescription] = useState(false);
+	const [isComplete, setIsComplete] = useState(
+		activeCard?.is_complete || false
+	);
 	const titleRef = useRef(null);
 
 	const list = activeCard
@@ -69,6 +79,16 @@ const ActiveCard = () => {
 		setActiveCard(null);
 	};
 
+	const toggleCompletionStatus = async () => {
+		await updateCard(
+			activeCard.id,
+			{ is_complete: !isComplete },
+			activeCard.list_id,
+			true
+		);
+		setIsComplete((prev) => !prev);
+	};
+
 	return activeCard ? (
 		<Modal
 			isOpen={true}
@@ -76,7 +96,20 @@ const ActiveCard = () => {
 			width="max-w-3xl"
 		>
 			<div className="flex flex-col gap-6">
-				<div className="flex flex-col gap-0.5">
+				<div className="grid grid-rows-[auto,auto] grid-cols-[1rem,1fr] items-center gap-x-5 gap-y-1">
+					{isComplete ? (
+						<FaCircleCheck
+							onClick={toggleCompletionStatus}
+							title="Mark incomplete"
+							className="text-green-600 cursor-pointer"
+						/>
+					) : (
+						<FaRegCircle
+							onClick={toggleCompletionStatus}
+							title="Mark complete"
+							className="cursor-pointer"
+						/>
+					)}
 					<input
 						ref={titleRef}
 						type="text"
@@ -84,8 +117,9 @@ const ActiveCard = () => {
 						onChange={handleTitleChange}
 						onBlur={saveTitle}
 						onKeyDown={handleKeyDown}
-						className="truncate w-[95%] -ml-2 px-2 py-1 font-copy font-bold text-lg"
+						className="truncate -ml-2 w-[95%] px-2 py-1 font-copy font-bold text-lg"
 					/>
+					<div className="w-full"></div>
 					<span className="font-copy text-sm flex items-center gap-0.5">
 						in list&nbsp;
 						<span className="bg-gray-300 text-gray-700 font-bold px-2 text-xs rounded">
@@ -94,14 +128,16 @@ const ActiveCard = () => {
 					</span>
 				</div>
 				<div className="grid grid-rows-[1fr,auto] sm:grid-rows-none sm:grid-cols-[1fr,auto] gap-4">
-					<div className="flex flex-col gap-2">
+					<div className="grid grid-rows-[auto,auto] grid-cols-[1rem,1fr] items-center gap-x-5 gap-y-2">
+						<BsJustifyLeft size={22} />
 						<span className="font-copy font-semibold">
 							Description
 						</span>
+						<div></div>
 						{isLoadingDescription ? (
 							<Loader />
 						) : isEditingDescription ? (
-							<>
+							<div className="">
 								<textarea
 									autoFocus
 									placeholder="Add a description..."
@@ -115,7 +151,7 @@ const ActiveCard = () => {
 									}
 									name="description"
 									id="description"
-									className="resize-none h-60 rounded p-4 font-copy text-sm outline outline-[1px] outline-gray-400 focus:outline-2 focus:outline-blue-600"
+									className="w-full resize-none h-60 rounded p-4 font-copy text-sm outline outline-[1px] outline-gray-400 focus:outline-2 focus:outline-blue-600"
 								/>
 								<div className="flex gap-2 font-copy text-sm font-medium">
 									<button
@@ -131,7 +167,7 @@ const ActiveCard = () => {
 										Cancel
 									</button>
 								</div>
-							</>
+							</div>
 						) : activeCard.description ? (
 							<textarea
 								onClick={() => setIsEditingDescription(true)}
