@@ -10,7 +10,7 @@ import useBoardStore from '@/stores/boardStore';
 
 const BoardPage = () => {
 	const { id } = useParams();
-	const { board } = useBoardStore();
+	const { board, activeCard } = useBoardStore();
 
 	const background = board?.background
 		? `bg-gradient-to-br ${board.background}`
@@ -21,7 +21,7 @@ const BoardPage = () => {
 			<BoardSidebar activeBoardId={id} />
 			<Board id={id} />
 
-			<ActiveCard />
+			{activeCard && <ActiveCard />}
 		</div>
 	);
 };
