@@ -8,7 +8,8 @@ import useBoardStore from '@/stores/boardStore';
 import Loader from './Loader';
 
 const ActiveCard = () => {
-	const { lists, activeCard, updateCard, setActiveCard } = useBoardStore();
+	const { lists, activeCard, updateCard, deleteCard, setActiveCard } =
+		useBoardStore();
 	const [isEditingDescription, setIsEditingDescription] = useState(false);
 	const [description, setDescription] = useState(
 		activeCard?.description || ''
@@ -33,6 +34,11 @@ const ActiveCard = () => {
 		);
 		setIsEditingDescription(false);
 		setIsLoadingDescription(false);
+	};
+
+	const handleCardDeletion = async () => {
+		await deleteCard(activeCard.id, activeCard.list_id);
+		setActiveCard(null);
 	};
 
 	return activeCard ? (
@@ -114,7 +120,10 @@ const ActiveCard = () => {
 								<FaRegCopy size={15} />
 								<span>Copy</span>
 							</div> */}
-							<div className="flex gap-2 items-center font-medium text-sm font-copy w-full p-2 hover:bg-red-700 bg-red-600 text-white hover:cursor-pointer rounded">
+							<div
+								onClick={handleCardDeletion}
+								className="flex gap-2 items-center font-medium text-sm font-copy w-full p-2 hover:bg-red-700 bg-red-600 text-white hover:cursor-pointer rounded"
+							>
 								<FaRegTrashCan size={15} />
 								<span>Delete</span>
 							</div>

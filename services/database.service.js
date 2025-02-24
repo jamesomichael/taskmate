@@ -186,6 +186,17 @@ const createCard = async (
 	return data;
 };
 
+const deleteCard = async (id, supabase = createClient()) => {
+	const { error } = await supabase.from('cards').delete().eq('id', id);
+
+	if (error) {
+		console.error('Error deleting card:', error.message);
+		return null;
+	}
+
+	return true;
+};
+
 export {
 	createBoard,
 	getBoards,
@@ -198,4 +209,5 @@ export {
 	updateCard,
 	createCard,
 	updateCards,
+	deleteCard,
 };

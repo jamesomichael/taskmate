@@ -10,6 +10,7 @@ import {
 	createList,
 	createCard,
 	updateCard,
+	deleteCard,
 	updateCards,
 	createBoard,
 	updateBoard,
@@ -189,6 +190,18 @@ const useBoardStore = create((set, get) => ({
 			console.error('Error updating card:', error.message);
 		}
 	},
+
+	deleteCard: async (id, listId) => {
+		const supabase = createClient();
+		await deleteCard(id, supabase);
+		set(
+			produce((draft) => {
+				const list = draft.lists.find((list) => list.id === listId);
+				list.cards = list.cards.filter((card) => card.id !== id);
+			})
+		);
+	},
+
 	moveCard: (card, fromContainer, toContainer, fromIndex, toIndex) => {
 		set(
 			produce((draft) => {
