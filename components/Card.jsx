@@ -44,7 +44,9 @@ const Card = ({ card, isBeingDragged }) => {
 						/>
 					</div>
 				)}
-				<span>{card.title}</span>
+				<span className="font-copy text-sm self-center">
+					{card.title}
+				</span>
 			</div>
 		</div>
 	);
