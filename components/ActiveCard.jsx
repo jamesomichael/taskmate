@@ -15,6 +15,7 @@ import { BsJustifyLeft } from 'react-icons/bs';
 
 import useBoardStore from '@/stores/boardStore';
 import Loader from './Loader';
+import CoverPopover from './CoverPopover';
 
 const ActiveCard = () => {
 	const { lists, activeCard, updateCard, deleteCard, setActiveCard } =
@@ -96,6 +97,7 @@ const ActiveCard = () => {
 			isOpen={true}
 			onClose={() => setActiveCard(null)}
 			width="max-w-3xl"
+			cover={activeCard.cover}
 		>
 			<div className="flex flex-col gap-6">
 				<div className="grid grid-rows-[auto,auto] grid-cols-[1rem,1fr] items-center gap-x-5 gap-y-1">
@@ -206,16 +208,7 @@ const ActiveCard = () => {
 										</div>
 									}
 								>
-									<div className="w-48">
-										<p className="text-sm font-medium">
-											Choose a cover
-										</p>
-										<div className="grid grid-cols-3 gap-2 mt-2">
-											<div className="w-12 h-12 bg-red-500 cursor-pointer rounded"></div>
-											<div className="w-12 h-12 bg-blue-500 cursor-pointer rounded"></div>
-											<div className="w-12 h-12 bg-green-500 cursor-pointer rounded"></div>
-										</div>
-									</div>
+									<CoverPopover />
 								</Popover>
 							</div>
 							<div
