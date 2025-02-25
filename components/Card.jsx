@@ -26,25 +26,25 @@ const Card = ({ card, isBeingDragged }) => {
 			{card.cover && (
 				<div className={`${card.cover} h-8 w-full rounded-t`}></div>
 			)}
-			<div className="grid grid-cols-[auto,1fr] gap-0.5 p-2">
-				{card.is_complete ? (
-					<div className="p-1">
+			<div className="grid grid-rows-[auto,auto] grid-cols-[auto,1fr] min-h-10 gap-x-1.5 p-2">
+				<div className="py-1 flex justify-center items-center">
+					{card.is_complete ? (
 						<FaCircleCheck
+							size={15}
 							onClick={toggleCompletionStatus}
 							title="Mark incomplete"
 							className="text-green-600"
 						/>
-					</div>
-				) : (
-					<div className="p-1">
+					) : (
 						<FaRegCircle
+							size={15}
 							onClick={toggleCompletionStatus}
 							title="Mark complete"
 							className="hidden group-hover:flex"
 						/>
-					</div>
-				)}
-				<span className="font-copy text-sm self-center">
+					)}
+				</div>
+				<span className="font-copy row-span-2 text-sm self-center">
 					{card.title}
 				</span>
 			</div>
