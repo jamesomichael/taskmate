@@ -40,7 +40,7 @@ const Popover = ({ children, trigger, className }) => {
 			{isOpen && (
 				<div
 					ref={popoverRef}
-					className={`absolute left-0 mt-2 z-10 bg-white shadow-xl rounded p-3 border border-gray-300 ${className}`}
+					className={`absolute left-0 mt-2 z-10 bg-white shadow-xl rounded py-4 px-2 border border-gray-300 ${className}`}
 				>
 					{children}
 				</div>
