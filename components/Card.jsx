@@ -19,26 +19,33 @@ const Card = ({ card, isBeingDragged }) => {
 	return (
 		<div
 			onClick={() => setActiveCard(card)}
-			className={`group grid grid-cols-[auto,1fr] gap-1 p-2 shadow-xl bg-white h-fit rounded-md outline outline-[1px] outline-gray-300 hover:outline-2 hover:outline-blue-600 hover:cursor-pointer ${
+			className={`group shadow-xl bg-white h-fit rounded-md outline outline-[1px] outline-gray-300 hover:outline-2 hover:outline-blue-600 hover:cursor-pointer ${
 				isBeingDragged ? 'rotate-3 shadow-lg' : ''
 			}`}
 		>
-			<div className="p-1">
+			{card.cover && (
+				<div className={`${card.cover} h-8 w-full rounded-t`}></div>
+			)}
+			<div className="grid grid-cols-[auto,1fr] gap-0.5 p-2">
 				{card.is_complete ? (
-					<FaCircleCheck
-						onClick={toggleCompletionStatus}
-						title="Mark incomplete"
-						className="text-green-600"
-					/>
+					<div className="p-1">
+						<FaCircleCheck
+							onClick={toggleCompletionStatus}
+							title="Mark incomplete"
+							className="text-green-600"
+						/>
+					</div>
 				) : (
-					<FaRegCircle
-						onClick={toggleCompletionStatus}
-						title="Mark complete"
-						className="hidden group-hover:flex"
-					/>
+					<div className="p-1">
+						<FaRegCircle
+							onClick={toggleCompletionStatus}
+							title="Mark complete"
+							className="hidden group-hover:flex"
+						/>
+					</div>
 				)}
+				<span>{card.title}</span>
 			</div>
-			<span>{card.title}</span>
 		</div>
 	);
 };
