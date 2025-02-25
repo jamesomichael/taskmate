@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 
 import Modal from '@/components/Modal';
+import Popover from '@/components/Popover';
 
 import {
 	FaArrowRight,
@@ -8,6 +9,7 @@ import {
 	FaRegTrashCan,
 	FaRegCircle,
 	FaCircleCheck,
+	FaRegWindowMaximize,
 } from 'react-icons/fa6';
 import { BsJustifyLeft } from 'react-icons/bs';
 
@@ -195,6 +197,27 @@ const ActiveCard = () => {
 								<FaRegCopy size={15} />
 								<span>Copy</span>
 							</div> */}
+							<div className="relative">
+								<Popover
+									trigger={
+										<div className="flex gap-2 items-center font-medium text-sm font-copy w-full p-2 bg-gray-200 hover:bg-gray-300 hover:cursor-pointer rounded">
+											<FaRegWindowMaximize size={15} />
+											<span>Cover</span>
+										</div>
+									}
+								>
+									<div className="w-48">
+										<p className="text-sm font-medium">
+											Choose a cover
+										</p>
+										<div className="grid grid-cols-3 gap-2 mt-2">
+											<div className="w-12 h-12 bg-red-500 cursor-pointer rounded"></div>
+											<div className="w-12 h-12 bg-blue-500 cursor-pointer rounded"></div>
+											<div className="w-12 h-12 bg-green-500 cursor-pointer rounded"></div>
+										</div>
+									</div>
+								</Popover>
+							</div>
 							<div
 								onClick={handleCardDeletion}
 								className="flex gap-2 items-center font-medium text-sm font-copy w-full p-2 hover:bg-red-700 bg-red-600 text-white hover:cursor-pointer rounded"
