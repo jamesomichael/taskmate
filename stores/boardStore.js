@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { produce } from 'immer';
+import axios from 'axios';
 
 import { createClient } from '@/utils/supabase/client';
 import {
@@ -32,28 +33,19 @@ const useBoardStore = create((set, get) => ({
 	},
 	getBoards: async () => {
 		set({ isLoadingBoards: true });
-		const supabase = await createClient();
-		const {
-			data: { user },
-		} = await supabase.auth.getUser();
-
-		if (!user) {
-			console.error('No user found.');
-		}
-
-		const boards = await getBoards(user.id, supabase);
+		const response = await axios.get('/api/boards');
+		const boards = response.data;
 		set({ boards, isLoadingBoards: false });
 	},
 	createBoard: async (name, background) => {
-		const supabase = createClient();
-		const {
-			data: { user },
-		} = await supabase.auth.getUser();
-		const userId = user.id;
-		const data = await createBoard(name, background, userId, supabase);
+		const response = await axios.post('/api/boards', {
+			name,
+			background,
+		});
+		const board = response.data;
 		set(
 			produce((draft) => {
-				draft.boards = [data, ...draft.boards];
+				draft.boards = [board, ...draft.boards];
 			})
 		);
 	},
