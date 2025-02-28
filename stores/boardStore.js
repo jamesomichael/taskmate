@@ -33,83 +33,83 @@ const useBoardStore = create((set, get) => ({
 	},
 	getBoards: async () => {
 		set({ isLoadingBoards: true });
-		const response = await axios.get('/api/boards');
-		const boards = response.data;
-		set({ boards, isLoadingBoards: false });
+		try {
+			const response = await axios.get('/api/boards');
+			const boards = response.data;
+			set({ boards, isLoadingBoards: false });
+		} catch (error) {
+			console.error('Error fetching boards.');
+			set({ isLoadingBoards: false });
+		}
 	},
 	createBoard: async (name, background) => {
-		const response = await axios.post('/api/boards', {
-			name,
-			background,
-		});
-		const board = response.data;
-		set(
-			produce((draft) => {
-				draft.boards = [board, ...draft.boards];
-			})
-		);
+		try {
+			const response = await axios.post('/api/boards', {
+				name,
+				background,
+			});
+			const board = response.data;
+			set(
+				produce((draft) => {
+					draft.boards = [board, ...draft.boards];
+				})
+			);
+		} catch (error) {
+			console.error('Error creating board.');
+		}
 	},
 	updateBoard: async (id, updates) => {
-		const supabase = createClient();
-		await updateBoard(id, updates, supabase);
-
-		// TODO: HANDLE POSSIBLE ERRORS INSIDE DATABASE SERVICE.
-		// ** SHOULD NOT UPDATE STATE IF ERROR OCCURS.
-
-		set(
-			produce((draft) => {
-				const boardIndex = draft.boards.findIndex(
-					(board) => board.id === id
-				);
-				const board = draft.boards[boardIndex];
-				draft.boards[boardIndex] = {
-					...board,
-					...updates,
-				};
-
-				if (draft.board?.id === id) {
-					draft.board = {
-						...draft.board,
+		try {
+			await axios.patch(`/api/boards/${id}`, updates);
+			set(
+				produce((draft) => {
+					const boardIndex = draft.boards.findIndex(
+						(board) => board.id === id
+					);
+					const board = draft.boards[boardIndex];
+					draft.boards[boardIndex] = {
+						...board,
 						...updates,
 					};
-				}
-			})
-		);
+
+					if (draft.board?.id === id) {
+						draft.board = {
+							...draft.board,
+							...updates,
+						};
+					}
+				})
+			);
+		} catch (error) {
+			console.error('Error updating board.');
+			return false;
+		}
 	},
 	deleteBoard: async (id) => {
-		const supabase = createClient();
-		await deleteBoard(id, supabase);
-		set(
-			produce((draft) => {
-				draft.boards = draft.boards.filter((board) => board.id !== id);
-			})
-		);
+		try {
+			await axios.delete(`/api/boards/${id}`);
+			set(
+				produce((draft) => {
+					draft.boards = draft.boards.filter(
+						(board) => board.id !== id
+					);
+				})
+			);
+		} catch (error) {
+			console.error('Error deleting board.');
+			return false;
+		}
 	},
 	getBoard: async (id) => {
 		set({ isLoadingBoard: true, board: null, lists: [] });
-		const supabase = await createClient();
-		const {
-			data: { user },
-			error,
-		} = await supabase.auth.getUser();
-
-		const board = await getBoardById(id, user.id, supabase);
-
-		if (!board) {
+		try {
+			const response = await axios.get(`/api/boards/${id}`);
+			const { lists, ...board } = response.data;
+			set({ isLoadingBoard: false, board, lists });
+		} catch (error) {
+			console.error('Error fetching board.');
 			set({ isLoadingBoard: false });
-			return;
 		}
-
-		const lists = await getLists(id, user.id, supabase);
-		const cards = await getCards(id, user.id, supabase);
-		set({
-			isLoadingBoard: false,
-			board,
-			lists: lists.map((list) => ({
-				...list,
-				cards: cards.filter((card) => card.list_id === list.id),
-			})),
-		});
 	},
 	addList: async (name, boardId) => {
 		const supabase = await createClient();
