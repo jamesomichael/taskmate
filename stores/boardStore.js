@@ -112,16 +112,20 @@ const useBoardStore = create((set, get) => ({
 		}
 	},
 	addList: async (name, boardId) => {
-		const supabase = await createClient();
-		const {
-			data: { user },
-		} = await supabase.auth.getUser();
-		const data = await createList(name, boardId, null, user.id, supabase);
-		set(
-			produce((draft) => {
-				draft.lists.push({ ...data, cards: [] });
-			})
-		);
+		try {
+			const response = await axios.post(`/api/lists`, {
+				name,
+				boardId,
+			});
+			const list = response.data;
+			set(
+				produce((draft) => {
+					draft.lists.push({ ...list, cards: [] });
+				})
+			);
+		} catch (error) {
+			console.error('Error adding list.');
+		}
 	},
 	addCard: async (title, index, listId, boardId) => {
 		const supabase = await createClient();
