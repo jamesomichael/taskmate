@@ -12,6 +12,7 @@ const Card = ({ card, isBeingDragged }) => {
 		await updateCard(
 			card.id,
 			{ is_complete: !card.is_complete },
+			card.board_id,
 			card.list_id
 		);
 	};

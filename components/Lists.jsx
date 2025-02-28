@@ -15,7 +15,7 @@ import Card from './Card';
 import useBoardStore from '@/stores/boardStore';
 
 const Lists = () => {
-	const { lists, moveCard, saveCards } = useBoardStore();
+	const { board, lists, moveCard, saveCards } = useBoardStore();
 	const [activeItem, setActiveItem] = useState();
 
 	const boardRef = useRef(null);
@@ -104,7 +104,7 @@ const Lists = () => {
 	};
 
 	const handleDragEnd = (event) => {
-		saveCards();
+		saveCards(board.id);
 		setActiveItem(null);
 	};
 

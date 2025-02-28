@@ -2,22 +2,6 @@ import { create } from 'zustand';
 import { produce } from 'immer';
 import axios from 'axios';
 
-import { createClient } from '@/utils/supabase/client';
-import {
-	getBoardById,
-	getBoards,
-	getCards,
-	getLists,
-	createList,
-	createCard,
-	updateCard,
-	deleteCard,
-	updateCards,
-	createBoard,
-	updateBoard,
-	deleteBoard,
-} from '@/services/database.service';
-
 const useBoardStore = create((set, get) => ({
 	isLoadingBoards: true,
 	isLoadingBoard: true,
@@ -127,30 +111,26 @@ const useBoardStore = create((set, get) => ({
 		}
 	},
 	addCard: async (title, index, listId, boardId) => {
-		const supabase = await createClient();
-		const {
-			data: { user },
-		} = await supabase.auth.getUser();
-		const data = await createCard(
-			title,
-			index,
-			listId,
-			boardId,
-			user.id,
-			supabase
-		);
-		set(
-			produce((draft) => {
-				const list = draft.lists.find(({ id }) => id === listId);
-				list.cards.push(data);
-			})
-		);
-	},
-	updateCard: async (id, updates, listId, isActiveCard = false) => {
 		try {
-			const supabase = createClient();
-			await updateCard(id, updates, supabase);
-
+			const response = await axios.post(`/api/boards/${boardId}/cards`, {
+				title,
+				index,
+				listId,
+			});
+			const card = response.data;
+			set(
+				produce((draft) => {
+					const list = draft.lists.find(({ id }) => id === listId);
+					list.cards.push(card);
+				})
+			);
+		} catch (error) {
+			console.error('Error adding card.');
+		}
+	},
+	updateCard: async (id, updates, boardId, listId, isActiveCard = false) => {
+		try {
+			await axios.patch(`/api/boards/${boardId}/cards/${id}`, updates);
 			set(
 				produce((draft) => {
 					const list = draft.lists.find((list) => list.id === listId);
@@ -186,17 +166,19 @@ const useBoardStore = create((set, get) => ({
 		}
 	},
 
-	deleteCard: async (id, listId) => {
-		const supabase = createClient();
-		await deleteCard(id, supabase);
-		set(
-			produce((draft) => {
-				const list = draft.lists.find((list) => list.id === listId);
-				list.cards = list.cards.filter((card) => card.id !== id);
-			})
-		);
+	deleteCard: async (id, boardId, listId) => {
+		try {
+			await axios.delete(`/api/boards/${boardId}/cards/${id}`);
+			set(
+				produce((draft) => {
+					const list = draft.lists.find((list) => list.id === listId);
+					list.cards = list.cards.filter((card) => card.id !== id);
+				})
+			);
+		} catch (error) {
+			console.error('Error deleting card.');
+		}
 	},
-
 	moveCard: (card, fromContainer, toContainer, fromIndex, toIndex) => {
 		set(
 			produce((draft) => {
@@ -236,7 +218,7 @@ const useBoardStore = create((set, get) => ({
 			})
 		);
 	},
-	saveCards: async () => {
+	saveCards: async (boardId) => {
 		set(
 			produce((draft) => {
 				const { dirtyLists, lists } = draft;
@@ -256,11 +238,15 @@ const useBoardStore = create((set, get) => ({
 				});
 			})
 		);
-		const { dirtyCards } = get();
-		const dirtyCardsArray = Object.values(dirtyCards);
-		const supabase = await createClient();
-		await updateCards(dirtyCardsArray, supabase);
-		set({ dirtyLists: [], dirtyCards: {} });
+
+		try {
+			const { dirtyCards } = get();
+			const dirtyCardsArray = Object.values(dirtyCards);
+			await axios.patch(`/api/boards/${boardId}/cards`, dirtyCardsArray);
+			set({ dirtyLists: [], dirtyCards: {} });
+		} catch (error) {
+			console.error('Error saving cards.');
+		}
 	},
 }));
 

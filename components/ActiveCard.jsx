@@ -48,6 +48,7 @@ const ActiveCard = () => {
 			await updateCard(
 				activeCard.id,
 				{ title },
+				activeCard.board_id,
 				activeCard.list_id,
 				true
 			);
@@ -65,6 +66,7 @@ const ActiveCard = () => {
 		await updateCard(
 			activeCard.id,
 			{ description },
+			activeCard.board_id,
 			activeCard.list_id,
 			true
 		);
@@ -78,7 +80,11 @@ const ActiveCard = () => {
 	};
 
 	const handleCardDeletion = async () => {
-		await deleteCard(activeCard.id, activeCard.list_id);
+		await deleteCard(
+			activeCard.id,
+			activeCard.board_id,
+			activeCard.list_id
+		);
 		setActiveCard(null);
 	};
 
@@ -86,6 +92,7 @@ const ActiveCard = () => {
 		await updateCard(
 			activeCard.id,
 			{ is_complete: !isComplete },
+			activeCard.board_id,
 			activeCard.list_id,
 			true
 		);

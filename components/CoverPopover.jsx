@@ -23,13 +23,20 @@ const CoverPopover = () => {
 		if (selectedCover !== activeCard.cover) {
 			cover = selectedCover;
 		}
-		await updateCard(activeCard.id, { cover }, activeCard.list_id, true);
+		await updateCard(
+			activeCard.id,
+			{ cover },
+			activeCard.board_id,
+			activeCard.list_id,
+			true
+		);
 	};
 
 	const removeCover = async () => {
 		await updateCard(
 			activeCard.id,
 			{ cover: null },
+			activeCard.board_id,
 			activeCard.list_id,
 			true
 		);
