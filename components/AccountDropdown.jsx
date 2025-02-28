@@ -1,10 +1,15 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 
-const AccountDropdown = ({ user, logOut }) => {
+import useAuthStore from '@/stores/authStore';
+
+const AccountDropdown = ({ user }) => {
+	const { logOut } = useAuthStore();
 	const dropdownRef = useRef(null);
 	const buttonRef = useRef(null);
 	const [isOpen, setIsOpen] = useState(false);
+	const router = useRouter();
 
 	useEffect(() => {
 		const handleClickOutside = (event) => {
@@ -21,6 +26,15 @@ const AccountDropdown = ({ user, logOut }) => {
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
 	}, [setIsOpen]);
+
+	const handleLogOut = async () => {
+		try {
+			await logOut();
+			router.push('/login');
+		} catch (error) {
+			console.error('Error logging out:', error.message);
+		}
+	};
 
 	const toggleDropdown = () => {
 		setIsOpen((prev) => !prev);
@@ -64,7 +78,7 @@ const AccountDropdown = ({ user, logOut }) => {
 					<div className="border-b-[1px] border-gray-200 my-1"></div>
 					<div className="font-copy text-sm flex flex-col gap-3">
 						<div
-							onClick={logOut}
+							onClick={handleLogOut}
 							className="hover:cursor-pointer hover:text-blue-600 hover:bg-blue-100 h-11 flex justify-start items-center p-4"
 						>
 							<span className="">Log out</span>

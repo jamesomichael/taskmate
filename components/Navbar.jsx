@@ -6,13 +6,6 @@ import { usePathname } from 'next/navigation';
 import Search from './Search';
 import AccountDropdown from './AccountDropdown';
 
-// const handleLogOut = async () => {
-// 	'use server';
-// 	const supabase = await createClient();
-// 	await supabase.auth.signOut();
-// 	redirect('/login');
-// };
-
 import useBoardStore from '@/stores/boardStore';
 
 const Navbar = ({ user }) => {
