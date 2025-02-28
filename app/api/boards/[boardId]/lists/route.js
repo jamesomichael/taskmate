@@ -3,8 +3,9 @@ import { NextResponse } from 'next/server';
 
 import { createList } from '@/services/database.service';
 
-const POST = async (request) => {
-	const { name, boardId } = await request.json();
+const POST = async (request, { params }) => {
+	const { name } = await request.json();
+	const { boardId } = await params;
 
 	// TODO: Validate with joi.
 	if (!name || !boardId) {

@@ -113,9 +113,8 @@ const useBoardStore = create((set, get) => ({
 	},
 	addList: async (name, boardId) => {
 		try {
-			const response = await axios.post(`/api/lists`, {
+			const response = await axios.post(`/api/boards/${boardId}/lists`, {
 				name,
-				boardId,
 			});
 			const list = response.data;
 			set(

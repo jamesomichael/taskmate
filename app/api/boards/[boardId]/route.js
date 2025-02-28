@@ -10,10 +10,10 @@ import {
 } from '@/services/database.service';
 
 const GET = async (request, { params }) => {
-	const { id } = await params;
+	const { boardId } = await params;
 
 	// TODO: Validate with joi.
-	if (!id) {
+	if (!boardId) {
 		return NextResponse.json(
 			{ message: 'Board ID is required.' },
 			{ status: 400 }
@@ -32,7 +32,7 @@ const GET = async (request, { params }) => {
 				{ status: 404 }
 			);
 		}
-		const board = await getBoardById(id, user.id, supabase);
+		const board = await getBoardById(boardId, user.id, supabase);
 
 		if (!board) {
 			return NextResponse.json(
@@ -41,8 +41,8 @@ const GET = async (request, { params }) => {
 			);
 		}
 
-		const lists = await getLists(id, user.id, supabase);
-		const cards = await getCards(id, user.id, supabase);
+		const lists = await getLists(boardId, user.id, supabase);
+		const cards = await getCards(boardId, user.id, supabase);
 
 		return NextResponse.json({
 			...board,
@@ -61,11 +61,11 @@ const GET = async (request, { params }) => {
 };
 
 const PATCH = async (request, { params }) => {
-	const { id } = await params;
+	const { boardId } = await params;
 	const updates = await request.json();
 
 	// TODO: Validate with joi.
-	if (!id) {
+	if (!boardId) {
 		return NextResponse.json(
 			{ message: 'Board ID is required.' },
 			{ status: 400 }
@@ -86,7 +86,7 @@ const PATCH = async (request, { params }) => {
 			);
 		}
 
-		await updateBoard(id, updates, supabase);
+		await updateBoard(boardId, updates, supabase);
 		return new Response(null, { status: 204 });
 	} catch (error) {
 		console.error('Error updating board:', error.message);
@@ -98,9 +98,9 @@ const PATCH = async (request, { params }) => {
 };
 
 const DELETE = async (request, { params }) => {
-	const { id } = await params;
+	const { boardId } = await params;
 
-	if (!id) {
+	if (!boardId) {
 		return NextResponse.json(
 			{ message: 'Board ID is required.' },
 			{ status: 400 }
@@ -121,7 +121,7 @@ const DELETE = async (request, { params }) => {
 			);
 		}
 
-		await deleteBoard(id, supabase);
+		await deleteBoard(boardId, supabase);
 		return new Response(null, { status: 204 });
 	} catch (error) {
 		console.error('Error deleting board:', error.message);
