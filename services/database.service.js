@@ -1,11 +1,4 @@
-import { createClient } from '@/utils/supabase/client';
-
-const createBoard = async (
-	name,
-	background,
-	userId,
-	supabase = createClient()
-) => {
+const createBoard = async (name, background, userId, supabase) => {
 	const { data, error } = await supabase
 		.from('boards')
 		.insert([{ user_id: userId, name, background }])
@@ -20,7 +13,7 @@ const createBoard = async (
 	return data;
 };
 
-const getBoards = async (userId, supabase = createClient()) => {
+const getBoards = async (userId, supabase) => {
 	const { data, error } = await supabase
 		.from('boards')
 		.select('*')
@@ -35,7 +28,7 @@ const getBoards = async (userId, supabase = createClient()) => {
 	return data;
 };
 
-const getBoardById = async (id, userId, supabase = createClient()) => {
+const getBoardById = async (id, userId, supabase) => {
 	const { data, error } = await supabase
 		.from('boards')
 		.select('*')
@@ -51,7 +44,7 @@ const getBoardById = async (id, userId, supabase = createClient()) => {
 	return data;
 };
 
-const updateBoard = async (id, updates, supabase = createClient()) => {
+const updateBoard = async (id, updates, supabase) => {
 	const { error } = await supabase
 		.from('boards')
 		.update(updates)
@@ -65,7 +58,7 @@ const updateBoard = async (id, updates, supabase = createClient()) => {
 	return true;
 };
 
-const deleteBoard = async (id, supabase = createClient()) => {
+const deleteBoard = async (id, supabase) => {
 	const { error } = await supabase.from('boards').delete().eq('id', id);
 
 	if (error) {
@@ -76,7 +69,7 @@ const deleteBoard = async (id, supabase = createClient()) => {
 	return true;
 };
 
-const getLists = async (boardId, userId, supabase = createClient()) => {
+const getLists = async (boardId, userId, supabase) => {
 	const { data, error } = await supabase
 		.from('lists')
 		.select('*')
@@ -92,13 +85,7 @@ const getLists = async (boardId, userId, supabase = createClient()) => {
 	return data;
 };
 
-const createList = async (
-	name,
-	boardId,
-	position,
-	userId,
-	supabase = createClient()
-) => {
+const createList = async (name, boardId, position, userId, supabase) => {
 	const { data, error } = await supabase
 		.from('lists')
 		.insert([{ user_id: userId, name, board_id: boardId, position }])
@@ -113,7 +100,7 @@ const createList = async (
 	return data;
 };
 
-const getCards = async (boardId, userId, supabase = createClient()) => {
+const getCards = async (boardId, userId, supabase) => {
 	const { data, error } = await supabase
 		.from('cards')
 		.select('*')
@@ -129,7 +116,7 @@ const getCards = async (boardId, userId, supabase = createClient()) => {
 	return data;
 };
 
-const updateCard = async (id, updates, supabase = createClient()) => {
+const updateCard = async (id, updates, supabase) => {
 	const { error } = await supabase.from('cards').update(updates).eq('id', id);
 
 	if (error) {
@@ -140,7 +127,7 @@ const updateCard = async (id, updates, supabase = createClient()) => {
 	return true;
 };
 
-const updateCards = async (cards, supabase = createClient()) => {
+const updateCards = async (cards, supabase) => {
 	if (cards.length === 0) {
 		return false;
 	}
@@ -156,14 +143,7 @@ const updateCards = async (cards, supabase = createClient()) => {
 	return data;
 };
 
-const createCard = async (
-	title,
-	index,
-	listId,
-	boardId,
-	userId,
-	supabase = createClient()
-) => {
+const createCard = async (title, index, listId, boardId, userId, supabase) => {
 	const { data, error } = await supabase
 		.from('cards')
 		.insert([
@@ -186,7 +166,7 @@ const createCard = async (
 	return data;
 };
 
-const deleteCard = async (id, supabase = createClient()) => {
+const deleteCard = async (id, supabase) => {
 	const { error } = await supabase.from('cards').delete().eq('id', id);
 
 	if (error) {
