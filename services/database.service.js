@@ -100,6 +100,17 @@ const createList = async (name, boardId, position, userId, supabase) => {
 	return data;
 };
 
+const deleteList = async (id, supabase) => {
+	const { error } = await supabase.from('lists').delete().eq('id', id);
+
+	if (error) {
+		console.error('Error deleting list:', error.message);
+		return null;
+	}
+
+	return true;
+};
+
 const getCards = async (boardId, userId, supabase) => {
 	const { data, error } = await supabase
 		.from('cards')
@@ -185,6 +196,7 @@ export {
 	deleteBoard,
 	getLists,
 	createList,
+	deleteList,
 	getCards,
 	updateCard,
 	createCard,

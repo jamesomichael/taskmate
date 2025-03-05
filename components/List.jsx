@@ -7,6 +7,7 @@ import {
 
 import AddCard from './AddCard';
 import SortableCard from './SortableCard';
+import ListHeader from './ListHeader';
 
 const List = ({ list }) => {
 	const { cards } = list;
@@ -20,12 +21,7 @@ const List = ({ list }) => {
 			key={list.id}
 			className="list drop-shadow-md min-w-full sm:min-w-72 sm:max-w-72 grid grid-rows-[auto,1fr,auto] h-fit max-h-full bg-white rounded-xl"
 		>
-			<div className="flex px-2 pt-2 items-center h-10">
-				<input
-					placeholder={list.name}
-					className="placeholder-black px-2 h-full w-full font-copy text-sm font-semibold hover:cursor-pointer"
-				/>
-			</div>
+			<ListHeader list={list} />
 			<SortableContext
 				id={list.id}
 				items={cards}

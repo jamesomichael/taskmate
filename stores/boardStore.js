@@ -110,6 +110,19 @@ const useBoardStore = create((set, get) => ({
 			console.error('Error adding list.');
 		}
 	},
+	deleteList: async (id, boardId) => {
+		try {
+			await axios.delete(`/api/boards/${boardId}/lists/${id}`);
+			set(
+				produce((draft) => {
+					draft.lists = draft.lists.filter((list) => list.id !== id);
+				})
+			);
+		} catch (error) {
+			console.error('Error deleting list.');
+			return false;
+		}
+	},
 	addCard: async (title, index, listId, boardId) => {
 		try {
 			const response = await axios.post(`/api/boards/${boardId}/cards`, {

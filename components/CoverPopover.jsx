@@ -43,7 +43,7 @@ const CoverPopover = () => {
 	};
 
 	return (
-		<div className="flex flex-col gap-2 items-center w-72">
+		<div className="py-4 px-2 flex flex-col gap-2 items-center w-72">
 			<span className="font-bold font-copy">Cover</span>
 			<div className="flex flex-col gap-2">
 				<span className="font-copy text-xs font-bold">Colours</span>
