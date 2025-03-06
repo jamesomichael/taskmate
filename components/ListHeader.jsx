@@ -28,7 +28,7 @@ const ListHeader = ({ list }) => {
 				}
 			>
 				<div className="flex flex-col gap-2 items-center w-72">
-					<span className="font-bold font-copy text-sm">
+					<span className="font-bold font-copy text-sm py-1">
 						List actions
 					</span>
 					<div
