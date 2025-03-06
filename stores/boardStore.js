@@ -11,9 +11,13 @@ const useBoardStore = create((set, get) => ({
 	dirtyCards: {},
 	dirtyLists: [],
 	activeCard: null,
+	draggedCard: null,
 
 	setActiveCard: (card) => {
 		set({ activeCard: card });
+	},
+	setDraggedCard: (card) => {
+		set({ draggedCard: card });
 	},
 	getBoards: async () => {
 		set({ isLoadingBoards: true });

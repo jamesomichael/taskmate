@@ -5,7 +5,7 @@ import { FaRegCircle, FaCircleCheck } from 'react-icons/fa6';
 import useBoardStore from '@/stores/boardStore';
 
 const Card = ({ card, isBeingDragged }) => {
-	const { setActiveCard, updateCard } = useBoardStore();
+	const { setActiveCard, updateCard, draggedCard } = useBoardStore();
 
 	const toggleCompletionStatus = async (e) => {
 		e.stopPropagation();
@@ -20,7 +20,11 @@ const Card = ({ card, isBeingDragged }) => {
 	return (
 		<div
 			onClick={() => setActiveCard(card)}
-			className={`group shadow-xl bg-white h-fit rounded-md outline outline-[1px] outline-gray-300 hover:outline-2 hover:outline-blue-600 hover:cursor-pointer ${
+			className={`group shadow-xl ${
+				draggedCard?.id === card.id && !isBeingDragged
+					? 'bg-black opacity-25'
+					: 'bg-white'
+			} h-fit rounded-md outline outline-[1px] outline-gray-300 hover:outline-2 hover:outline-blue-600 hover:cursor-pointer ${
 				isBeingDragged ? 'rotate-3 shadow-lg' : ''
 			}`}
 		>

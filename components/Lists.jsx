@@ -15,8 +15,8 @@ import Card from './Card';
 import useBoardStore from '@/stores/boardStore';
 
 const Lists = () => {
-	const { board, lists, moveCard, saveCards } = useBoardStore();
-	const [activeItem, setActiveItem] = useState();
+	const { board, lists, moveCard, saveCards, draggedCard, setDraggedCard } =
+		useBoardStore();
 
 	const boardRef = useRef(null);
 	let isDown = false;
@@ -67,7 +67,7 @@ const Lists = () => {
 		const { id } = active;
 		const container = getContainer(id);
 		const item = container.cards.find((card) => card.id === id);
-		setActiveItem(item);
+		setDraggedCard(item);
 	};
 
 	const handleDragOver = (event) => {
@@ -95,7 +95,7 @@ const Lists = () => {
 		}
 
 		moveCard(
-			activeItem,
+			draggedCard,
 			startContainer,
 			overContainer,
 			startIndex,
@@ -105,7 +105,7 @@ const Lists = () => {
 
 	const handleDragEnd = (event) => {
 		saveCards(board.id);
-		setActiveItem(null);
+		setDraggedCard(null);
 	};
 
 	const pointerSensor = useSensor(PointerSensor, {
@@ -133,8 +133,8 @@ const Lists = () => {
 					<List key={list.id} list={list} />
 				))}
 				<DragOverlay>
-					{activeItem && (
-						<Card card={activeItem} isBeingDragged={true} />
+					{draggedCard && (
+						<Card card={draggedCard} isBeingDragged={true} />
 					)}
 				</DragOverlay>
 			</DndContext>
