@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 
 import Popover from './Popover';
 
@@ -7,17 +7,39 @@ import { FaEllipsis, FaRegTrashCan } from 'react-icons/fa6';
 import useBoardStore from '@/stores/boardStore';
 
 const ListHeader = ({ list }) => {
-	const { deleteList } = useBoardStore();
+	const { updateList, deleteList } = useBoardStore();
+	const [name, setName] = useState(list?.name || '');
+	const titleRef = useRef(null);
 
 	const handleListDeletion = async () => {
 		await deleteList(list.id, list.board_id);
 	};
 
+	const handleNameChange = (e) => {
+		setName(e.target.value);
+	};
+
+	const saveName = async () => {
+		if (name !== list.name && name.trim() !== '') {
+			await updateList(list.id, { name }, list.board_id);
+		}
+	};
+
+	const handleKeyDown = (e) => {
+		if (e.key === 'Enter') {
+			titleRef.current?.blur();
+		}
+	};
+
 	return (
 		<div className="grid grid-cols-[1fr,auto] gap-1 px-2 pt-2 items-center h-10">
 			<input
-				placeholder={list.name}
-				// value={list.name}
+				ref={titleRef}
+				type="text"
+				value={name}
+				onChange={handleNameChange}
+				onBlur={saveName}
+				onKeyDown={handleKeyDown}
 				className="truncate placeholder-black px-2 h-full w-full font-copy text-sm font-semibold hover:cursor-pointer"
 			/>
 			<Popover
