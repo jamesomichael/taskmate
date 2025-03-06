@@ -27,15 +27,15 @@ const ListHeader = ({ list }) => {
 					</div>
 				}
 			>
-				<div className="pt-2 flex flex-col gap-2 items-center w-60">
+				<div className="flex flex-col gap-2 items-center w-72">
 					<span className="font-bold font-copy text-sm">
 						List actions
 					</span>
 					<div
 						onClick={handleListDeletion}
-						className="flex gap-2 items-center font-medium text-sm font-copy w-full p-2 hover:bg-red-700 bg-red-600 text-white hover:cursor-pointer rounded-b"
+						className="flex gap-2 items-center font-medium text-sm font-copy w-full p-2 hover:bg-red-700 bg-red-600 text-white hover:cursor-pointer"
 					>
-						<FaRegTrashCan size={15} />
+						<FaRegTrashCan size={14} />
 						<span className="">Delete list</span>
 					</div>
 				</div>
