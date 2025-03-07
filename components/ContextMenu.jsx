@@ -1,74 +1,66 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 
-const ContextMenu = ({ position, actions, onClose }) => {
+const ContextMenu = ({ trigger, actions }) => {
+	const [isOpen, setIsOpen] = useState(false);
+	const [position, setPosition] = useState({ x: 0, y: 0 });
 	const contextMenuRef = useRef(null);
-	const [menuPosition, setMenuPosition] = useState({
-		x: position.x,
-		y: position.y,
-	});
+
+	const handleRightClick = (e) => {
+		e.preventDefault();
+		setIsOpen(true);
+		setPosition({ x: e.clientX, y: e.clientY });
+	};
+
+	const handleClickOutside = (event) => {
+		if (
+			contextMenuRef.current &&
+			!contextMenuRef.current.contains(event.target)
+		) {
+			setIsOpen(false);
+		}
+	};
 
 	useEffect(() => {
-		const adjustPosition = () => {
-			const menuWidth = 150;
-			const menuHeight = actions.length * 40;
-			const screenWidth = window.innerWidth;
-			const screenHeight = window.innerHeight;
-
-			let updatedX = position.x;
-			let updatedY = position.y;
-
-			if (position.x + menuWidth > screenWidth) {
-				updatedX = screenWidth - menuWidth - 10;
-			}
-
-			if (position.y + menuHeight > screenHeight) {
-				updatedY = screenHeight - menuHeight - 10;
-			}
-
-			setMenuPosition({ x: updatedX, y: updatedY });
-		};
-
-		adjustPosition();
-	}, [position, actions.length]);
-
-	useEffect(() => {
-		const handleClickOutside = (event) => {
-			if (
-				contextMenuRef.current &&
-				!contextMenuRef.current.contains(event.target)
-			) {
-				onClose();
-			}
-		};
 		document.addEventListener('mousedown', handleClickOutside);
-		return () => {
+		return () =>
 			document.removeEventListener('mousedown', handleClickOutside);
-		};
-	}, [onClose]);
+	}, []);
 
 	return (
-		<div
-			ref={contextMenuRef}
-			className="absolute z-10 bg-white border shadow-xl drop-shadow-lg rounded mt-2 w-40"
-			style={{
-				top: menuPosition.y,
-				left: menuPosition.x,
-			}}
-		>
-			<div className="flex flex-col">
-				{actions.map((action, index) => (
-					<span
-						key={index}
-						onClick={() => {
-							action.onClick();
-							onClose();
-						}}
-						className="h-10 flex items-center px-3 hover:bg-blue-100 font-copy text-sm hover:text-blue-600 cursor-pointer"
+		<div onContextMenu={handleRightClick} className="relative">
+			{trigger}
+
+			{isOpen &&
+				createPortal(
+					<div
+						ref={contextMenuRef}
+						className="fixed z-[10000] bg-white border shadow-xl rounded w-40"
+						style={{ top: position.y, left: position.x }}
 					>
-						{action.label}
-					</span>
-				))}
-			</div>
+						<div className="flex flex-col">
+							{[
+								...actions,
+								{
+									label: 'Cancel',
+									onClick: () => setIsOpen(false),
+								},
+							].map((action, index) => (
+								<span
+									key={index}
+									onClick={() => {
+										action.onClick();
+										setIsOpen(false);
+									}}
+									className="h-10 flex items-center px-3 hover:bg-blue-100 font-copy text-sm hover:text-blue-600 cursor-pointer"
+								>
+									{action.label}
+								</span>
+							))}
+						</div>
+					</div>,
+					document.body
+				)}
 		</div>
 	);
 };
