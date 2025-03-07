@@ -198,7 +198,6 @@ const useBoardStore = create((set, get) => ({
 			console.error('Error updating card:', error.message);
 		}
 	},
-
 	deleteCard: async (id, boardId, listId) => {
 		try {
 			await axios.delete(`/api/boards/${boardId}/cards/${id}`);
