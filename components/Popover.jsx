@@ -1,11 +1,19 @@
 import { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 const Popover = ({ children, trigger, className }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const triggerRef = useRef(null);
 	const popoverRef = useRef(null);
+	const [position, setPosition] = useState({ x: 0, y: 0 });
 
-	const togglePopover = () => setIsOpen((prev) => !prev);
+	const togglePopover = () => {
+		if (!isOpen) {
+			const rect = triggerRef.current.getBoundingClientRect();
+			setPosition({ x: rect.left, y: rect.bottom + window.scrollY });
+		}
+		setIsOpen((prev) => !prev);
+	};
 
 	const handleClickOutside = (e) => {
 		if (
@@ -29,7 +37,7 @@ const Popover = ({ children, trigger, className }) => {
 	}, [isOpen]);
 
 	return (
-		<div className="relative w-full">
+		<>
 			<div
 				ref={triggerRef}
 				onClick={togglePopover}
@@ -37,15 +45,19 @@ const Popover = ({ children, trigger, className }) => {
 			>
 				{trigger}
 			</div>
-			{isOpen && (
-				<div
-					ref={popoverRef}
-					className={`absolute left-0 mt-2 z-10 bg-white shadow-xl rounded py-2 border border-gray-300 ${className}`}
-				>
-					{children}
-				</div>
-			)}
-		</div>
+
+			{isOpen &&
+				createPortal(
+					<div
+						ref={popoverRef}
+						className={`absolute z-50 bg-white shadow-xl rounded py-2 border border-gray-300 ${className}`}
+						style={{ top: position.y, left: position.x }}
+					>
+						{children}
+					</div>,
+					document.body
+				)}
+		</>
 	);
 };
 
