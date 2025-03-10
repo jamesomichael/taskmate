@@ -1,11 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 
 import Modal from '@/components/Modal';
 import Popover from '@/components/Popover';
 
 import {
-	FaArrowRight,
-	FaRegCopy,
 	FaRegTrashCan,
 	FaRegCircle,
 	FaCircleCheck,
@@ -16,6 +14,7 @@ import { BsJustifyLeft } from 'react-icons/bs';
 import useBoardStore from '@/stores/boardStore';
 import Loader from './Loader';
 import CoverPopover from './CoverPopover';
+import HeaderInput from './HeaderInput';
 
 const ActiveCard = () => {
 	const { lists, activeCard, updateCard, deleteCard, setActiveCard } =
@@ -24,12 +23,10 @@ const ActiveCard = () => {
 	const [description, setDescription] = useState(
 		activeCard?.description || ''
 	);
-	const [title, setTitle] = useState(activeCard?.title || '');
 	const [isLoadingDescription, setIsLoadingDescription] = useState(false);
 	const [isComplete, setIsComplete] = useState(
 		activeCard?.is_complete || false
 	);
-	const titleRef = useRef(null);
 
 	const list = activeCard
 		? lists.find((list) => list.id === activeCard.list_id)
@@ -39,26 +36,14 @@ const ActiveCard = () => {
 		setDescription(e.target.value);
 	};
 
-	const handleTitleChange = (e) => {
-		setTitle(e.target.value);
-	};
-
-	const saveTitle = async () => {
-		if (title !== activeCard.title && title.trim() !== '') {
-			await updateCard(
-				activeCard.id,
-				{ title },
-				activeCard.board_id,
-				activeCard.list_id,
-				true
-			);
-		}
-	};
-
-	const handleKeyDown = (e) => {
-		if (e.key === 'Enter') {
-			titleRef.current?.blur();
-		}
+	const saveTitle = async (updatedTitle) => {
+		await updateCard(
+			activeCard.id,
+			{ title: updatedTitle },
+			activeCard.board_id,
+			activeCard.list_id,
+			true
+		);
 	};
 
 	const updateDescription = async () => {
@@ -121,13 +106,9 @@ const ActiveCard = () => {
 							className="cursor-pointer"
 						/>
 					)}
-					<input
-						ref={titleRef}
-						type="text"
-						value={title}
-						onChange={handleTitleChange}
-						onBlur={saveTitle}
-						onKeyDown={handleKeyDown}
+					<HeaderInput
+						value={activeCard.title}
+						onSave={saveTitle}
 						className="truncate -ml-2 w-[95%] px-2 py-1 font-copy font-bold text-lg"
 					/>
 					<div className="w-full"></div>
