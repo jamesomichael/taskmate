@@ -17,7 +17,7 @@ const Modal = ({ isOpen, onClose, children, width = 'max-w-md', cover }) => {
 		<div
 			id="backdrop"
 			onClick={handleBackdropClick}
-			className="z-50 fixed inset-0 flex items-start justify-center bg-black bg-opacity-75 px-4 py-12"
+			className="z-50 fixed inset-0 flex items-start justify-center bg-black bg-opacity-75 px-3 py-4 sm:px-4 sm:py-12 overflow-auto"
 		>
 			<div
 				className={`relative bg-white rounded shadow-lg w-full ${width}`}
