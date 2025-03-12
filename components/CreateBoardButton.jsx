@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import CreateBoard from './CreateBoard';
 
@@ -8,6 +9,7 @@ import useBoardStore from '@/stores/boardStore';
 const BOARDS_ALLOWED = process.env.NEXT_PUBLIC_BOARDS_ALLOWED || 10;
 
 const CreateBoardButton = ({ className, children }) => {
+	const router = useRouter();
 	const { createBoard, boards } = useBoardStore();
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -15,7 +17,8 @@ const CreateBoardButton = ({ className, children }) => {
 	const boardsAllowed = BOARDS_ALLOWED - boardsCount;
 
 	const handleBoardCreation = async (name, background) => {
-		await createBoard(name, background);
+		const createdBoard = await createBoard(name, background);
+		router.push(`/board/${createdBoard.id}`);
 	};
 
 	if (boardsAllowed <= 0) {

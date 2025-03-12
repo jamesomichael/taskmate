@@ -42,6 +42,7 @@ const useBoardStore = create((set, get) => ({
 					draft.boards = [board, ...draft.boards];
 				})
 			);
+			return board;
 		} catch (error) {
 			console.error('Error creating board.');
 		}
