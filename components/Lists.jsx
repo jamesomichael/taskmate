@@ -116,7 +116,7 @@ const Lists = () => {
 	return (
 		<div
 			ref={boardRef}
-			className="p-3 flex gap-3 w-full overflow-x-scroll"
+			className="py-3 px-12 sm:p-3 flex gap-3 w-full overflow-x-scroll"
 			onMouseDown={handleMouseDown}
 			onMouseLeave={handleMouseLeave}
 			onMouseUp={handleMouseUp}

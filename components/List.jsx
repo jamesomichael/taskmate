@@ -19,7 +19,7 @@ const List = ({ list }) => {
 	return (
 		<div
 			key={list.id}
-			className="list drop-shadow-md min-w-full sm:min-w-72 sm:max-w-72 grid grid-rows-[auto,1fr,auto] h-fit max-h-full bg-white rounded-xl"
+			className="list drop-shadow-md min-w-full mr-12 sm:mr-0 sm:min-w-72 sm:max-w-72 grid grid-rows-[auto,1fr,auto] h-fit max-h-full bg-white rounded-xl"
 		>
 			<ListHeader list={list} />
 			<SortableContext
