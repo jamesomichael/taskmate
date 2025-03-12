@@ -1,7 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
-import { FaStar, FaRegStar } from 'react-icons/fa6';
+
 import ContextMenu from './ContextMenu';
+
+import { FaStar, FaRegStar } from 'react-icons/fa6';
+
 import useBoardStore from '@/stores/boardStore';
 
 const BoardsGridItem = ({ board }) => {

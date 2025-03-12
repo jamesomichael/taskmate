@@ -1,6 +1,8 @@
 'use client';
 import React, { useState } from 'react';
+
 import CreateBoard from './CreateBoard';
+
 import useBoardStore from '@/stores/boardStore';
 
 const BOARDS_ALLOWED = process.env.NEXT_PUBLIC_BOARDS_ALLOWED || 10;

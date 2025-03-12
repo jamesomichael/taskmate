@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { FaRegCircle, FaCircleCheck } from 'react-icons/fa6';
-
 import ContextMenu from './ContextMenu';
+
+import { FaRegCircle, FaCircleCheck } from 'react-icons/fa6';
 
 import useBoardStore from '@/stores/boardStore';
 

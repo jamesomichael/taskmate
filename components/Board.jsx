@@ -3,9 +3,9 @@ import React, { useEffect } from 'react';
 
 import Lists from './Lists';
 import Loader from './Loader';
+import BoardHeader from './BoardHeader';
 
 import useBoardStore from '@/stores/boardStore';
-import BoardHeader from './BoardHeader';
 
 const Board = ({ id }) => {
 	const { isLoadingBoard, board, getBoard } = useBoardStore();
