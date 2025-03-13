@@ -20,7 +20,7 @@ const Homepage = () => {
 		<Loader />
 	) : (
 		<div className="font-copy">
-			<div className="max-w-screen-lg p-8 w-full m-auto flex flex-col gap-10">
+			<div className="max-w-screen-lg p-8 pb-44 w-full m-auto flex flex-col gap-10">
 				{starredBoards.length > 0 && (
 					<div className="flex flex-col justify-center gap-3">
 						<div className="flex items-center gap-3">
