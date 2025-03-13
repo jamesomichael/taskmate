@@ -19,10 +19,6 @@ const BoardsGridItem = ({ board }) => {
 		await deleteBoard(boardId);
 	};
 
-	const contextMenuActions = [
-		{ label: 'Delete Board', onClick: () => handleBoardDeletion(board.id) },
-	];
-
 	return (
 		<ContextMenu
 			trigger={
@@ -55,7 +51,12 @@ const BoardsGridItem = ({ board }) => {
 					</button>
 				</Link>
 			}
-			actions={contextMenuActions}
+			actions={[
+				{
+					label: 'Delete Board',
+					onClick: () => handleBoardDeletion(board.id),
+				},
+			]}
 		/>
 	);
 };
