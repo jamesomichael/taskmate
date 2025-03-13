@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import HeaderInput from './HeaderInput';
 
-import { FaRegStar, FaStar } from 'react-icons/fa6';
+import { FaRegStar, FaStar, FaRegTrashCan } from 'react-icons/fa6';
 
 import useBoardStore from '@/stores/boardStore';
+import ConfirmModal from './ConfirmModal';
 
 const BoardHeader = ({ id, isStarred, name }) => {
-	const { updateBoard } = useBoardStore();
+	const router = useRouter();
+	const { updateBoard, deleteBoard } = useBoardStore();
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const toggleStarredStatus = async (e) => {
 		e.preventDefault();
@@ -16,6 +20,11 @@ const BoardHeader = ({ id, isStarred, name }) => {
 
 	const saveName = async (updatedName) => {
 		await updateBoard(id, { name: updatedName });
+	};
+
+	const handleBoardDeletion = async () => {
+		await deleteBoard(id);
+		router.push('/');
 	};
 
 	return (
@@ -31,6 +40,27 @@ const BoardHeader = ({ id, isStarred, name }) => {
 			>
 				{isStarred ? <FaStar /> : <FaRegStar className="text-white" />}
 			</div>
+			<div
+				title="Delete Board"
+				className="ml-auto h-full aspect-square rounded flex justify-center items-center hover:bg-red-700 hover:cursor-pointer text-sm"
+				onClick={() => setIsModalOpen(true)}
+			>
+				<FaRegTrashCan className="text-white" />
+			</div>
+
+			<ConfirmModal
+				isOpen={isModalOpen}
+				onCancel={() => setIsModalOpen(false)}
+				onClose={() => setIsModalOpen(false)}
+				onConfirm={handleBoardDeletion}
+				confirmationButtonText="Delete Board"
+			>
+				<span className="font-copy">
+					<span className="font-semibold">"{name}"</span> and all its
+					contents will be permanently deleted. This action cannot be
+					undone.
+				</span>
+			</ConfirmModal>
 		</div>
 	);
 };
