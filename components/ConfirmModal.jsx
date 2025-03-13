@@ -1,4 +1,5 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 
 import Modal from './Modal';
 
@@ -12,7 +13,7 @@ const ConfirmModal = ({
 	confirmationButtonText = 'Confirm',
 	children,
 }) => {
-	return (
+	return createPortal(
 		<Modal isOpen={isOpen} onClose={onClose}>
 			<div className="flex flex-col gap-2">
 				<div className="flex items-center gap-2 font-heading text-lg">
@@ -37,7 +38,8 @@ const ConfirmModal = ({
 					</button>
 				</div>
 			</div>
-		</Modal>
+		</Modal>,
+		document.body
 	);
 };
 
