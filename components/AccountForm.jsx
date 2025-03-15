@@ -11,25 +11,38 @@ const copy = {
 		signup: 'Sign up to continue',
 	},
 	cta: {
-		login: 'Continue',
+		login: 'Log in',
 		signup: 'Sign up',
 	},
 };
 
 const AccountForm = ({ type = 'login', formAction }) => {
-	const [email, setEmail] = useState('test@test.com');
+	const [email, setEmail] = useState(null);
 	const [error, setError] = useState(false);
 	const [success, setSuccess] = useState(false);
+	const [showPassword, setShowPassword] = useState(false);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const formData = new FormData(e.target);
+
+		if (!showPassword) {
+			const emailValue = formData.get('email').trim();
+			if (!emailValue || !/^\S+@\S+\.\S+$/.test(emailValue)) {
+				setError('Please enter a valid email.');
+				return;
+			}
+
+			setEmail(emailValue);
+			setShowPassword(true);
+			setError(false);
+			return;
+		}
+
 		const response = await formAction(formData);
 		if (response.error) {
-			console.error(response.error.message);
 			setError(response.error.message);
 		} else {
-			setEmail(response.email);
 			setSuccess(true);
 		}
 	};
@@ -68,6 +81,7 @@ const AccountForm = ({ type = 'login', formAction }) => {
 							name="email"
 							type="email"
 							placeholder="Enter your email"
+							autoComplete="email"
 							required
 							className={`${
 								error
@@ -75,19 +89,26 @@ const AccountForm = ({ type = 'login', formAction }) => {
 									: 'outline-neutral-400'
 							} outline-2 outline rounded p-2 w-full focus:outline-blue-600`}
 						/>
-						<input
-							id="password"
-							name="password"
-							type="password"
-							minLength={6}
-							placeholder="Enter password"
-							required
-							className={`${
-								error
-									? 'outline-red-700'
-									: 'outline-neutral-400'
-							} outline-2 outline rounded p-2 w-full focus:outline-blue-600`}
-						/>
+						{showPassword && (
+							<input
+								id="password"
+								name="password"
+								type="password"
+								minLength={6}
+								placeholder="Enter password"
+								autoComplete={
+									type === 'login'
+										? 'current-password'
+										: 'new-password'
+								}
+								required
+								className={`${
+									error
+										? 'outline-red-700'
+										: 'outline-neutral-400'
+								} outline-2 outline rounded p-2 w-full focus:outline-blue-600`}
+							/>
+						)}
 						{error && (
 							<div className="flex w-full font-copy text-sm text-red-700 justify-start items-center gap-1.5">
 								<PiWarningDiamondFill className="text-lg" />
@@ -98,7 +119,7 @@ const AccountForm = ({ type = 'login', formAction }) => {
 							type="submit"
 							className="mt-2 w-full bg-blue-600 h-11 rounded text-white font-copy font-semibold text-sm hover:bg-blue-700"
 						>
-							{copy.cta[type]}
+							{showPassword ? copy.cta[type] : 'Continue'}
 						</button>
 					</form>
 					<Link
