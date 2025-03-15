@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 
 import { MdMarkEmailRead } from 'react-icons/md';
@@ -22,6 +22,8 @@ const AccountForm = ({ type = 'login', formAction }) => {
 	const [success, setSuccess] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
 
+	const passwordRef = useRef(null);
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const formData = new FormData(e.target);
@@ -35,6 +37,7 @@ const AccountForm = ({ type = 'login', formAction }) => {
 
 			setEmail(emailValue);
 			setShowPassword(true);
+			setTimeout(() => passwordRef.current?.focus(), 0);
 			setError(false);
 			return;
 		}
@@ -91,6 +94,7 @@ const AccountForm = ({ type = 'login', formAction }) => {
 						/>
 						{showPassword && (
 							<input
+								ref={passwordRef}
 								id="password"
 								name="password"
 								type="password"
