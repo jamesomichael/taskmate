@@ -35,16 +35,16 @@ const ListHeader = ({ list }) => {
 						</div>
 					}
 				>
-					<div className="flex flex-col gap-2 items-center w-72">
-						<span className="font-bold font-copy text-sm py-1">
+					<div className="flex flex-col gap-2 items-center w-40">
+						{/* <span className="font-bold font-copy text-sm py-1">
 							List actions
-						</span>
+						</span> */}
 						<div
 							onClick={() => setIsModalOpen(true)}
 							className="flex gap-2 items-center font-medium text-sm font-copy w-full p-2 hover:bg-red-700 bg-red-600 text-white hover:cursor-pointer"
 						>
 							<FaRegTrashCan size={14} />
-							<span className="">Delete list</span>
+							<span className="">Delete List</span>
 						</div>
 					</div>
 				</Popover>

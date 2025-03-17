@@ -50,7 +50,7 @@ const Popover = ({ children, trigger, className }) => {
 				createPortal(
 					<div
 						ref={popoverRef}
-						className={`absolute z-50 bg-white shadow-xl rounded py-2 border border-gray-300 ${className}`}
+						className={`absolute z-50 bg-white shadow-xl rounded outline outline-gray-300 ${className}`}
 						style={{ top: position.y, left: position.x }}
 					>
 						{children}
