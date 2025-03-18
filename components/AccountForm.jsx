@@ -22,6 +22,7 @@ const AccountForm = ({ type = 'login', formAction }) => {
 	const [success, setSuccess] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
 
+	const nameRef = useRef(null);
 	const passwordRef = useRef(null);
 
 	const handleSubmit = async (e) => {
@@ -37,9 +38,21 @@ const AccountForm = ({ type = 'login', formAction }) => {
 
 			setEmail(emailValue);
 			setShowPassword(true);
-			setTimeout(() => passwordRef.current?.focus(), 0);
+			if (type === 'signup') {
+				setTimeout(() => nameRef.current?.focus(), 0);
+			} else {
+				setTimeout(() => passwordRef.current?.focus(), 0);
+			}
 			setError(false);
 			return;
+		}
+
+		if (type === 'signup') {
+			const nameValue = formData.get('name').trim();
+			if (!nameValue) {
+				setError('Please enter a display name.');
+				return;
+			}
 		}
 
 		const response = await formAction(formData);
@@ -92,6 +105,22 @@ const AccountForm = ({ type = 'login', formAction }) => {
 									: 'outline-neutral-400'
 							} outline-2 outline rounded p-2 w-full focus:outline-blue-600`}
 						/>
+						{showPassword && type === 'signup' && (
+							<input
+								ref={nameRef}
+								id="name"
+								name="name"
+								type="text"
+								placeholder="Enter display name"
+								autoComplete="username"
+								required
+								className={`${
+									error
+										? 'outline-red-700'
+										: 'outline-neutral-400'
+								} outline-2 outline rounded p-2 w-full focus:outline-blue-600`}
+							/>
+						)}
 						{showPassword && (
 							<input
 								ref={passwordRef}
