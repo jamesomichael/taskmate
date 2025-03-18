@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 import useAuthStore from '@/stores/authStore';
 
@@ -48,7 +49,7 @@ const AccountDropdown = ({ user }) => {
 					onClick={toggleDropdown}
 					className="hover:bg-opacity-80 hover:cursor-pointer font-copy flex justify-center items-center h-full aspect-square rounded-full bg-blue-700 text-white text-sm"
 				>
-					{user.email.charAt(0)}
+					{user.user_metadata.display_name.charAt(0)}
 				</div>
 			</div>
 
@@ -64,7 +65,7 @@ const AccountDropdown = ({ user }) => {
 						<div className="h-10 flex gap-2">
 							<div className="h-full aspect-square bg-blue-700 flex justify-center items-center rounded-full">
 								<span className="text-white font-copy">
-									{user.email.charAt(0)}
+									{user.user_metadata.display_name.charAt(0)}
 								</span>
 							</div>
 							<div className="flex flex-col justify-center">
@@ -75,6 +76,15 @@ const AccountDropdown = ({ user }) => {
 						</div>
 					</div>
 
+					<div className="font-copy text-sm flex flex-col gap-3">
+						<Link
+							href="/account"
+							onClick={toggleDropdown}
+							className="hover:cursor-pointer hover:text-blue-600 hover:bg-blue-100 h-11 flex justify-start items-center p-4"
+						>
+							Account settings
+						</Link>
+					</div>
 					<div className="border-b-[1px] border-gray-200 my-1"></div>
 					<div className="font-copy text-sm flex flex-col gap-3">
 						<div
