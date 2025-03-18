@@ -7,6 +7,11 @@ import { createClient } from '@/utils/supabase/server';
 export const metadata = {
 	title: 'taskmate',
 	description: 'A task management app.',
+	icons: {
+		icon: '/favicon.ico',
+		apple: '/apple-touch-icon.png',
+		android: '/android-chrome-192x192.png',
+	},
 };
 
 export default async function RootLayout({ children }) {

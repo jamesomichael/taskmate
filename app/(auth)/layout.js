@@ -3,6 +3,11 @@ import '../globals.css';
 export const metadata = {
 	title: 'taskmate - A task management app',
 	description: 'A task management app.',
+	icons: {
+		icon: '/favicon.ico',
+		apple: '/apple-touch-icon.png',
+		android: '/android-chrome-192x192.png',
+	},
 };
 
 export default function Layout({ children }) {
