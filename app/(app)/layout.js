@@ -8,7 +8,7 @@ export const metadata = {
 	title: 'taskmate',
 	description: 'A task management app.',
 	icons: {
-		icon: '/favicon-96x96.ico',
+		icon: '/favicon-96x96.png',
 		apple: '/apple-touch-icon.png',
 		android: '/android-chrome-192x192.png',
 	},
