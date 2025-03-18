@@ -32,7 +32,7 @@ const AddCard = ({ listId, index }) => {
 				placeholder="Enter a title"
 				value={cardTitle}
 				onChange={(e) => setCardTitle(e.target.value)}
-				className="resize-none h-20 outline outline-[1px] outline-gray-300 focus:outline-2 focus:outline-blue-600 shadow-xl rounded-lg p-2"
+				className="font-copy text-sm resize-none h-20 outline outline-[1px] outline-gray-300 focus:outline-2 focus:outline-blue-600 shadow-xl rounded-lg p-2"
 			/>
 			<div className="flex gap-2">
 				<button

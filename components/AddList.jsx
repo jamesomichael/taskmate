@@ -25,7 +25,7 @@ const AddList = () => {
 						type="text"
 						placeholder="Enter list name..."
 						onChange={(e) => setListName(e.target.value)}
-						className="h-8 outline outline-[1px] outline-gray-400 focus:outline-2 focus:outline-blue-600 shadow-xl rounded p-2"
+						className="font-copy text-sm h-8 outline outline-[1px] outline-gray-400 focus:outline-2 focus:outline-blue-600 shadow-xl rounded p-2"
 					/>
 					<div className="flex gap-2">
 						<button
