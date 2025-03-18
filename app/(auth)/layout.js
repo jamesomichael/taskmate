@@ -6,7 +6,7 @@ export const metadata = {
 	icons: {
 		icon: '/favicon-96x96.png',
 		apple: '/apple-icon-180x180.png',
-		android: '/android-chrome-192x192.png',
+		android: '/android-icon-192x192.png',
 	},
 };
 
