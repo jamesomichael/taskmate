@@ -5,7 +5,7 @@ export const metadata = {
 	description: 'A task management app.',
 	icons: {
 		icon: '/favicon-96x96.png',
-		apple: '/apple-touch-icon.png',
+		apple: '/apple-icon-180x180.png',
 		android: '/android-chrome-192x192.png',
 	},
 };
