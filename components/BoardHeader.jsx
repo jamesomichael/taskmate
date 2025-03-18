@@ -32,7 +32,7 @@ const BoardHeader = ({ id, isStarred, name }) => {
 			<HeaderInput
 				value={name}
 				onSave={saveName}
-				className="truncate px-2 h-full font-copy font-semibold text-white text-lg bg-transparent hover:cursor-pointer hover:bg-white hover:bg-opacity-25 focus:text-black focus:bg-white rounded"
+				className="truncate w-40 sm:w-fit px-2 h-full font-copy font-semibold text-white text-lg bg-transparent hover:cursor-pointer hover:bg-white hover:bg-opacity-25 focus:text-black focus:bg-white rounded"
 			/>
 			<div
 				onClick={toggleStarredStatus}
