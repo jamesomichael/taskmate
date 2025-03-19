@@ -1,16 +1,41 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
+
 import AccountSettingsSection from './AccountSettingsSection';
 import Input from './Input';
 
-const AccountSettings = ({ displayName, email }) => {
+const AccountSettings = ({ displayName: initialDisplayName, email }) => {
+	const [displayName, setDisplayName] = useState(initialDisplayName);
+	const [isEditingProfile, setIsEditingProfile] = useState(false);
+
+	const handleDisplayNameChange = (event) => {
+		const name = event.target.value;
+		if (name !== initialDisplayName) {
+			setIsEditingProfile(true);
+			setDisplayName(name);
+		}
+	};
+
+	const saveProfileChanges = () => {
+		setIsEditingProfile(false);
+	};
+
 	return (
 		<div className="px-8 flex flex-col gap-14">
-			<AccountSettingsSection heading="Profile">
+			<AccountSettingsSection
+				heading="Profile"
+				isUnsaved={isEditingProfile}
+				onSave={saveProfileChanges}
+			>
 				<span className="font-copy font-bold">Display name</span>
-				<Input placeholder={displayName} />
-				<button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 font-copy text-sm font-medium mt-3 text-white rounded">
+				<Input
+					onChange={handleDisplayNameChange}
+					value={displayName}
+					placeholder={displayName}
+				/>
+				{/* <button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 font-copy text-sm font-medium mt-3 text-white rounded">
 					Save changes
-				</button>
+				</button> */}
 			</AccountSettingsSection>
 			<AccountSettingsSection heading="Email">
 				<span className="font-copy font-bold">Current email</span>
