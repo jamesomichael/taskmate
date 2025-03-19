@@ -69,6 +69,9 @@ const AccountDropdown = ({ user }) => {
 								</span>
 							</div>
 							<div className="flex flex-col justify-center">
+								<span className="text-sm font-bold font-copy">
+									{user.user_metadata.display_name}
+								</span>
 								<span className="text-xs font-copy">
 									{user.email}
 								</span>
