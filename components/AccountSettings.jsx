@@ -1,5 +1,7 @@
 'use client';
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 import AccountSettingsSection from './AccountSettingsSection';
 import Input from './Input';
@@ -7,17 +9,26 @@ import Input from './Input';
 const AccountSettings = ({ displayName: initialDisplayName, email }) => {
 	const [displayName, setDisplayName] = useState(initialDisplayName);
 	const [isEditingProfile, setIsEditingProfile] = useState(false);
+	const router = useRouter();
 
 	const handleDisplayNameChange = (event) => {
 		const name = event.target.value;
-		if (name !== initialDisplayName) {
-			setIsEditingProfile(true);
-			setDisplayName(name);
-		}
+		setIsEditingProfile(true);
+		setDisplayName(name);
 	};
 
-	const saveProfileChanges = () => {
+	const saveProfileChanges = async () => {
+		if (displayName === initialDisplayName || displayName === '') {
+			return;
+		}
+
+		await axios.patch('/api/account', {
+			data: {
+				display_name: displayName,
+			},
+		});
 		setIsEditingProfile(false);
+		router.refresh();
 	};
 
 	return (

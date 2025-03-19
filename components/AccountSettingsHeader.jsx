@@ -6,7 +6,7 @@ const AccountSettingsHeader = ({ displayName, createdAt }) => {
 		<div className="px-8 py-6 flex items-center gap-4 bg-slate-8000 w-full h-36">
 			<div className="flex justify-center items-center bg-blue-700 h-full aspect-square rounded-full">
 				<span className="text-white font-copy text-4xl">
-					{displayName.charAt(0)}
+					{displayName?.charAt(0)}
 				</span>
 			</div>
 			<div className="flex flex-col gap-1.5">

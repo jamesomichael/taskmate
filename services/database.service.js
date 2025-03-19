@@ -199,6 +199,17 @@ const deleteCard = async (id, supabase) => {
 	return true;
 };
 
+const updateAccount = async (updates, supabase) => {
+	const { error } = await supabase.auth.updateUser(updates);
+
+	if (error) {
+		console.error('Error updating account:', error.message);
+		return null;
+	}
+
+	return true;
+};
+
 export {
 	createBoard,
 	getBoards,
@@ -214,4 +225,5 @@ export {
 	createCard,
 	updateCards,
 	deleteCard,
+	updateAccount,
 };

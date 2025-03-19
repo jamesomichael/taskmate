@@ -49,7 +49,7 @@ const AccountDropdown = ({ user }) => {
 					onClick={toggleDropdown}
 					className="hover:bg-opacity-80 hover:cursor-pointer font-copy flex justify-center items-center h-full aspect-square rounded-full bg-blue-700 text-white text-sm"
 				>
-					{user.user_metadata.display_name.charAt(0)}
+					{user.user_metadata.display_name?.charAt(0)}
 				</div>
 			</div>
 
@@ -65,7 +65,7 @@ const AccountDropdown = ({ user }) => {
 						<div className="h-10 flex gap-2">
 							<div className="h-full aspect-square bg-blue-700 flex justify-center items-center rounded-full">
 								<span className="text-white font-copy">
-									{user.user_metadata.display_name.charAt(0)}
+									{user.user_metadata.display_name?.charAt(0)}
 								</span>
 							</div>
 							<div className="flex flex-col justify-center">
