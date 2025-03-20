@@ -47,6 +47,7 @@ const AccountSettings = ({ displayName: initialDisplayName, email }) => {
 					onChange={handleDisplayNameChange}
 					value={displayName}
 					placeholder={displayName}
+					maxLength={35}
 				/>
 				{/* <button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 font-copy text-sm font-medium mt-3 text-white rounded">
 					Save changes
@@ -61,7 +62,11 @@ const AccountSettings = ({ displayName: initialDisplayName, email }) => {
 				<span className="mt-2 text-xs font-copy font-semibold">
 					New email address
 				</span>
-				<Input disabled placeholder="Enter new email address" />
+				<Input
+					disabled
+					type="email"
+					placeholder="Enter new email address"
+				/>
 				{/* <button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 font-copy text-sm font-medium mt-3 text-white rounded">
 					Save changes
 				</button> */}
