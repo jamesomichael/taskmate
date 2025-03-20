@@ -66,25 +66,32 @@ const AccountSettings = ({ displayName: initialDisplayName, email }) => {
 				/>
 			</AccountSettingsSection>
 			<AccountSettingsSection heading="Security">
-				<span className="font-copy font-bold">
-					Change your password
-				</span>
-				<span className="mt-1 text-xs font-copy font-semibold">
-					Current password
-				</span>
-				<Input
-					disabled
-					type="password"
-					placeholder="Enter current password"
-				/>
-				<span className="mt-1 text-xs font-copy font-semibold">
-					New password
-				</span>
-				<Input
-					disabled
-					type="password"
-					placeholder="Enter new password"
-				/>
+				<form
+					className="flex flex-col gap-2 w-full"
+					onSubmit={(e) => e.preventDefault()}
+				>
+					<span className="font-copy font-bold">
+						Change your password
+					</span>
+					<span className="mt-1 text-xs font-copy font-semibold">
+						Current password
+					</span>
+					<Input
+						disabled
+						type="password"
+						placeholder="Enter current password"
+						autoComplete="off"
+					/>
+					<span className="mt-1 text-xs font-copy font-semibold">
+						New password
+					</span>
+					<Input
+						disabled
+						type="password"
+						placeholder="Enter new password"
+						autoComplete="off"
+					/>
+				</form>
 			</AccountSettingsSection>
 		</div>
 	);
