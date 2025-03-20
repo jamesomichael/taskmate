@@ -8,7 +8,8 @@ import Input from './Input';
 
 const AccountSettings = ({ displayName: initialDisplayName, email }) => {
 	const [displayName, setDisplayName] = useState(initialDisplayName);
-	const [isEditingProfile, setIsEditingProfile] = useState(false);
+	const [isEditingProfile, setIsEditingProfile] = useState(true);
+	const [isSavingProfile, setIsSavingProfile] = useState(false);
 	const router = useRouter();
 
 	const handleDisplayNameChange = (event) => {
@@ -22,12 +23,14 @@ const AccountSettings = ({ displayName: initialDisplayName, email }) => {
 			return;
 		}
 
+		setIsSavingProfile(true);
 		await axios.patch('/api/account', {
 			data: {
 				display_name: displayName,
 			},
 		});
 		setIsEditingProfile(false);
+		setIsSavingProfile(false);
 		router.refresh();
 	};
 
@@ -35,6 +38,7 @@ const AccountSettings = ({ displayName: initialDisplayName, email }) => {
 		<div className="px-8 flex flex-col gap-14">
 			<AccountSettingsSection
 				heading="Profile"
+				isSaving={isSavingProfile}
 				isUnsaved={isEditingProfile}
 				onSave={saveProfileChanges}
 			>
