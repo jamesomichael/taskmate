@@ -49,9 +49,6 @@ const AccountSettings = ({ displayName: initialDisplayName, email }) => {
 					placeholder={displayName}
 					maxLength={35}
 				/>
-				{/* <button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 font-copy text-sm font-medium mt-3 text-white rounded">
-					Save changes
-				</button> */}
 			</AccountSettingsSection>
 			<AccountSettingsSection heading="Email">
 				<span className="font-copy font-bold">Current email</span>
@@ -67,9 +64,6 @@ const AccountSettings = ({ displayName: initialDisplayName, email }) => {
 					type="email"
 					placeholder="Enter new email address"
 				/>
-				{/* <button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 font-copy text-sm font-medium mt-3 text-white rounded">
-					Save changes
-				</button> */}
 			</AccountSettingsSection>
 			<AccountSettingsSection heading="Security">
 				<span className="font-copy font-bold">
@@ -91,9 +85,6 @@ const AccountSettings = ({ displayName: initialDisplayName, email }) => {
 					type="password"
 					placeholder="Enter new password"
 				/>
-				{/* <button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 font-copy text-sm font-medium mt-3 text-white rounded">
-					Save changes
-				</button> */}
 			</AccountSettingsSection>
 		</div>
 	);
