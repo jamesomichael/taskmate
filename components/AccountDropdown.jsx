@@ -56,7 +56,7 @@ const AccountDropdown = ({ user }) => {
 			{isOpen && (
 				<div
 					ref={dropdownRef}
-					className="absolute min-w-fit w-[304px] z-50 top-12 bg-white border border-gray-200 rounded drop-shadow-2xl shadow-lg"
+					className="absolute w-[304px] z-50 top-12 bg-white border border-gray-200 rounded drop-shadow-2xl shadow-lg"
 				>
 					<div className="p-4 flex flex-col gap-3">
 						<span className="font-copy text-xs uppercase font-bold">
@@ -68,11 +68,11 @@ const AccountDropdown = ({ user }) => {
 									{user.user_metadata.display_name?.charAt(0)}
 								</span>
 							</div>
-							<div className="flex flex-col justify-center">
-								<span className="text-sm font-bold font-copy">
+							<div className="flex flex-col justify-center truncate">
+								<span className="truncate text-sm font-bold font-copy">
 									{user.user_metadata.display_name}
 								</span>
-								<span className="text-xs font-copy">
+								<span className="truncate text-xs font-copy">
 									{user.email}
 								</span>
 							</div>

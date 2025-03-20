@@ -9,11 +9,11 @@ const AccountSettingsHeader = ({ displayName, createdAt }) => {
 					{displayName?.charAt(0)}
 				</span>
 			</div>
-			<div className="flex flex-col gap-1.5">
+			<div className="flex flex-col gap-1.5 w-full">
 				<span className="text-black font-heading font-bold text-4xl truncate">
 					{displayName}
 				</span>
-				<span className="font-copy text-sm font-medium text-gray-800">
+				<span className="truncate font-copy text-sm font-medium text-gray-800">
 					Account created on&nbsp;
 					<span className="font-semibold">
 						{dayjs(createdAt).format('MMMM D, YYYY')}
