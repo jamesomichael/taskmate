@@ -17,7 +17,11 @@ export const metadata = {
 export default function Layout({ children }) {
 	return (
 		<html lang="en">
-			<body className={'antialiased min-h-screen h-screen w-full'}>
+			<body
+				className={
+					'select-none antialiased min-h-screen h-screen w-full'
+				}
+			>
 				{children}
 			</body>
 		</html>
