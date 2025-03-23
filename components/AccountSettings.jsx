@@ -35,7 +35,7 @@ const AccountSettings = ({ displayName: initialDisplayName, email }) => {
 	};
 
 	return (
-		<div className="px-8 flex flex-col gap-14">
+		<div className="px-8 flex flex-col gap-14 mb-44">
 			<AccountSettingsSection
 				heading="Profile"
 				isSaving={isSavingProfile}
