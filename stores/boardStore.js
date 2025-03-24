@@ -321,6 +321,23 @@ const useBoardStore = create((set, get) => ({
 			console.error('Error adding card.');
 		}
 	},
+	deleteComment: async (id, cardId, boardId) => {
+		try {
+			await axios.delete(
+				`/api/boards/${boardId}/cards/${cardId}/comments/${id}`
+			);
+			set(
+				produce((draft) => {
+					draft.activeCard.comments =
+						draft.activeCard.comments.filter(
+							(comment) => comment.id !== id
+						);
+				})
+			);
+		} catch (error) {
+			console.error('Error deleting comment.');
+		}
+	},
 }));
 
 export default useBoardStore;

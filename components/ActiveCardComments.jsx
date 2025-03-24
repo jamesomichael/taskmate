@@ -13,7 +13,7 @@ import useBoardStore from '@/stores/boardStore';
 import useAuthStore from '@/stores/authStore';
 
 const ActiveCardComments = () => {
-	const { activeCard, isLoadingComments, addComment, board } =
+	const { activeCard, isLoadingComments, addComment, deleteComment, board } =
 		useBoardStore();
 	const { user } = useAuthStore();
 	const [showComments, setShowComments] = useState(true);
@@ -31,6 +31,10 @@ const ActiveCardComments = () => {
 
 		await addComment(newCommentText, activeCard.id, board.id);
 		setNewCommentText('');
+	};
+
+	const handleCommentDeletion = async (id) => {
+		await deleteComment(id, activeCard.id, board.id);
 	};
 
 	return (
@@ -91,9 +95,14 @@ const ActiveCardComments = () => {
 								</span>
 							</div>
 							<div className="h-6">
-								<span className="font-copy font-medium text-xs hover:underline hover:cursor-pointer">
+								<button
+									onClick={() =>
+										handleCommentDeletion(comment.id)
+									}
+									className="font-copy font-medium text-xs hover:underline hover:cursor-pointer"
+								>
 									Delete
-								</span>
+								</button>
 							</div>
 						</div>
 					</Fragment>
