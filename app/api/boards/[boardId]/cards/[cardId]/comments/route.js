@@ -1,7 +1,35 @@
 import { createClient } from '@/utils/supabase/server';
 import { NextResponse } from 'next/server';
 
-import { createComment } from '@/services/database.service';
+import { createComment, getCardComments } from '@/services/database.service';
+
+const GET = async (request, { params }) => {
+	const { cardId } = await params;
+
+	try {
+		const supabase = await createClient();
+		const {
+			data: { user },
+		} = await supabase.auth.getUser();
+
+		if (!user) {
+			console.error('No user found.');
+			return NextResponse.json(
+				{ message: 'No user found.' },
+				{ status: 404 }
+			);
+		}
+
+		const comments = await getCardComments(cardId, user.id, supabase);
+		return NextResponse.json(comments);
+	} catch (error) {
+		console.error('Error fetching comments:', error.message);
+		return NextResponse.json(
+			{ message: 'Cannot get comments.' },
+			{ status: 500 }
+		);
+	}
+};
 
 const POST = async (request, { params }) => {
 	const { text } = await request.json();
@@ -45,4 +73,4 @@ const POST = async (request, { params }) => {
 	}
 };
 
-export { POST };
+export { GET, POST };

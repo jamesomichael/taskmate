@@ -199,6 +199,21 @@ const deleteCard = async (id, supabase) => {
 	return true;
 };
 
+const getCardComments = async (cardId, userId, supabase) => {
+	const { data, error } = await supabase
+		.from('comments')
+		.select('*')
+		.eq('card_id', cardId)
+		.order('created_at', { ascending: false });
+
+	if (error) {
+		console.error('Error fetching comments:', error.message);
+		return [];
+	}
+
+	return data;
+};
+
 const createComment = async (text, cardId, boardId, userId, supabase) => {
 	const { data, error } = await supabase
 		.from('comments')
@@ -247,6 +262,7 @@ export {
 	createCard,
 	updateCards,
 	deleteCard,
+	getCardComments,
 	createComment,
 	updateAccount,
 };

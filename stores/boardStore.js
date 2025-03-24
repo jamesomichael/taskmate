@@ -5,6 +5,7 @@ import axios from 'axios';
 const useBoardStore = create((set, get) => ({
 	isLoadingBoards: true,
 	isLoadingBoard: true,
+	isLoadingComments: true,
 	boards: [],
 	board: null,
 	lists: [],
@@ -13,8 +14,26 @@ const useBoardStore = create((set, get) => ({
 	activeCard: null,
 	draggedCard: null,
 
-	setActiveCard: (card) => {
+	setActiveCard: async (card) => {
 		set({ activeCard: card });
+
+		if (card) {
+			set({ isLoadingComments: true });
+			const { board } = get();
+			try {
+				const response = await axios.get(
+					`/api/boards/${board.id}/cards/${card.id}/comments`
+				);
+				const comments = response.data;
+				set({
+					isLoadingComments: false,
+					activeCard: { ...card, comments },
+				});
+			} catch (error) {
+				console.error('Error fetching comments.');
+				set({ isLoadingComments: false });
+			}
+		}
 	},
 	setDraggedCard: (card) => {
 		set({ draggedCard: card });
@@ -292,16 +311,16 @@ const useBoardStore = create((set, get) => ({
 			const comment = response.data;
 			set(
 				produce((draft) => {
-					// const list = draft.lists.find(({ id }) => id === listId);
-					// list.cards.push(card);
-					// draft.activeCard.comments.push(comment);
+					draft.activeCard.comments = [
+						comment,
+						...draft.activeCard.comments,
+					];
 				})
 			);
 		} catch (error) {
 			console.error('Error adding card.');
 		}
 	},
-	getCardComments: async () => {},
 }));
 
 export default useBoardStore;
