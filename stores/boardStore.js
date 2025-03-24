@@ -281,6 +281,27 @@ const useBoardStore = create((set, get) => ({
 			console.error('Error saving cards.');
 		}
 	},
+	addComment: async (text, cardId, boardId) => {
+		try {
+			const response = await axios.post(
+				`/api/boards/${boardId}/cards/${cardId}/comments`,
+				{
+					text,
+				}
+			);
+			const comment = response.data;
+			set(
+				produce((draft) => {
+					// const list = draft.lists.find(({ id }) => id === listId);
+					// list.cards.push(card);
+					// draft.activeCard.comments.push(comment);
+				})
+			);
+		} catch (error) {
+			console.error('Error adding card.');
+		}
+	},
+	getCardComments: async () => {},
 }));
 
 export default useBoardStore;

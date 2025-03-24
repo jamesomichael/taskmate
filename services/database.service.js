@@ -199,6 +199,28 @@ const deleteCard = async (id, supabase) => {
 	return true;
 };
 
+const createComment = async (text, cardId, boardId, userId, supabase) => {
+	const { data, error } = await supabase
+		.from('comments')
+		.insert([
+			{
+				user_id: userId,
+				text,
+				card_id: cardId,
+				board_id: boardId,
+			},
+		])
+		.select()
+		.single();
+
+	if (error) {
+		console.error('Error creating comment:', error);
+		return null;
+	}
+
+	return data;
+};
+
 const updateAccount = async (updates, supabase) => {
 	const { error } = await supabase.auth.updateUser(updates);
 
@@ -225,5 +247,6 @@ export {
 	createCard,
 	updateCards,
 	deleteCard,
+	createComment,
 	updateAccount,
 };
