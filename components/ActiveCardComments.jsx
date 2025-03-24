@@ -1,11 +1,8 @@
 import React, { Fragment, useState } from 'react';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-
-dayjs.extend(relativeTime);
 
 import Input from './Input';
 import Loader from './Loader';
+import Comment from './Comment';
 
 import { FaRegComments } from 'react-icons/fa6';
 
@@ -13,7 +10,7 @@ import useBoardStore from '@/stores/boardStore';
 import useAuthStore from '@/stores/authStore';
 
 const ActiveCardComments = () => {
-	const { activeCard, isLoadingComments, addComment, deleteComment, board } =
+	const { activeCard, isLoadingComments, addComment, board } =
 		useBoardStore();
 	const { user } = useAuthStore();
 	const [showComments, setShowComments] = useState(true);
@@ -23,7 +20,7 @@ const ActiveCardComments = () => {
 
 	const toggleShowComments = () => setShowComments((prev) => !prev);
 
-	const handleNewComment = async (e) => {
+	const handleCommentCreation = async (e) => {
 		e.preventDefault();
 		if (!newCommentText || newCommentText.trim() === '') {
 			return;
@@ -31,10 +28,6 @@ const ActiveCardComments = () => {
 
 		await addComment(newCommentText, activeCard.id, board.id);
 		setNewCommentText('');
-	};
-
-	const handleCommentDeletion = async (id) => {
-		await deleteComment(id, activeCard.id, board.id);
 	};
 
 	return (
@@ -56,7 +49,7 @@ const ActiveCardComments = () => {
 					{user?.user_metadata?.display_name?.charAt(0)}
 				</span>
 			</div>
-			<form onSubmit={handleNewComment}>
+			<form onSubmit={handleCommentCreation}>
 				<Input
 					value={newCommentText}
 					onChange={(e) => setNewCommentText(e.target.value)}
@@ -70,41 +63,7 @@ const ActiveCardComments = () => {
 			) : showComments ? (
 				comments?.map((comment, index) => (
 					<Fragment key={index}>
-						<div className="self-start h-8 bg-blue-600 aspect-square rounded-full flex justify-center items-center">
-							<span className="font-copy text-white text-sm">
-								{user?.user_metadata?.display_name?.charAt(0)}
-							</span>
-						</div>
-						<div className="grid grid-rows-[auto,auto,auto]">
-							<div className="h-8 flex gap-3 items-center">
-								<span className="font-copy font-bold text-sm">
-									{user?.user_metadata?.display_name}
-								</span>
-								<span
-									title={dayjs(comment.created_at)
-										.toDate()
-										.toString()}
-									className="font-copy text-xs"
-								>
-									{dayjs(comment.created_at).fromNow()}
-								</span>
-							</div>
-							<div className="select-text break-words outline outline-[1px] outline-gray-300 shadow-md rounded px-2 py-1">
-								<span className="font-copy text-sm">
-									{comment.text}
-								</span>
-							</div>
-							<div className="h-6">
-								<button
-									onClick={() =>
-										handleCommentDeletion(comment.id)
-									}
-									className="font-copy font-medium text-xs hover:underline hover:cursor-pointer"
-								>
-									Delete
-								</button>
-							</div>
-						</div>
+						<Comment comment={comment} />
 					</Fragment>
 				))
 			) : null}
