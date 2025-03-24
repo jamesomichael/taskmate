@@ -2,6 +2,9 @@ import { create } from 'zustand';
 import axios from 'axios';
 
 const useAuthStore = create((set, get) => ({
+	user: null,
+
+	setUser: (user) => set({ user }),
 	logOut: async () => {
 		try {
 			await axios.post('/api/auth/logout');

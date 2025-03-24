@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -7,10 +7,16 @@ import Search from './Search';
 import AccountDropdown from './AccountDropdown';
 
 import useBoardStore from '@/stores/boardStore';
+import useAuthStore from '@/stores/authStore';
 
 const Navbar = ({ user }) => {
 	const { board } = useBoardStore();
+	const { setUser } = useAuthStore();
 	const pathname = usePathname();
+
+	useEffect(() => {
+		setUser(user);
+	}, [user]);
 
 	const isBoardPage = pathname.startsWith('/board/');
 
