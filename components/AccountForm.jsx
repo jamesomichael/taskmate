@@ -67,15 +67,15 @@ const AccountForm = ({ type = 'login', formAction }) => {
 		<div className="h-full flex flex-col gap-6 justify-center items-center">
 			{success && type === 'signup' ? (
 				<div className="flex flex-col justify-center items-center gap-3">
-					<MdMarkEmailRead className="text-blue-600 text-[5.5rem]" />
-					<h1 className="font-heading font-bold text-2xl">
+					<MdMarkEmailRead className="text-blue-600 text-[4.5rem] sm:text-[5.5rem]" />
+					<h1 className="text-center font-heading font-bold text-xl sm:text-2xl">
 						Verify your email address
 					</h1>
-					<span className="font-copy text-sm">
+					<span className="text-center font-copy text-sm">
 						A verification link has been sent to&nbsp;
 						<span className="font-bold">{email}</span>.
 					</span>
-					<span className="font-copy text-sm">
+					<span className="text-center font-copy text-sm">
 						Please click on the link to complete the verification
 						process.
 					</span>
