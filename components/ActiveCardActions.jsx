@@ -24,8 +24,10 @@ const ActiveCardActions = () => {
 
 	return (
 		<>
-			<div className="flex flex-col gap-2">
-				<span className="text-xs font-copy font-semibold">Actions</span>
+			<div className="flex md:flex-col gap-2">
+				<span className="hidden md:block text-xs font-copy font-semibold">
+					Actions
+				</span>
 				<div className="relative">
 					<Popover
 						trigger={
