@@ -187,6 +187,7 @@ const useBoardStore = create((set, get) => ({
 			set(
 				produce((draft) => {
 					const list = draft.lists.find((list) => list.id === listId);
+					const updatedAt = new Date().toISOString();
 
 					if (!list) {
 						return;
@@ -204,12 +205,14 @@ const useBoardStore = create((set, get) => ({
 					list.cards[cardIndex] = {
 						...card,
 						...updates,
+						updated_at: updatedAt,
 					};
 
 					if (isActiveCard && draft.activeCard?.id === id) {
 						draft.activeCard = {
 							...draft.activeCard,
 							...updates,
+							updated_at: updatedAt,
 						};
 					}
 				})
