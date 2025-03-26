@@ -87,7 +87,7 @@ const AccountForm = ({ type = 'login', formAction }) => {
 					</span>
 					<form
 						onSubmit={handleSubmit}
-						className="px-4 flex flex-col gap-4 justify-center items-center w-96"
+						className="flex flex-col gap-4 justify-center items-center w-full sm:w-96"
 					>
 						<span className="font-copy font-semibold text-neutral-900">
 							{copy.heading[type]}
