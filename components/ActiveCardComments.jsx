@@ -34,7 +34,9 @@ const ActiveCardComments = () => {
 		<>
 			<FaRegComments size={22} />
 			<div className="justify-between flex items-center">
-				<span className="font-copy font-semibold">Comments</span>
+				<span className="font-copy font-semibold">
+					Comments {comments?.length > 0 && `(${comments.length})`}
+				</span>
 				{comments?.length > 0 && (
 					<button
 						onClick={toggleShowComments}
