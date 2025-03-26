@@ -24,7 +24,7 @@ const ActiveCardActions = () => {
 
 	return (
 		<>
-			<div className="flex md:flex-col gap-2">
+			<div className="flex md:w-full md:flex-col gap-2">
 				<span className="hidden md:block text-xs font-copy font-semibold">
 					Actions
 				</span>
