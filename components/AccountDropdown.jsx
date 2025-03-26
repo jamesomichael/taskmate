@@ -43,7 +43,7 @@ const AccountDropdown = ({ user }) => {
 
 	return (
 		<>
-			<div className="h-full p-0.5">
+			<div className="h-full w-fit p-0.5">
 				<div
 					ref={buttonRef}
 					onClick={toggleDropdown}
