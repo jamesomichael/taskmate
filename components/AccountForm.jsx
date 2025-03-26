@@ -57,7 +57,22 @@ const AccountForm = ({ type = 'login', formAction }) => {
 
 		const response = await formAction(formData);
 		if (response.error) {
-			setError(response.error.message);
+			let errorMessage = 'Something went wrong. Please try again.';
+
+			if (/Invalid login credentials/.test(response.error.message)) {
+				errorMessage = 'Invalid email or password.';
+			} else if (/Email not confirmed/.test(response.error.message)) {
+				errorMessage = 'Please verify your email address.';
+			} else if (
+				/An account already exists for this email address/.test(
+					response.error.message
+				)
+			) {
+				errorMessage =
+					'An account already exists for this email address.';
+			}
+
+			setError(errorMessage);
 		} else {
 			setSuccess(true);
 		}
