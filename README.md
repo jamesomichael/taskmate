@@ -1,6 +1,6 @@
 # taskmate
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/e3a08fdb-a5ee-49af-aaff-a6d64b709232/deploy-status)](https://app.netlify.com/sites/courageous-boba-16e0a1/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/e3a08fdb-a5ee-49af-aaff-a6d64b709232/deploy-status)](https://taskmate.jamesmichael.dev)
 
 Welcome! This is taskmate: a task management app inspired by Trello. It is designed to help users organise projects, manage tasks, and track progress efficiently.
 
