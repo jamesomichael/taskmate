@@ -1,7 +1,7 @@
 {
 	"name": "taskmate",
 	"short_name": "taskmate",
-	"description": "A task management app.",
+	"description": "A project management app.",
 	"start_url": "/",
 	"display": "standalone",
 	"background_color": "#ffffff",

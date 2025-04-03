@@ -6,7 +6,7 @@ import { createClient } from '@/utils/supabase/server';
 
 export const metadata = {
 	title: 'taskmate',
-	description: 'A task management app.',
+	description: 'A project management app.',
 	icons: {
 		icon: '/favicon-96x96.png',
 		apple: '/apple-icon-180x180.png',

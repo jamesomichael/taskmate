@@ -1,8 +1,8 @@
 import '../globals.css';
 
 export const metadata = {
-	title: 'taskmate - A task management app',
-	description: 'A task management app.',
+	title: 'taskmate - A project management app',
+	description: 'A project management app.',
 	icons: {
 		icon: '/favicon-96x96.png',
 		apple: '/apple-icon-180x180.png',
