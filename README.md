@@ -4,6 +4,8 @@
 
 Welcome! This is taskmate: a project management app inspired by Trello. It is designed to help users organise projects, manage tasks, and track progress efficiently.
 
+![Board](https://mexhjsdibsoshbepazwt.supabase.co/storage/v1/object/public/taskmate-pub//board.png)
+
 ### **Features**
 
 -   ✅ Create **boards** to structure your projects
