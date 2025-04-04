@@ -8,9 +8,9 @@ import {
 	PointerSensor,
 } from '@dnd-kit/core';
 
-import List from '@/components/List';
-import AddList from '@/components/AddList';
-import Card from './Card';
+import List from '@/components/list/List';
+import AddList from '@/components/list/AddList';
+import Card from '../card/Card';
 
 import useBoardStore from '@/stores/boardStore';
 

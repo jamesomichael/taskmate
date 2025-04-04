@@ -1,8 +1,8 @@
 'use client';
 import React, { useEffect } from 'react';
 
-import Lists from './Lists';
-import Loader from './Loader';
+import Lists from '../list/Lists';
+import Loader from '../shared/Loader';
 import BoardHeader from './BoardHeader';
 
 import useBoardStore from '@/stores/boardStore';

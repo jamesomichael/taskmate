@@ -2,8 +2,8 @@ import React from 'react';
 
 import { createClient } from '@/utils/supabase/server';
 
-import AccountSettingsHeader from '@/components/AccountSettingsHeader';
-import AccountSettings from '@/components/AccountSettings';
+import AccountSettingsHeader from '@/components/settings/AccountSettingsHeader';
+import AccountSettings from '@/components/settings/AccountSettings';
 
 const AccountPage = async () => {
 	const supabase = await createClient();

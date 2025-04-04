@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-import Modal from './Modal';
+import Modal from '../shared/Modal';
 
 import { FaCheck } from 'react-icons/fa6';
 

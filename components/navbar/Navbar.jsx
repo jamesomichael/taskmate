@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import Search from './Search';
+import Search from '../shared/Search';
 import AccountDropdown from './AccountDropdown';
 
 import useBoardStore from '@/stores/boardStore';

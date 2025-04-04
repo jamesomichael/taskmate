@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
 import AccountSettingsSection from './AccountSettingsSection';
-import Input from './Input';
+import Input from '../shared/Input';
 
 const AccountSettings = ({ displayName: initialDisplayName, email }) => {
 	const [displayName, setDisplayName] = useState(initialDisplayName);

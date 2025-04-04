@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import Loader from './Loader';
+import Loader from '../../shared/Loader';
 
 import { BsJustifyLeft } from 'react-icons/bs';
 

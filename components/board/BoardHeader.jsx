@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import HeaderInput from './HeaderInput';
+import HeaderInput from '../shared/HeaderInput';
+import ConfirmModal from '../shared/ConfirmModal';
 
 import { FaRegStar, FaStar, FaRegTrashCan } from 'react-icons/fa6';
 
 import useBoardStore from '@/stores/boardStore';
-import ConfirmModal from './ConfirmModal';
 
 const BoardHeader = ({ id, isStarred, name }) => {
 	const router = useRouter();

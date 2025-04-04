@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 
-import ContextMenu from './ContextMenu';
-import ConfirmModal from './ConfirmModal';
+import ContextMenu from '../shared/ContextMenu';
+import ConfirmModal from '../shared/ConfirmModal';
 
 import { FaStar, FaRegStar } from 'react-icons/fa6';
 

@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 
 import { login } from './actions';
-import AccountForm from '@/components/AccountForm';
+import AccountForm from '@/components/auth/AccountForm';
 
 const LoginPage = async () => {
 	const supabase = await createClient();

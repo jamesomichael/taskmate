@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import HeaderInput from './HeaderInput';
+import HeaderInput from '../../shared/HeaderInput';
 
 import { FaRegCircle, FaCircleCheck } from 'react-icons/fa6';
 

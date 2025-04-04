@@ -2,9 +2,9 @@
 import React from 'react';
 import { useParams } from 'next/navigation';
 
-import Board from '@/components/Board';
-import BoardSidebar from '@/components/BoardSidebar';
-import ActiveCard from '@/components/ActiveCard';
+import Board from '@/components/board/Board';
+import BoardSidebar from '@/components/board/BoardSidebar';
+import ActiveCard from '@/components/card/active-card/ActiveCard';
 
 import useBoardStore from '@/stores/boardStore';
 

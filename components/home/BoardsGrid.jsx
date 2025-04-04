@@ -2,7 +2,7 @@
 import React from 'react';
 
 import BoardsGridItem from './BoardsGridItem';
-import CreateBoardButton from './CreateBoardButton';
+import CreateBoardButton from '../board/CreateBoardButton';
 
 const BOARDS_ALLOWED = process.env.NEXT_PUBLIC_BOARDS_ALLOWED || 10;
 

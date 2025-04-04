@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-import Popover from '@/components/Popover';
+import Popover from '@/components/shared/Popover';
 import CoverPopover from './CoverPopover';
-import ConfirmModal from './ConfirmModal';
+import ConfirmModal from '../../shared/ConfirmModal';
 import ActiveCardAction from './ActiveCardAction';
 
 import { FaRegTrashCan, FaRegWindowMaximize } from 'react-icons/fa6';

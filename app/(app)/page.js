@@ -2,10 +2,10 @@
 import React, { useEffect } from 'react';
 
 import { FaRegUser, FaRegStar } from 'react-icons/fa6';
-import BoardsGrid from '@/components/BoardsGrid';
+import BoardsGrid from '@/components/home/BoardsGrid';
 
 import useBoardStore from '@/stores/boardStore';
-import Loader from '@/components/Loader';
+import Loader from '@/components/shared/Loader';
 
 const Homepage = () => {
 	const { getBoards, boards, isLoadingBoards } = useBoardStore();

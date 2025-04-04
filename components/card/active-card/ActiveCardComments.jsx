@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
 
-import Input from './Input';
-import Loader from './Loader';
+import Input from '../../shared/Input';
+import Loader from '../../shared/Loader';
 import Comment from './Comment';
 
 import { FaRegComments } from 'react-icons/fa6';

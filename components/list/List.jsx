@@ -5,8 +5,8 @@ import {
 	verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 
-import AddCard from './AddCard';
-import SortableCard from './SortableCard';
+import AddCard from '../card/AddCard';
+import SortableCard from '../card/SortableCard';
 import ListHeader from './ListHeader';
 
 const List = ({ list }) => {

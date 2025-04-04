@@ -4,7 +4,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 
 dayjs.extend(relativeTime);
 
-import ConfirmModal from './ConfirmModal';
+import ConfirmModal from '../../shared/ConfirmModal';
 
 import useBoardStore from '@/stores/boardStore';
 import useAuthStore from '@/stores/authStore';

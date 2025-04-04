@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-import Popover from './Popover';
-import HeaderInput from './HeaderInput';
-import ConfirmModal from './ConfirmModal';
+import Popover from '../shared/Popover';
+import HeaderInput from '../shared/HeaderInput';
+import ConfirmModal from '../shared/ConfirmModal';
 
 import { FaEllipsis, FaRegTrashCan } from 'react-icons/fa6';
 
