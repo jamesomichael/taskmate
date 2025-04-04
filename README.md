@@ -1,4 +1,4 @@
-[![taskmate](https://mexhjsdibsoshbepazwt.supabase.co/storage/v1/object/public/taskmate-pub//taskmate-nobg.png)](https://taskmate.jamesmichael.dev)
+[![taskmate](https://mexhjsdibsoshbepazwt.supabase.co/storage/v1/object/public/taskmate-pub//taskmate-alt2.png)](https://taskmate.jamesmichael.dev)
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/e3a08fdb-a5ee-49af-aaff-a6d64b709232/deploy-status)](https://taskmate.jamesmichael.dev)
 
