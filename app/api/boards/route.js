@@ -3,6 +3,8 @@ import { NextResponse } from 'next/server';
 
 import { getBoards, createBoard } from '@/services/database.service';
 
+export const dynamic = 'force-dynamic';
+
 const GET = async () => {
 	try {
 		const supabase = await createClient();
