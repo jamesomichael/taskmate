@@ -41,7 +41,9 @@ const useBoardStore = create((set, get) => ({
 	getBoards: async () => {
 		set({ isLoadingBoards: true });
 		try {
-			const response = await axios.get('/api/boards');
+			const response = await axios.get('/api/boards', {
+				withCredentials: true,
+			});
 			const boards = response.data;
 			set({ boards, isLoadingBoards: false });
 		} catch (error) {

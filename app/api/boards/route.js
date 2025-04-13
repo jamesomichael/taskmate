@@ -21,7 +21,14 @@ const GET = async () => {
 		}
 
 		const boards = await getBoards(user.id, supabase);
-		return NextResponse.json(boards);
+		return NextResponse.json(boards, {
+			headers: {
+				'Cache-Control':
+					'no-store, no-cache, must-revalidate, proxy-revalidate',
+				Pragma: 'no-cache',
+				Expires: '0',
+			},
+		});
 	} catch (error) {
 		console.error('Error fetching boards:', error.message);
 		return NextResponse.json(
