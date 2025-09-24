@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 import Modal from '../shared/Modal';
+import Loader from '../shared/Loader';
 
 import { FaCheck } from 'react-icons/fa6';
 
@@ -48,65 +49,69 @@ const CreateBoard = ({ isModalOpen, setIsModalOpen, onCreate }) => {
 	return (
 		<Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
 			<div className="flex flex-col gap-4 items-center">
-				{isLoading ? (
-					<>Loading...</>
-				) : (
-					<>
-						<span className="font-copy font-bold text-black">
-							Create board
-						</span>
-						<div
-							className={`p-2 bg-gradient-to-br ${selectedBackground} w-fit h-fit m-auto rounded`}
-						>
-							<img src="/board.svg" alt="" />
-						</div>
-						<div className="w-full flex flex-col gap-6 mt-4">
-							<div className="flex flex-col gap-1.5">
-								<span className="font-copy text-xs text-neutral-800 font-bold">
-									Background
-								</span>
-								<div className="grid grid-cols-2 sm:grid-cols-3 gap-2 w-full">
-									{boardBackgrounds.map((background, i) => (
-										<div
-											key={i}
-											onClick={() =>
-												setSelectedBackground(
-													background
-												)
-											}
-											className={`hover:cursor-pointer h-20 rounded bg-gradient-to-br ${background}`}
-										>
-											{background ===
-												selectedBackground && (
-												<div className="flex justify-center items-center text-white w-full h-full rounded inset-0 bg-black bg-opacity-50">
-													<FaCheck />
-												</div>
-											)}
-										</div>
-									))}
-								</div>
-							</div>
-							<div className="flex flex-col gap-1.5">
-								<span className="font-copy text-xs text-neutral-800 font-bold">
-									Board name
-								</span>
-								<input
-									ref={inputRef}
-									type="text"
-									placeholder={boardName}
-									onChange={handleNameChange}
-									className="text-black w-full h-10 p-2 font-copy text-sm border rounded outline outline-[1px] placeholder-gray-500 outline-gray-500 focus:outline-blue-500 focus:outline-2"
-								/>
-							</div>
-							<button
-								className="font-copy w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 text-sm h-10 font-medium"
-								onClick={handleCreation}
+				<>
+					<span className="font-copy font-bold text-black">
+						Create board
+					</span>
+					{isLoading ? (
+						<Loader size={8} />
+					) : (
+						<>
+							<div
+								className={`p-2 bg-gradient-to-br ${selectedBackground} w-fit h-fit m-auto rounded`}
 							>
-								Create
-							</button>
-						</div>
-					</>
-				)}
+								<img src="/board.svg" alt="" />
+							</div>
+							<div className="w-full flex flex-col gap-6 mt-4">
+								<div className="flex flex-col gap-1.5">
+									<span className="font-copy text-xs text-neutral-800 font-bold">
+										Background
+									</span>
+									<div className="grid grid-cols-2 sm:grid-cols-3 gap-2 w-full">
+										{boardBackgrounds.map(
+											(background, i) => (
+												<div
+													key={i}
+													onClick={() =>
+														setSelectedBackground(
+															background
+														)
+													}
+													className={`hover:cursor-pointer h-20 rounded bg-gradient-to-br ${background}`}
+												>
+													{background ===
+														selectedBackground && (
+														<div className="flex justify-center items-center text-white w-full h-full rounded inset-0 bg-black bg-opacity-50">
+															<FaCheck />
+														</div>
+													)}
+												</div>
+											)
+										)}
+									</div>
+								</div>
+								<div className="flex flex-col gap-1.5">
+									<span className="font-copy text-xs text-neutral-800 font-bold">
+										Board name
+									</span>
+									<input
+										ref={inputRef}
+										type="text"
+										placeholder={boardName}
+										onChange={handleNameChange}
+										className="text-black w-full h-10 p-2 font-copy text-sm border rounded outline outline-[1px] placeholder-gray-500 outline-gray-500 focus:outline-blue-500 focus:outline-2"
+									/>
+								</div>
+								<button
+									className="font-copy w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 text-sm h-10 font-medium"
+									onClick={handleCreation}
+								>
+									Create
+								</button>
+							</div>
+						</>
+					)}
+				</>
 			</div>
 		</Modal>
 	);
